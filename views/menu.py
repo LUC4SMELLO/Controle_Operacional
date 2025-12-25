@@ -3,7 +3,8 @@ from PIL import Image
 
 from constants.textos import FONTE_TITULO
 from constants.textos import FONTE_SUBTITULO
-from constants.textos import FONTE_BOTAO
+from constants.textos import FONTE_BOTAO_PRINCIPAL
+from constants.textos import FONTE_BOTAO_SECUNDARIO
 
 from constants.cores import COR_LINHAS
 
@@ -21,17 +22,37 @@ class TelaMenu(ctk.CTkFrame):
         self.switch_alternar_modo = ctk.CTkSwitch(self, text="Tema", font=FONTE_SUBTITULO,command=self.controller.alternar_modo_aparencia)
         self.switch_alternar_modo.place(relx=1, x=-5, y=15, anchor="ne")
 
-        self.botao_escala = ctk.CTkButton(self, text="Escala", font=FONTE_BOTAO,)
+        # BOTÕES PRINCIPAIS
+
+        self.botao_escala = ctk.CTkButton(self, text="Escala", font=FONTE_BOTAO_PRINCIPAL, width=150, height=35, command=self.controller.mostrar_opcoes_escala)
         self.botao_escala.place(x=10, y=100)
 
-        self.botao_pendencia = ctk.CTkButton(self, text="Pendência", font=FONTE_BOTAO,)
-        self.botao_pendencia.place(x=10, y=130)
+        self.botao_pendencia = ctk.CTkButton(self, text="Pendência", font=FONTE_BOTAO_PRINCIPAL, width=150, height=35,)
+        self.botao_pendencia.place(x=10, y=140)
 
-        self.botao_troca = ctk.CTkButton(self, text="Troca", font=FONTE_BOTAO,) 
-        self.botao_troca.place(x=10, y=160)
+        self.botao_troca = ctk.CTkButton(self, text="Troca", font=FONTE_BOTAO_PRINCIPAL, width=150, height=35,) 
+        self.botao_troca.place(x=10, y=180)
 
-        self.botao_relatorio_entrega = ctk.CTkButton(self, text="Relátorio Entrega", font=FONTE_BOTAO,)
-        self.botao_relatorio_entrega.place(x=10, y=190)
-        
+        self.botao_relatorio_entrega = ctk.CTkButton(self, text="Relátorio Entrega", font=FONTE_BOTAO_PRINCIPAL, width=150, height=35,)
+        self.botao_relatorio_entrega.place(x=10, y=220)
 
+        # BOTÕES SECUNDARIOS
 
+        self.botao_criar_escala = ctk.CTkButton(self, text="Criar Uma Nova", font=FONTE_BOTAO_SECUNDARIO)
+        self.botao_visualizar_escala =ctk.CTkButton(self, text="Visualizar", font=FONTE_BOTAO_SECUNDARIO)
+
+        self.botao_cadastrar_pendencia = ctk.CTkButton(self, text="Cadastrar", font=FONTE_BOTAO_SECUNDARIO)
+        self.botao_editar_pendencia = ctk.CTkButton(self, text="Editar", font=FONTE_BOTAO_SECUNDARIO)
+        self.botao_excluir_pendencia = ctk.CTkButton(self, text="Excluir", font=FONTE_BOTAO_SECUNDARIO)
+
+        self.botao_cadastrar_troca = ctk.CTkButton(self, text="Cadastrar", font=FONTE_BOTAO_SECUNDARIO)
+        self.botao_editar_troca = ctk.CTkButton(self, text="Editar", font=FONTE_BOTAO_SECUNDARIO)
+        self.botao_excluir_troca = ctk.CTkButton(self, text="Excluir", font=FONTE_BOTAO_SECUNDARIO)
+
+    def mostrar_opcoes_escala(self):
+        self.botao_pendencia.place(x=10, y=210)
+        self.botao_troca.place(x=10, y=250)
+        self.botao_relatorio_entrega.place(x=10, y=290)
+
+        self.botao_criar_escala.place(x=50, y=140)
+        self.botao_visualizar_escala.place(x=50, y=170)
