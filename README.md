@@ -7,6 +7,7 @@ Este software foi desenvolvido para ajudar a ter o controle da operação de uma
 * **`Escala`**: Permite o usuário montar a escala dos funcionários que iram trabalhar no próximo dia.
 * **`Pendência`**: Permite cadastrar uma pendência de um produto para algum cliente.
 * **`Troca`**: Permite cadastrar uma troca de um produto para algum cliente.
+* **`Relatório Entrega`**: Possibilita o usuário saber as entregas de cada caminhão e cliente.
 
 ## **Tecnologias Utilizadas**
 
@@ -77,7 +78,21 @@ Este software foi desenvolvido para ajudar a ter o controle da operação de uma
 ## **Estrutura do Projeto**
 
 ```
-├── app.py
+├── main.py
+|
+|
+├── assets/
+|   ├── icons/
+|       ├── settings_dark.png
+|       ├── settings_light.png
+|
+├── constants/
+|   ├── cores.py
+|   ├── textos.py
+|
+├── views/
+|   ├── janela.py
+|   ├── menu.py
 |
 ├── .gitignore
 ├── README.md
