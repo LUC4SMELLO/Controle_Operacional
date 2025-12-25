@@ -1,22 +1,23 @@
+import customtkinter as ctk
+
 from views.menu import TelaMenu
+from controllers.fake_controller import FakeController
+
 
 if __name__ == "__main__":
-    import customtkinter as ctk
 
-    class FakeController:
-
-        def alternar_modo_aparencia(self):
-            if ctk.get_appearance_mode() == "Light":
-                ctk.set_appearance_mode("Dark")
-            else:
-                ctk.set_appearance_mode("Light")
-
-    app = ctk.CTk()
-    app.title("Controle Operacional")
-    app.geometry("1280x720")
+    janela = ctk.CTk()
+    janela.title("Controle Operacional")
+    janela.geometry("1280x720")
+    
     ctk.set_appearance_mode("Dark")
+    ctk.set_default_color_theme("dark-blue")
 
-    tela = TelaMenu(app, FakeController())
+    controller = FakeController()
+
+    tela = TelaMenu(janela, controller)
+
+    controller.set_view(tela)
+
     tela.place(relx=0, rely=0, relwidth=1, relheight=1)
-
-    app.mainloop()
+    janela.mainloop()
