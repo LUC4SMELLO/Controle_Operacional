@@ -27,8 +27,8 @@ class TelaMenu(ctk.CTkFrame):
         self.botao_escala = ctk.CTkButton(self, text="Escala", font=FONTE_BOTAO_PRINCIPAL, width=160, height=38, command=self.controller.mostrar_opcoes_escala)
         self.botao_escala.place(x=10, y=100)
 
-        self.botao_pendencia = ctk.CTkButton(self, text="Pendência & Troca", font=FONTE_BOTAO_PRINCIPAL, width=160, height=38,)
-        self.botao_pendencia.place(x=10, y=140)
+        self.botao_pendencia_troca = ctk.CTkButton(self, text="Pendência & Troca", font=FONTE_BOTAO_PRINCIPAL, width=160, height=38, command=self.controller.mostrar_opcoes_pendencia_troca)
+        self.botao_pendencia_troca.place(x=10, y=140)
 
 
         # BOTÕES SECUNDARIOS
@@ -41,7 +41,23 @@ class TelaMenu(ctk.CTkFrame):
         self.botao_excluir_pendencia_troca = ctk.CTkButton(self, text="Excluir", font=FONTE_BOTAO_SECUNDARIO)
 
     def mostrar_opcoes_escala(self):
-        self.botao_pendencia.place(x=10, y=210)
+        self.botao_pendencia_troca.place(x=10, y=210)
+
+        self.botao_cadastrar_pendencia_troca.place_forget()
+        self.botao_editar_pendencia_troca.place_forget()
+        self.botao_excluir_pendencia_troca.place_forget()
 
         self.botao_criar_escala.place(x=50, y=140)
         self.botao_visualizar_escala.place(x=50, y=170)
+
+    def mostrar_opcoes_pendencia_troca(self):
+        self.botao_escala.place(x=10, y=100)
+        self.botao_pendencia_troca.place(x=10, y=140)
+
+        self.botao_criar_escala.place_forget()
+        self.botao_visualizar_escala.place_forget()
+
+        
+        self.botao_cadastrar_pendencia_troca.place(x=50, y=180)
+        self.botao_editar_pendencia_troca.place(x=50, y=210)
+        self.botao_excluir_pendencia_troca.place(x=50, y=240)

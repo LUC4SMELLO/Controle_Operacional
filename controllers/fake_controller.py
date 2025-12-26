@@ -15,3 +15,6 @@ class FakeController:
 
     def mostrar_opcoes_escala(self):
         self.view.mostrar_opcoes_escala()
+
+    def mostrar_opcoes_pendencia_troca(self):
+        self.view.mostrar_opcoes_pendencia_troca()
