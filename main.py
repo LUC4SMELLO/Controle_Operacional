@@ -1,18 +1,11 @@
-import customtkinter as ctk
+from views.janela import janela
 
 from views.menu_view import TelaMenu
 from controllers.menu_controller import MenuController
 
 
 if __name__ == "__main__":
-
-    janela = ctk.CTk()
-    janela.title("Controle Operacional")
-    janela.geometry("1280x720")
     
-    ctk.set_appearance_mode("Dark")
-    ctk.set_default_color_theme("dark-blue")
-
     controller = MenuController()
 
     tela = TelaMenu(janela, controller)
