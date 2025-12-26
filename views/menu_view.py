@@ -1,5 +1,4 @@
 import customtkinter as ctk
-from PIL import Image
 
 from constants.textos import FONTE_TITULO
 from constants.textos import FONTE_SUBTITULO
@@ -36,7 +35,7 @@ class TelaMenu(ctk.CTkFrame):
         self.botao_criar_escala = ctk.CTkButton(self, text="Editar", font=FONTE_BOTAO_SECUNDARIO)
         self.botao_visualizar_escala =ctk.CTkButton(self, text="Visualizar", font=FONTE_BOTAO_SECUNDARIO)
 
-        self.botao_cadastrar_pendencia_troca = ctk.CTkButton(self, text="Cadastrar", font=FONTE_BOTAO_SECUNDARIO)
+        self.botao_cadastrar_pendencia_troca = ctk.CTkButton(self, text="Cadastrar", font=FONTE_BOTAO_SECUNDARIO, command=self.controller.mostrar_tela_pendencia_troca)
         self.botao_editar_pendencia_troca = ctk.CTkButton(self, text="Editar", font=FONTE_BOTAO_SECUNDARIO)
         self.botao_excluir_pendencia_troca = ctk.CTkButton(self, text="Excluir", font=FONTE_BOTAO_SECUNDARIO)
 
