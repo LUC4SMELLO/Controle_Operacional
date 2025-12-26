@@ -1,6 +1,6 @@
 import customtkinter as ctk
 
-from views.menu import TelaMenu
+from views.menu_view import TelaMenu
 from controllers.fake_controller import FakeController
 
 
