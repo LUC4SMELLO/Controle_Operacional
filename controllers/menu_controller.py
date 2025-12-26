@@ -1,6 +1,6 @@
 import customtkinter as ctk
 
-class FakeController:
+class MenuController:
     def __init__(self):
         self.view = None
 

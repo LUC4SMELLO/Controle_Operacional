@@ -1,7 +1,7 @@
 import customtkinter as ctk
 
 from views.menu_view import TelaMenu
-from controllers.fake_controller import FakeController
+from controllers.menu_controller import MenuController
 
 
 if __name__ == "__main__":
@@ -13,7 +13,7 @@ if __name__ == "__main__":
     ctk.set_appearance_mode("Dark")
     ctk.set_default_color_theme("dark-blue")
 
-    controller = FakeController()
+    controller = MenuController()
 
     tela = TelaMenu(janela, controller)
 
