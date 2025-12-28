@@ -27,6 +27,7 @@ class TelaMenu(ctk.CTkFrame):
             text="Tema",
             font=FONTE_SUBTITULO,
             text_color=COR_TEXTO,
+            progress_color="#979DA2",
             command=self.controller.alternar_modo_aparencia,
         )
         self.switch_alternar_modo.place(x=120, y=20)
