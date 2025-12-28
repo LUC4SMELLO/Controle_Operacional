@@ -16,10 +16,10 @@ class TelaMenu(ctk.CTkFrame):
 
         ctk.CTkLabel(self, text="Menu", font=FONTE_TITULO).place(x=15, y=15)
 
-        ctk.CTkFrame(self, width=2, height=1280, fg_color=COR_LINHAS).place(x=250, relx=0, relheight=1)
+        ctk.CTkFrame(self, width=5, height=1280, fg_color=COR_LINHAS).place(x=250, relx=0, relheight=1)
 
         self.switch_alternar_modo = ctk.CTkSwitch(self, text="Tema", font=FONTE_SUBTITULO,command=self.controller.alternar_modo_aparencia)
-        self.switch_alternar_modo.place(relx=1, x=-5, y=15, anchor="ne")
+        self.switch_alternar_modo.place(x=120, y=20)
 
         # BOTÕES PRINCIPAIS
 
