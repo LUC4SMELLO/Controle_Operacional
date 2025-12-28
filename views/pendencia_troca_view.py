@@ -68,7 +68,7 @@ class TelaPendenciaTroca(ctk.CTkFrame):
 
 
         ctk.CTkLabel(self, text="Tipo:", font=FONTE_SUBTITULO).place(x=128, y=165)
-        self.entry_tipo = ctk.CTkComboBox(self, values=["Pendência", "Tipo"], corner_radius=2)
+        self.entry_tipo = ctk.CTkComboBox(self, font=FONTE_TEXTO, values=["Pendência", "Troca"], corner_radius=2)
         self.entry_tipo.place(x=175, y=165)
 
         ctk.CTkLabel(self, text="Responsável:", font=FONTE_SUBTITULO).place(x=67, y=200)
