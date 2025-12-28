@@ -6,11 +6,11 @@ from controllers.menu_controller import MenuController
 
 if __name__ == "__main__":
     
-    controller = MenuController()
+    controller = MenuController(janela)
 
-    tela = TelaMenu(janela, controller)
+    tela_menu = TelaMenu(janela, controller)
 
-    controller.set_view(tela)
+    controller.set_view(tela_menu)
 
-    tela.place(relx=0, rely=0, relwidth=1, relheight=1)
+    tela_menu.place(relx=0, rely=0, relwidth=1, relheight=1)
     janela.mainloop()
