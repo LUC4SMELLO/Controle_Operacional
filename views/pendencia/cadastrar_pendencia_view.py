@@ -78,6 +78,7 @@ class CadastrarPendenciaView(ctk.CTkFrame):
 
         ctk.CTkLabel(self, text="Tipo:", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=138, y=235)
         self.entry_tipo = ctk.CTkComboBox(self, font=FONTE_TEXTO, values=["Pendência", "Troca"], width=150, height=30, corner_radius=2)
+        self.entry_tipo.set("")
         self.entry_tipo.place(x=184, y=235)
 
         ctk.CTkLabel(self, text="Responsável:", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=77, y=270)
