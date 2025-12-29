@@ -1,6 +1,7 @@
 import customtkinter as ctk
 
 from views.pendencia.cadastrar_pendencia_view import CadastrarPendenciaView
+from views.pendencia.editar_pendencia_view import EditarPendenciaView
 from controllers.pendencia.cadastrar_pendencia_controller import PendenciaController
 
 
@@ -32,6 +33,7 @@ class MenuController:
         self.tela_atual.lift()
 
     def mostrar_opcoes_escala(self):
+        self.definir_tela_atual(None)
         self.view.mostrar_opcoes_escala()
 
     def mostrar_opcoes_pendencia_troca(self):
@@ -45,5 +47,17 @@ class MenuController:
         tela_pendencia = CadastrarPendenciaView(self.janela, controller)
 
         controller.set_view(tela_pendencia)
-        
+        self.janela.after(100, lambda: controller.configurar_binds("cadastrar"))
+
         self.definir_tela_atual(tela_pendencia)
+
+    def mostrar_tela_editar_pendencia(self):
+
+        controller = PendenciaController()
+
+        tela_editar_pendencia = EditarPendenciaView(self.janela, controller)
+
+        controller.set_view(tela_editar_pendencia)
+        self.janela.after(100, lambda: controller.configurar_binds("editar"))
+
+        self.definir_tela_atual(tela_editar_pendencia)

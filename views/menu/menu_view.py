@@ -51,9 +51,9 @@ class MenuView(ctk.CTkFrame):
             self,
             text="Pendência & Troca",
             font=FONTE_BOTAO_PRINCIPAL,
+            command=self.controller.mostrar_opcoes_pendencia_troca,
             width=160,
             height=38,
-            command=self.controller.mostrar_opcoes_pendencia_troca,
             fg_color= COR_BOTAO,
             hover_color=HOVER_BOTAO,
             text_color=COR_TEXTO_BOTAO
@@ -92,9 +92,10 @@ class MenuView(ctk.CTkFrame):
             self,
             text="Editar",
             font=FONTE_BOTAO_SECUNDARIO,
+            command=self.controller.mostrar_tela_editar_pendencia,
             fg_color= COR_BOTAO,
             hover_color=HOVER_BOTAO,
-            text_color=COR_TEXTO_BOTAO
+            text_color=COR_TEXTO_BOTAO,
         )
         self.botao_excluir_pendencia_troca = ctk.CTkButton(
             self,
