@@ -100,6 +100,7 @@ class MenuView(ctk.CTkFrame):
         self.botao_excluir_pendencia_troca = ctk.CTkButton(
             self,
             text="Excluir",
+            command=self.controller.mostrar_tela_excluir_pendencia,
             font=FONTE_BOTAO_SECUNDARIO,
             fg_color= COR_BOTAO,
             hover_color=HOVER_BOTAO,

@@ -2,7 +2,8 @@ import customtkinter as ctk
 
 from views.pendencia.cadastrar_pendencia_view import CadastrarPendenciaView
 from views.pendencia.editar_pendencia_view import EditarPendenciaView
-from controllers.pendencia.cadastrar_pendencia_controller import PendenciaController
+from views.pendencia.excluir_pendencia_view import ExcluirPendenciaView
+from controllers.pendencia.pendencia_controller import PendenciaController
 
 
 class MenuController:
@@ -47,7 +48,7 @@ class MenuController:
         tela_pendencia = CadastrarPendenciaView(self.janela, controller)
 
         controller.set_view(tela_pendencia)
-        self.janela.after(100, lambda: controller.configurar_binds("cadastrar"))
+        controller.configurar_binds("cadastrar")
 
         self.definir_tela_atual(tela_pendencia)
 
@@ -58,6 +59,17 @@ class MenuController:
         tela_editar_pendencia = EditarPendenciaView(self.janela, controller)
 
         controller.set_view(tela_editar_pendencia)
-        self.janela.after(100, lambda: controller.configurar_binds("editar"))
+        controller.configurar_binds("editar")
 
         self.definir_tela_atual(tela_editar_pendencia)
+
+    def mostrar_tela_excluir_pendencia(self):
+
+        controller = PendenciaController()
+
+        tela_excluir_pendencia = ExcluirPendenciaView(self.janela, controller)
+
+        controller.set_view(tela_excluir_pendencia)
+        controller.configurar_binds("excluir")
+
+        self.definir_tela_atual(tela_excluir_pendencia)
