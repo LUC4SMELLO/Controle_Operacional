@@ -1,14 +1,14 @@
 from views.janela import janela
 
-from views.menu_view import TelaMenu
-from controllers.menu_controller import MenuController
+from views.menu.menu_view import MenuView
+from controllers.menu.menu_controller import MenuController
 
 
 if __name__ == "__main__":
     
     controller = MenuController(janela)
 
-    tela_menu = TelaMenu(janela, controller)
+    tela_menu = MenuView(janela, controller)
 
     controller.set_view(tela_menu)
 

@@ -1,6 +1,6 @@
 import customtkinter as ctk
 
-class PendenciaTrocaController:
+class PendenciaController:
     def __init__(self):
         self.view = None
 

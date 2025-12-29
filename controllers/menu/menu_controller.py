@@ -1,7 +1,7 @@
 import customtkinter as ctk
 
-from views.pendencia_troca_view import TelaPendenciaTroca
-from controllers.pendencia_troca_controller import PendenciaTrocaController
+from views.pendencia.cadastrar_pendencia_view import CadastrarPendenciaTrocaView
+from controllers.pendencia.cadastrar_pendencia_controller import PendenciaController
 
 
 class MenuController:
@@ -30,7 +30,6 @@ class MenuController:
         self.tela_atual = nova_tela
         self.tela_atual.place(x=255, y=0, relwidth=1, relheight=1)
         self.tela_atual.lift()
-        print(f"Nova Tela Agora é", nova_tela)
 
     def mostrar_opcoes_escala(self):
         self.view.mostrar_opcoes_escala()
@@ -39,11 +38,11 @@ class MenuController:
         self.definir_tela_atual(None)
         self.view.mostrar_opcoes_pendencia_troca()
 
-    def mostrar_tela_pendencia_troca(self):
+    def mostrar_tela_cadastrar_pendencia(self):
 
-        controller = PendenciaTrocaController()
+        controller = PendenciaController()
 
-        tela_pendencia = TelaPendenciaTroca(self.janela, controller)
+        tela_pendencia = CadastrarPendenciaTrocaView(self.janela, controller)
 
         controller.set_view(tela_pendencia)
         

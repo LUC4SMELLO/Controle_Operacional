@@ -10,7 +10,7 @@ from constants.cores import COR_LINHAS
 from constants.cores import (COR_BOTAO, HOVER_BOTAO, COR_TEXTO, COR_TEXTO_BOTAO)
 
 
-class TelaMenu(ctk.CTkFrame):
+class MenuView(ctk.CTkFrame):
     def __init__(self, master, controller):
         super().__init__(master)
 
@@ -83,7 +83,7 @@ class TelaMenu(ctk.CTkFrame):
             self,
             text="Cadastrar",
             font=FONTE_BOTAO_SECUNDARIO,
-            command=self.controller.mostrar_tela_pendencia_troca,
+            command=self.controller.mostrar_tela_cadastrar_pendencia,
             fg_color= COR_BOTAO,
             hover_color=HOVER_BOTAO,
             text_color=COR_TEXTO_BOTAO
