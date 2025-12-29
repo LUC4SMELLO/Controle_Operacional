@@ -30,7 +30,7 @@ from constants.date_entry import (
 )
 
 
-class CadastrarPendenciaTrocaView(ctk.CTkFrame):
+class CadastrarPendenciaView(ctk.CTkFrame):
     def __init__(self, master, controller):
         super().__init__(master)
 

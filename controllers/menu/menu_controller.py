@@ -1,6 +1,6 @@
 import customtkinter as ctk
 
-from views.pendencia.cadastrar_pendencia_view import CadastrarPendenciaTrocaView
+from views.pendencia.cadastrar_pendencia_view import CadastrarPendenciaView
 from controllers.pendencia.cadastrar_pendencia_controller import PendenciaController
 
 
@@ -42,7 +42,7 @@ class MenuController:
 
         controller = PendenciaController()
 
-        tela_pendencia = CadastrarPendenciaTrocaView(self.janela, controller)
+        tela_pendencia = CadastrarPendenciaView(self.janela, controller)
 
         controller.set_view(tela_pendencia)
         
