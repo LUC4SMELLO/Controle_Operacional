@@ -118,6 +118,7 @@ class CadastrarPendenciaView(ctk.CTkFrame):
         self.botao_confirmar = ctk.CTkButton(
             self,
             text="Cadastrar",
+            command=self.controller.confirmar_cadastro_pendencia,
             font=FONTE_BOTAO_PRINCIPAL,
             width=160,
             height=38,
