@@ -141,6 +141,7 @@ class CadastrarPendenciaView(ctk.CTkFrame):
             self,
             text="Cancelar",
             font=FONTE_BOTAO_PRINCIPAL,
+            command=self.controller.limpar_formulario_cadastrar,
             width=160,
             height=38,
             fg_color=COR_BOTAO,
