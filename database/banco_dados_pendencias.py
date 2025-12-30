@@ -15,7 +15,7 @@ def criar_tabela_pendencias():
     cursor.execute(
     f"""
     CREATE TABLE IF NOT EXISTS {TABELA_PENDENCIAS} (
-    cupom VARCHAR(10),
+    cupom INTEGER PRIMARY KEY,
     data VARCHAR(10),
     carga VARCHAR(8),
     codigo_cliente VARCHAR(200),
