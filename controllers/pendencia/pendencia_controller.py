@@ -80,6 +80,8 @@ class PendenciaController:
 
     def limpar_formulario_cadastrar(self):
 
+        self.view.entry_carga.focus_set()
+
         self.view.entry_carga.delete(0, ctk.END)
         self.view.entry_codigo_cliente.delete(0, ctk.END)
         self.view.entry_tipo.set("")
