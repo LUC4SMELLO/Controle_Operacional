@@ -57,4 +57,33 @@ class PendenciaController:
             "quantidade": self.view.entry_quantidade.get()
         }
 
-        self.model.cadastrar_pendencia(dados)
+    
+        for campo, valor in dados.items():
+            if not valor or valor.strip() == "":
+                self.view.exibir_mensagem("Erro", f"O campo '{campo.replace('_', ' ').replace("co", "có").replace("sa", "sá").title()}' é obrigatório!", icone="error")
+                return
+            
+        if dados["tipo"] not in ["Pendência", "Troca"]:
+            self.view.exibir_mensagem("Erro", "O valor do campo 'Tipo' está incorreto.", icone="error")
+            return
+
+        if int(dados["quantidade"]) <= 0:
+            self.view.exibir_mensagem("Erro", "A quantidade deve ser maior que zero.", icone="error")
+            return
+
+        try:
+            self.model.cadastrar_pendencia(dados)
+            self.view.exibir_mensagem("Sucesso", "Pendência cadastrada!", icone="info")
+            self.limpar_formulario_cadastrar()
+        except Exception as e:
+            self.view.exibir_mensagem("Erro", f"Falha no banco: {e}", icone="error")
+
+    def limpar_formulario_cadastrar(self):
+
+        self.view.entry_carga.delete(0, ctk.END)
+        self.view.entry_codigo_cliente.delete(0, ctk.END)
+        self.view.entry_tipo.set("")
+        self.view.entry_responsavel.delete(0, ctk.END)
+        self.view.entry_codigo_produto.delete(0, ctk.END)
+        self.view.entry_quantidade.delete(0, ctk.END)
+
