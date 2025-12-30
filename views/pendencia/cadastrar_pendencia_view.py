@@ -1,18 +1,27 @@
 import customtkinter as ctk
+from CTkMessagebox import CTkMessagebox
 from PIL import Image
 from tkcalendar import DateEntry
 
-from constants.textos import FONTE_TITULO
-from constants.textos import FONTE_SUBTITULO
-from constants.textos import FONTE_LABEL
-from constants.textos import FONTE_TEXTO
-from constants.textos import FONTE_PEQUENA
-from constants.textos import FONTE_BOTAO_PRINCIPAL
-from constants.textos import FONTE_BOTAO_SECUNDARIO
+
+from constants.textos import (
+    FONTE_TITULO,
+    FONTE_SUBTITULO,
+    FONTE_LABEL,
+    FONTE_TEXTO,
+    FONTE_PEQUENA,
+    FONTE_BOTAO_PRINCIPAL,
+    FONTE_BOTAO_SECUNDARIO
+)
 
 from constants.cores import COR_LINHAS
 
-from constants.cores import (COR_BOTAO, HOVER_BOTAO, COR_TEXTO, COR_TEXTO_BOTAO)
+from constants.cores import (
+    COR_BOTAO,
+    HOVER_BOTAO,
+    COR_TEXTO,
+    COR_TEXTO_BOTAO
+)
 
 from constants.date_entry import (
     BACKGROUND,
@@ -139,3 +148,48 @@ class CadastrarPendenciaView(ctk.CTkFrame):
             text_color=COR_TEXTO_BOTAO,
         )
         self.botao_cancelar.place(x=382, y=465)
+
+
+    def exibir_mensagem(self, titulo, mensagem, icone="info"):
+        if icone == "error":
+            CTkMessagebox(
+                title=titulo,
+                message=mensagem,
+                icon="cancel",
+                width=100,
+                height=50,
+                font=FONTE_TEXTO,
+                text_color=COR_TEXTO,
+                button_color=COR_BOTAO,
+                button_text_color=COR_TEXTO_BOTAO,
+                button_hover_color=HOVER_BOTAO,
+                option_1="Ok"
+                )
+        elif icone == "warning":
+            CTkMessagebox(
+                title=titulo,
+                message=mensagem,
+                icon="warning",
+                width=100,
+                height=50,
+                font=FONTE_TEXTO,
+                text_color=COR_TEXTO,
+                button_color=COR_BOTAO,
+                button_text_color=COR_TEXTO_BOTAO,
+                button_hover_color=HOVER_BOTAO,
+                option_1="Ok"
+                )
+        else:
+            CTkMessagebox(
+                title=titulo,
+                message=mensagem,
+                icon="info",
+                width=100,
+                height=50,
+                font=FONTE_TEXTO,
+                text_color=COR_TEXTO,
+                button_color=COR_BOTAO,
+                button_text_color=COR_TEXTO_BOTAO,
+                button_hover_color=HOVER_BOTAO,
+                option_1="Ok"
+                )
