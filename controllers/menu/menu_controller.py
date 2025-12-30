@@ -3,7 +3,10 @@ import customtkinter as ctk
 from views.pendencia.cadastrar_pendencia_view import CadastrarPendenciaView
 from views.pendencia.editar_pendencia_view import EditarPendenciaView
 from views.pendencia.excluir_pendencia_view import ExcluirPendenciaView
+
 from controllers.pendencia.pendencia_controller import PendenciaController
+
+from models.pendencia_model import PendenciaModel
 
 
 class MenuController:
@@ -43,7 +46,9 @@ class MenuController:
 
     def mostrar_tela_cadastrar_pendencia(self):
 
-        controller = PendenciaController()
+        model = PendenciaModel()
+
+        controller = PendenciaController(model)
 
         tela_pendencia = CadastrarPendenciaView(self.janela, controller)
 
