@@ -59,7 +59,9 @@ class MenuController:
 
     def mostrar_tela_editar_pendencia(self):
 
-        controller = PendenciaController()
+        model = PendenciaModel()
+
+        controller = PendenciaController(model)
 
         tela_editar_pendencia = EditarPendenciaView(self.janela, controller)
 
@@ -70,7 +72,9 @@ class MenuController:
 
     def mostrar_tela_excluir_pendencia(self):
 
-        controller = PendenciaController()
+        model = PendenciaModel()
+
+        controller = PendenciaController(model)
 
         tela_excluir_pendencia = ExcluirPendenciaView(self.janela, controller)
 
