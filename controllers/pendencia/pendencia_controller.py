@@ -60,23 +60,23 @@ class PendenciaController:
     
         for campo, valor in dados.items():
             if not valor or valor.strip() == "":
-                self.view.exibir_mensagem("Erro", f"O campo '{campo.replace('_', ' ').replace("co", "có").replace("sa", "sá").title()}' é obrigatório!", icone="error")
+                self.view.exibir_mensagem("Erro", f"O campo '{campo.replace('_', ' ').replace("co", "có").replace("sa", "sá").title()}' é obrigatório!", icone="cancel")
                 return
             
         if dados["tipo"] not in ["Pendência", "Troca"]:
-            self.view.exibir_mensagem("Erro", "O valor do campo 'Tipo' está incorreto.", icone="error")
+            self.view.exibir_mensagem("Erro", "O valor do campo 'Tipo' está incorreto.", icone="cancel")
             return
 
         if int(dados["quantidade"]) <= 0:
-            self.view.exibir_mensagem("Erro", "A quantidade deve ser maior que zero.", icone="error")
+            self.view.exibir_mensagem("Erro", "A quantidade deve ser maior que zero.", icone="cancel")
             return
 
         try:
             self.model.cadastrar_pendencia(dados)
-            self.view.exibir_mensagem("Sucesso", "Pendência cadastrada!", icone="info")
+            self.view.exibir_mensagem("Sucesso", "Pendência cadastrada!", icone="check")
             self.limpar_formulario_cadastrar()
         except Exception as e:
-            self.view.exibir_mensagem("Erro", f"Falha no banco: {e}", icone="error")
+            self.view.exibir_mensagem("Erro", f"Falha no banco: {e}", icone="cancel")
 
     def limpar_formulario_cadastrar(self):
 

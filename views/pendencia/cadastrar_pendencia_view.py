@@ -152,45 +152,16 @@ class CadastrarPendenciaView(ctk.CTkFrame):
 
 
     def exibir_mensagem(self, titulo, mensagem, icone="info"):
-        if icone == "error":
-            CTkMessagebox(
-                title=titulo,
-                message=mensagem,
-                icon="cancel",
-                width=320,
-                height=50,
-                font=FONTE_TEXTO,
-                text_color=COR_TEXTO,
-                button_color=COR_BOTAO,
-                button_text_color=COR_TEXTO_BOTAO,
-                button_hover_color=HOVER_BOTAO,
-                option_1="Ok"
-                )
-        elif icone == "warning":
-            CTkMessagebox(
-                title=titulo,
-                message=mensagem,
-                icon="warning",
-                width=320,
-                height=50,
-                font=FONTE_TEXTO,
-                text_color=COR_TEXTO,
-                button_color=COR_BOTAO,
-                button_text_color=COR_TEXTO_BOTAO,
-                button_hover_color=HOVER_BOTAO,
-                option_1="Ok"
-                )
-        else:
-            CTkMessagebox(
-                title=titulo,
-                message=mensagem,
-                icon="info",
-                width=320,
-                height=50,
-                font=FONTE_TEXTO,
-                text_color=COR_TEXTO,
-                button_color=COR_BOTAO,
-                button_text_color=COR_TEXTO_BOTAO,
-                button_hover_color=HOVER_BOTAO,
-                option_1="Ok"
-                )
+        CTkMessagebox(
+            title=titulo,
+            message=mensagem,
+            icon=icone,
+            width=320,
+            height=50,
+            font=FONTE_TEXTO,
+            text_color=COR_TEXTO,
+            button_color=COR_BOTAO,
+            button_text_color=COR_TEXTO_BOTAO,
+            button_hover_color=HOVER_BOTAO,
+            option_1="Ok"
+            )
