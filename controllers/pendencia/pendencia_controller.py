@@ -1,4 +1,5 @@
 import customtkinter as ctk
+from datetime import date
 
 
 class PendenciaController:
@@ -74,14 +75,83 @@ class PendenciaController:
         try:
             self.model.cadastrar_pendencia(dados)
             self.view.exibir_mensagem("Sucesso", "Pendência cadastrada!", icone="check")
-            self.limpar_formulario_cadastrar()
+            self.limpar_formulario("cadastrar")
         except Exception as e:
             self.view.exibir_mensagem("Erro", f"Falha no banco: {e}", icone="cancel")
 
-    def limpar_formulario_cadastrar(self):
 
-        self.view.entry_carga.focus_set()
+    def confirmar_edicao_pendencia(self):
 
+        dados = {
+            "cupom": self.view.entry_cupom.get(),
+            "data": self.view.entry_data.get(),
+            "carga": self.view.entry_carga.get(),
+            "codigo_cliente": self.view.entry_codigo_cliente.get(),
+            "tipo": self.view.entry_tipo.get(),
+            "responsavel": self.view.entry_responsavel.get(),
+            "codigo_produto": self.view.entry_codigo_produto.get(),
+            "quantidade": self.view.entry_quantidade.get()
+        }
+
+    
+        for campo, valor in dados.items():
+            if not valor or valor.strip() == "":
+                self.view.exibir_mensagem("Erro", f"O campo '{campo.replace('_', ' ').replace("co", "có").replace("sa", "sá").title()}' é obrigatório!", icone="cancel")
+                return
+            
+        if dados["tipo"] not in ["Pendência", "Troca"]:
+            self.view.exibir_mensagem("Erro", "O valor do campo 'Tipo' está incorreto.", icone="cancel")
+            return
+
+        if int(dados["quantidade"]) <= 0:
+            self.view.exibir_mensagem("Erro", "A quantidade deve ser maior que zero.", icone="cancel")
+            return
+
+        try:
+            self.model.editar_pendencia(dados)
+            self.view.exibir_mensagem("Sucesso", "Pendência Editada!", icone="check")
+            self.limpar_formulario("edicao")
+        except Exception as e:
+            self.view.exibir_mensagem("Erro", f"Falha no banco: {e}", icone="cancel")
+
+    def buscar_e_exibir_informacoes_pendencia(self):
+
+
+        if not self.view.entry_cupom.get():
+            self.view.exibir_mensagem("Erro", "O campo 'Cupom' deve estar preenchido.", icone="cancel")
+            return
+
+        
+        resultado = self.model.buscar_pendencia(self.view.entry_cupom.get())
+
+        if not resultado:
+            self.view.exibir_mensagem("Aviso", "Cupom não encontrado.", icone="warning")
+            return
+
+        self.limpar_formulario("editar")
+
+        self.view.entry_cupom.insert(0, resultado[0])
+        self.view.entry_data.set_date(resultado[1])
+        self.view.entry_carga.insert(0, resultado[2])
+        self.view.entry_codigo_cliente.insert(0, resultado[3])
+        self.view.entry_tipo.set(resultado[4])
+        self.view.entry_responsavel.insert(0, resultado[5])
+        self.view.entry_codigo_produto.insert(0, resultado[6])
+        self.view.entry_quantidade.insert(0, resultado[7])
+
+
+
+    def limpar_formulario(self, formulario):
+        data_atual = date.today()
+        data_formatada = data_atual.strftime('%d/%m/%Y')
+
+        try:
+            self.view.entry_cupom.focus_set()
+            self.view.entry_cupom.delete(0, ctk.END)
+        except Exception:
+            self.view.entry_carga.focus_set()
+
+        self.view.entry_data.set_date(data_formatada)
         self.view.entry_carga.delete(0, ctk.END)
         self.view.entry_codigo_cliente.delete(0, ctk.END)
         self.view.entry_tipo.set("")
