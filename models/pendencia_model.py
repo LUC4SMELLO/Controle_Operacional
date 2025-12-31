@@ -70,6 +70,21 @@ class PendenciaModel:
         conexao.commit()
         conexao.close()
 
+    def excluir_pendencia(self, cupom):
+
+        conexao = conectar_banco_de_dados_pendencias()
+        cursor = conexao.cursor()
+        
+        cursor.execute(
+        f"""
+        DELETE FROM {TABELA_PENDENCIAS}
+        WHERE cupom = ?
+        """, (cupom,)
+        )
+
+        conexao.commit()
+        conexao.close()
+
 
     def buscar_pendencia(self, cupom):
 
