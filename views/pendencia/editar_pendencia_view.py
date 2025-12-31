@@ -151,7 +151,7 @@ class EditarPendenciaView(ctk.CTkFrame):
             self,
             text="Cancelar",
             font=FONTE_BOTAO_PRINCIPAL,
-            command=lambda: self.controller.limpar_formulario("editar"),
+            command=self.controller.limpar_formulario,
             width=160,
             height=38,
             fg_color=COR_BOTAO,

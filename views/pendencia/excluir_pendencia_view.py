@@ -1,4 +1,5 @@
 import customtkinter as ctk
+from CTkMessagebox import CTkMessagebox
 from PIL import Image
 from tkcalendar import DateEntry
 
@@ -47,6 +48,7 @@ class ExcluirPendenciaView(ctk.CTkFrame):
         self.botao_buscar_cupom = ctk.CTkButton(
             self,
             text="Buscar",
+            command=self.controller.buscar_e_exibir_informacoes_pendencia,
             width=50,
             height=30,
             font=FONTE_BOTAO_SECUNDARIO,
@@ -147,6 +149,7 @@ class ExcluirPendenciaView(ctk.CTkFrame):
         self.botao_cancelar= ctk.CTkButton(
             self,
             text="Cancelar",
+            command=self.controller.limpar_formulario,
             font=FONTE_BOTAO_PRINCIPAL,
             width=160,
             height=38,
@@ -155,3 +158,18 @@ class ExcluirPendenciaView(ctk.CTkFrame):
             text_color=COR_TEXTO_BOTAO,
         )
         self.botao_cancelar.place(x=382, y=545)
+
+    def exibir_mensagem(self, titulo, mensagem, icone="info"):
+        CTkMessagebox(
+            title=titulo,
+            message=mensagem,
+            icon=icone,
+            width=320,
+            height=50,
+            font=FONTE_TEXTO,
+            text_color=COR_TEXTO,
+            button_color=COR_BOTAO,
+            button_text_color=COR_TEXTO_BOTAO,
+            button_hover_color=HOVER_BOTAO,
+            option_1="Ok"
+            )
