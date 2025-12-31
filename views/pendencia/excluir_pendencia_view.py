@@ -137,6 +137,7 @@ class ExcluirPendenciaView(ctk.CTkFrame):
         self.botao_confirmar = ctk.CTkButton(
             self,
             text="Excluir",
+            command=self.controller.confirmar_exclusao_pendencia,
             font=FONTE_BOTAO_PRINCIPAL,
             width=160,
             height=38,
