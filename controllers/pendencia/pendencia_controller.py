@@ -74,8 +74,8 @@ class PendenciaController:
 
         try:
             self.model.cadastrar_pendencia(dados)
-            self.view.exibir_mensagem("Sucesso", "Pendência cadastrada!", icone="check")
-            self.limpar_formulario("cadastrar")
+            self.limpar_formulario()
+            self.view.exibir_mensagem("Sucesso", "Pendência Cadastrada!", icone="check")
         except Exception as e:
             self.view.exibir_mensagem("Erro", f"Falha no banco: {e}", icone="cancel")
 
@@ -109,10 +109,47 @@ class PendenciaController:
 
         try:
             self.model.editar_pendencia(dados)
+            self.limpar_formulario()
             self.view.exibir_mensagem("Sucesso", "Pendência Editada!", icone="check")
-            self.limpar_formulario("edicao")
         except Exception as e:
             self.view.exibir_mensagem("Erro", f"Falha no banco: {e}", icone="cancel")
+
+    def confirmar_exclusao_pendencia(self):
+        dados = {
+            "cupom": self.view.entry_cupom.get(),
+            "data": self.view.entry_data.get(),
+            "carga": self.view.entry_carga.get(),
+            "codigo_cliente": self.view.entry_codigo_cliente.get(),
+            "tipo": self.view.entry_tipo.get(),
+            "responsavel": self.view.entry_responsavel.get(),
+            "codigo_produto": self.view.entry_codigo_produto.get(),
+            "quantidade": self.view.entry_quantidade.get()
+        }
+
+        if not self.view.entry_cupom.get():
+            self.view.exibir_mensagem("Erro", "O campo 'Cupom' deve estar preenchido.", icone="cancel")
+            return
+        
+        for campo, valor in dados.items():
+            if not valor or valor.strip() == "":
+                self.view.exibir_mensagem("Erro", f"O campo '{campo.replace('_', ' ').replace("co", "có").replace("sa", "sá").title()}' é obrigatório!", icone="cancel")
+                return
+            
+        if dados["tipo"] not in ["Pendência", "Troca"]:
+            self.view.exibir_mensagem("Erro", "O valor do campo 'Tipo' está incorreto.", icone="cancel")
+            return
+
+        if int(dados["quantidade"]) <= 0:
+            self.view.exibir_mensagem("Erro", "A quantidade deve ser maior que zero.", icone="cancel")
+            return
+
+        try:
+            self.model.excluir_pendencia(dados["cupom"])
+            self.limpar_formulario()
+            self.view.exibir_mensagem("Sucesso", "Pendência Excluída!", icone="check")
+        except Exception as e:
+            self.view.exibir_mensagem("Erro", f"Falha no banco: {e}", icone="cancel")
+
 
     def buscar_e_exibir_informacoes_pendencia(self):
 
@@ -128,7 +165,7 @@ class PendenciaController:
             self.view.exibir_mensagem("Aviso", "Cupom não encontrado.", icone="warning")
             return
 
-        self.limpar_formulario("editar")
+        self.limpar_formulario()
 
         self.view.entry_cupom.insert(0, resultado[0])
         self.view.entry_data.set_date(resultado[1])
@@ -141,7 +178,7 @@ class PendenciaController:
 
 
 
-    def limpar_formulario(self, formulario):
+    def limpar_formulario(self):
         data_atual = date.today()
         data_formatada = data_atual.strftime('%d/%m/%Y')
 
@@ -151,11 +188,13 @@ class PendenciaController:
         except Exception:
             self.view.entry_carga.focus_set()
 
-        self.view.entry_data.set_date(data_formatada)
-        self.view.entry_carga.delete(0, ctk.END)
-        self.view.entry_codigo_cliente.delete(0, ctk.END)
-        self.view.entry_tipo.set("")
-        self.view.entry_responsavel.delete(0, ctk.END)
-        self.view.entry_codigo_produto.delete(0, ctk.END)
-        self.view.entry_quantidade.delete(0, ctk.END)
+        finally:
+
+            self.view.entry_data.set_date(data_formatada)
+            self.view.entry_carga.delete(0, ctk.END)
+            self.view.entry_codigo_cliente.delete(0, ctk.END)
+            self.view.entry_tipo.set("")
+            self.view.entry_responsavel.delete(0, ctk.END)
+            self.view.entry_codigo_produto.delete(0, ctk.END)
+            self.view.entry_quantidade.delete(0, ctk.END)
 
