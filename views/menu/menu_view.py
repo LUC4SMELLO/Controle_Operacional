@@ -123,6 +123,7 @@ class MenuView(ctk.CTkFrame):
         self.botao_relatorio_pendencia = ctk.CTkButton(
             self,
             text="Pendência & Troca",
+            command=self.controller.mostrar_tela_relatorio_pendencia,
             font=FONTE_BOTAO_SECUNDARIO,
             fg_color=COR_BOTAO,
             hover_color=HOVER_BOTAO,
