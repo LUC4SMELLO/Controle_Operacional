@@ -53,10 +53,10 @@ class RelatorioPendenciaView(ctk.CTkFrame):
 
 
         ctk.CTkLabel(self, text="Cupom:", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=110, y=130)
-        self.entry_cupom = ctk.CTkEntry(self, font=FONTE_TEXTO, width=100, height=30, corner_radius=2)
+        self.entry_cupom = ctk.CTkEntry(self, font=FONTE_TEXTO, width=62, height=30, corner_radius=2)
         self.entry_cupom.place(x=177, y=130)
 
-        ctk.CTkLabel(self, text="Data:", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=374, y=130)
+        ctk.CTkLabel(self, text="Data:", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=296, y=130)
 
         self.entry_data = DateEntry(
             self,
@@ -78,41 +78,45 @@ class RelatorioPendenciaView(ctk.CTkFrame):
             date_pattern = 'dd/mm/yyyy',
             width=10
             )
-        self.entry_data.place(x=424, y=130)
+        self.entry_data.place(x=346, y=130)
 
-        ctk.CTkLabel(self, text="Carga:", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=550, y=130)
-        self.entry_carga = ctk.CTkEntry(self, font=FONTE_TEXTO, width=100, height=30, corner_radius=2)
-        self.entry_carga.place(x=605, y=130)
+        ctk.CTkLabel(self, text="Carga:", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=515, y=130)
+        self.entry_carga = ctk.CTkEntry(self, font=FONTE_TEXTO, width=70, height=30, corner_radius=2)
+        self.entry_carga.place(x=570, y=130)
 
-        ctk.CTkLabel(self, text="Tipo:", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=725, y=130)
-        self.entry_tipo = ctk.CTkComboBox(self, font=FONTE_TEXTO, values=["Pendência", "Troca"], width=150, height=30, corner_radius=2)
+        ctk.CTkLabel(self, text="Tipo:", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=755, y=130)
+        self.entry_tipo = ctk.CTkComboBox(self, font=FONTE_TEXTO, values=["Pendência", "Troca"], width=110, height=30, corner_radius=2)
         self.entry_tipo.set("")
-        self.entry_tipo.place(x=771, y=130)
+        self.entry_tipo.place(x=801, y=130)
 
 
 
         ctk.CTkLabel(self, text="Código Produto:", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=40, y=180)
-        self.entry_codigo_produto = ctk.CTkEntry(self, font=FONTE_TEXTO, width=100, height=30, corner_radius=2)
+        self.entry_codigo_produto = ctk.CTkEntry(self, font=FONTE_TEXTO, width=62, height=30, corner_radius=2)
         self.entry_codigo_produto.place(x=177, y=180)
 
         ctk.CTkLabel(self, text="Quantidade:", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=75, y=230)
-        self.entry_quantidade = ctk.CTkEntry(self, font=FONTE_TEXTO, width=100, height=30, corner_radius=2)
+        self.entry_quantidade = ctk.CTkEntry(self, font=FONTE_TEXTO, width=62, height=30, corner_radius=2)
         self.entry_quantidade.place(x=177, y=230)
 
-        ctk.CTkLabel(self, text="Código Cliente:", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=295, y=180)
-        self.entry_codigo_cliente = ctk.CTkEntry(self, font=FONTE_TEXTO, width=100, height=30, corner_radius=2)
-        self.entry_codigo_cliente.place(x=424, y=180)
+        ctk.CTkLabel(self, text="Código Cliente:", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=256, y=180)
+        self.entry_codigo_cliente = ctk.CTkEntry(self, font=FONTE_TEXTO, width=65, height=30, corner_radius=2)
+        self.entry_codigo_cliente.place(x=385, y=180)
 
-        ctk.CTkLabel(self, text="Responsável:", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=550, y=180)
+        ctk.CTkLabel(self, text="Responsável:", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=465, y=180)
         self.entry_responsavel = ctk.CTkEntry(self, font=FONTE_TEXTO, width=150, height=30, corner_radius=2)
-        self.entry_responsavel.place(x=655, y=180)
+        self.entry_responsavel.place(x=570, y=180)
 
         self.botao_buscar_pendencia = ctk.CTkButton(
             self,
             text="Buscar",
+            width=110,
+            height=35,
             font=FONTE_BOTAO_SECUNDARIO,
             fg_color= COR_BOTAO,
             hover_color=HOVER_BOTAO,
             text_color=COR_TEXTO_BOTAO
         )
-        self.botao_buscar_pendencia.place(x=820, y=180)
+        self.botao_buscar_pendencia.place(x=801, y=180)
+
+        ctk.CTkFrame(self, width=950, height=2, fg_color=COR_LINHAS).place(x=40, y=270)
