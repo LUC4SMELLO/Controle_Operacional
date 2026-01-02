@@ -44,6 +44,10 @@ class MenuController:
         self.definir_tela_atual(None)
         self.view.mostrar_opcoes_pendencia_troca()
 
+    def mostrar_opcoes_relatorios(self):
+        self.definir_tela_atual(None)
+        self.view.mostrar_opcoes_relatorios()
+
     def mostrar_tela_cadastrar_pendencia(self):
 
         model = PendenciaModel()
