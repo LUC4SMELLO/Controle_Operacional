@@ -61,7 +61,7 @@ class PendenciaController:
     
         for campo, valor in dados.items():
             if not valor or valor.strip() == "":
-                self.view.exibir_mensagem("Erro", f"O campo '{campo.replace('_', ' ').replace("co", "có").replace("sa", "sá").title()}' é obrigatório!", icone="cancel")
+                self.view.exibir_mensagem("Erro", f"O campo '{campo.replace('_', ' ').replace('co', 'có').replace('sa', 'sá').title()}' é obrigatório!", icone="cancel")
                 return
             
         if dados["tipo"] not in ["Pendência", "Troca"]:
@@ -96,7 +96,7 @@ class PendenciaController:
     
         for campo, valor in dados.items():
             if not valor or valor.strip() == "":
-                self.view.exibir_mensagem("Erro", f"O campo '{campo.replace('_', ' ').replace("co", "có").replace("sa", "sá").title()}' é obrigatório!", icone="cancel")
+                self.view.exibir_mensagem("Erro", f"O campo '{campo.replace('_', ' ').replace('co', 'có').replace('sa', 'sá').title()}' é obrigatório!", icone="cancel")
                 return
             
         if dados["tipo"] not in ["Pendência", "Troca"]:
@@ -132,7 +132,7 @@ class PendenciaController:
         
         for campo, valor in dados.items():
             if not valor or valor.strip() == "":
-                self.view.exibir_mensagem("Erro", f"O campo '{campo.replace('_', ' ').replace("co", "có").replace("sa", "sá").title()}' é obrigatório!", icone="cancel")
+                self.view.exibir_mensagem("Erro", f"O campo '{campo.replace('_', ' ').replace('co', 'có').replace('sa', 'sá').title()}' é obrigatório!", icone="cancel")
                 return
             
         if dados["tipo"] not in ["Pendência", "Troca"]:
