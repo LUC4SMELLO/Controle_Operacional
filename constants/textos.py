@@ -3,6 +3,8 @@ FONTE_SUBTITULO = ("Segoe UI", 19, "bold")
 
 FONTE_LABEL = ("Segoe UI", 17, "bold")
 
+FONTE_TREE_VIEW = ("Segoe UI", 12, "bold")
+
 FONTE_TEXTO = ("Segoe UI", 14)
 FONTE_PEQUENA = ("Segoe UI", 11)
 
