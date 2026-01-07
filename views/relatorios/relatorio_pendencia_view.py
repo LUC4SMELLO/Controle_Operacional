@@ -80,6 +80,7 @@ class RelatorioPendenciaView(ctk.CTkFrame):
             date_pattern = 'dd/mm/yyyy',
             width=11
             )
+        self.entry_data.delete(0, ctk.END)
         self.entry_data.place(x=346, y=130)
 
         ctk.CTkLabel(self, text="Carga:", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=515, y=130)
@@ -87,7 +88,7 @@ class RelatorioPendenciaView(ctk.CTkFrame):
         self.entry_carga.place(x=570, y=130)
 
         ctk.CTkLabel(self, text="Tipo:", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=755, y=130)
-        self.entry_tipo = ctk.CTkComboBox(self, font=FONTE_TEXTO, values=["Pendência", "Troca"], width=110, height=30, corner_radius=2)
+        self.entry_tipo = ctk.CTkComboBox(self, font=FONTE_TEXTO, values=["", "Pendência", "Troca"], width=110, height=30, corner_radius=2)
         self.entry_tipo.set("")
         self.entry_tipo.place(x=801, y=130)
 
@@ -112,6 +113,7 @@ class RelatorioPendenciaView(ctk.CTkFrame):
         self.botao_buscar_pendencia = ctk.CTkButton(
             self,
             text="Buscar",
+            command=self.controller.mostrar_pendencias,
             width=110,
             height=35,
             font=FONTE_BOTAO_SECUNDARIO,
@@ -184,3 +186,18 @@ class RelatorioPendenciaView(ctk.CTkFrame):
 
         self.tree.bind("<MouseWheel>", lambda e: self.tree.yview_scroll(-int(e.delta / 100), "units"))
         self.tree.bind("<Shift-MouseWheel>", lambda e: self.tree.xview_scroll(-int(e.delta / 2.5), "units"))
+
+    def exibir_mensagem(self, titulo, mensagem, icone="info"):
+        CTkMessagebox(
+            title=titulo,
+            message=mensagem,
+            icon=icone,
+            width=320,
+            height=50,
+            font=FONTE_TEXTO,
+            text_color=COR_TEXTO,
+            button_color=COR_BOTAO,
+            button_text_color=COR_TEXTO_BOTAO,
+            button_hover_color=HOVER_BOTAO,
+            option_1="Ok"
+            )
