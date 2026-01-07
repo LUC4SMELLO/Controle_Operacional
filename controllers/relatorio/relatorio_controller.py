@@ -24,6 +24,10 @@ class RelatorioController:
             self.view.entry_quantidade.get()
         )
 
+        if not resultado:
+            self.view.exibir_mensagem("Aviso", "Não Há Pendências a Serem Listadas.", "warning")
+            return
+
         for item in self.view.tree.get_children():
             self.view.tree.delete(item)
 
