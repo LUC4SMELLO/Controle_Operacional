@@ -139,7 +139,7 @@ class RelatorioPendenciaView(ctk.CTkFrame):
         )
         
 
-        colunas = ("cupom", "data", "carga", "codigo_cliente", "razao_social", "vendedor", "tipo", "responsavel", "codigo_produto", "quantidade")
+        colunas = ("cupom", "data", "carga", "codigo_cliente", "tipo", "responsavel", "codigo_produto", "quantidade")
         self.tree = ttk.Treeview(
             self,
             columns=colunas,
@@ -164,8 +164,8 @@ class RelatorioPendenciaView(ctk.CTkFrame):
         self.tree.heading("data", text="Data", anchor="center")
         self.tree.heading("carga", text="Carga", anchor="center")
         self.tree.heading("codigo_cliente", text="Código Cliente", anchor="center")
-        self.tree.heading("razao_social", text="Razão Social", anchor="center")
-        self.tree.heading("vendedor", text="Vendedor", anchor="center")
+        # self.tree.heading("razao_social", text="Razão Social", anchor="center")
+        # self.tree.heading("vendedor", text="Vendedor", anchor="center")
         self.tree.heading("tipo", text="Tipo", anchor="center")
         self.tree.heading("responsavel", text="Responsável", anchor="center")
         self.tree.heading("codigo_produto", text="Código Produto", anchor="center")
@@ -175,8 +175,8 @@ class RelatorioPendenciaView(ctk.CTkFrame):
         self.tree.column("data", width=80, anchor="center")
         self.tree.column("carga",width=70, anchor="center")
         self.tree.column("codigo_cliente", width=135, anchor="center")
-        self.tree.column("razao_social", width=150, anchor="center")
-        self.tree.column("vendedor", width=90, anchor="center")
+        # self.tree.column("razao_social", width=150, anchor="center")
+        # self.tree.column("vendedor", width=90, anchor="center")
         self.tree.column("tipo", width=70, anchor="center")
         self.tree.column("responsavel", width=150, anchor="center")
         self.tree.column("codigo_produto", width= 140, anchor="center")
