@@ -7,7 +7,7 @@ from views.relatorios.relatorio_pendencia_view import RelatorioPendenciaView
 
 from controllers.pendencia.pendencia_controller import PendenciaController
 
-from models.pendencia_model import PendenciaModel
+from models.pendencia.pendencia_model import PendenciaModel
 
 
 class MenuController:
