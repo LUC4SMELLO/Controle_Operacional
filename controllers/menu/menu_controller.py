@@ -6,8 +6,10 @@ from views.pendencia.excluir_pendencia_view import ExcluirPendenciaView
 from views.relatorios.relatorio_pendencia_view import RelatorioPendenciaView
 
 from controllers.pendencia.pendencia_controller import PendenciaController
+from controllers.relatorio.relatorio_controller import RelatorioController
 
 from models.pendencia.pendencia_model import PendenciaModel
+from models.relatorio.relatorio_model import RelatorioModel
 
 
 class MenuController:
@@ -90,9 +92,9 @@ class MenuController:
 
     def mostrar_tela_relatorio_pendencia(self):
 
-        model = PendenciaModel()
+        model = RelatorioModel()
 
-        controller = PendenciaController(model)
+        controller = RelatorioController(model)
 
         tela_relatorio_pendencia = RelatorioPendenciaView(self.janela, controller)
 
