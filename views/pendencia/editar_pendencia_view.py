@@ -1,7 +1,8 @@
 import customtkinter as ctk
-from CTkMessagebox import CTkMessagebox
 from PIL import Image
 from tkcalendar import DateEntry
+
+from views.dialogs.exibir_mensagem import exibir_mensagem
 
 from views.dialogs.pesquisa_produto_view import TelaPesquisaProdutoView
 
@@ -50,7 +51,7 @@ class EditarPendenciaView(ctk.CTkFrame):
         self.botao_buscar_cupom = ctk.CTkButton(
             self,
             text="Buscar",
-            command=self.controller.buscar_e_exibir_informacoes_pendencia,
+            command=self.buscar_cupom,
             width=50,
             height=30,
             font=FONTE_BOTAO_SECUNDARIO,
@@ -141,7 +142,7 @@ class EditarPendenciaView(ctk.CTkFrame):
             self,
             text="Confirmar",
             font=FONTE_BOTAO_PRINCIPAL,
-            command=self.controller.confirmar_edicao_pendencia,
+            command=self.confirmar,
             width=160,
             height=38,
             fg_color=COR_BOTAO,
@@ -163,21 +164,22 @@ class EditarPendenciaView(ctk.CTkFrame):
         )
         self.botao_cancelar.place(x=382, y=545)
 
+    def confirmar(self):
+        resultado = self.controller.confirmar_edicao_pendencia()
+
+        exibir_mensagem(resultado["titulo"], resultado["mensagem"], resultado["icone"])
+        return
+    
+    def buscar_cupom(self):
+        resultado = self.controller.buscar_e_exibir_informacoes_pendencia()
+
+        if resultado["sucesso"]:
+            return
+
+        exibir_mensagem(resultado["titulo"], resultado["mensagem"], resultado["icone"])
+        return
+
     def abrir_tela_pesquisa_produto(self):
         TelaPesquisaProdutoView(self, self.entry_codigo_produto, self.entry_quantidade)
 
 
-    def exibir_mensagem(self, titulo, mensagem, icone="info"):
-        CTkMessagebox(
-            title=titulo,
-            message=mensagem,
-            icon=icone,
-            width=320,
-            height=50,
-            font=FONTE_TEXTO,
-            text_color=COR_TEXTO,
-            button_color=COR_BOTAO,
-            button_text_color=COR_TEXTO_BOTAO,
-            button_hover_color=HOVER_BOTAO,
-            option_1="Ok"
-            )

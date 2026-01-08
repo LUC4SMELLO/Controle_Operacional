@@ -118,23 +118,45 @@ class PendenciaController:
     
         for campo, valor in dados.items():
             if not valor or valor.strip() == "":
-                self.view.exibir_mensagem("Erro", f"O campo '{campo.replace('_', ' ').replace('co', 'có').replace('sa', 'sá').title()}' é obrigatório!", icone="cancel")
-                return
+                return {
+                    "sucesso": False,
+                    "titulo": "Erro",
+                    "mensagem": f"O campo '{campo.replace('_', ' ').replace('co', 'có').replace('sa', 'sá').title()}' é obrigatório!",
+                    "icone": "cancel"
+                    }
             
         if dados["tipo"] not in ["Pendência", "Troca"]:
-            self.view.exibir_mensagem("Erro", "O valor do campo 'Tipo' está incorreto.", icone="cancel")
-            return
+            return {
+                "sucesso": False,
+                "titulo": "Erro",
+                "mensagem": "O valor do campo 'Tipo' está incorreto.",
+                "icone": "cancel"
+                }
 
         if int(dados["quantidade"]) <= 0:
-            self.view.exibir_mensagem("Erro", "A quantidade deve ser maior que zero.", icone="cancel")
-            return
+            return {
+                "sucesso": False,
+                "titulo": "Erro",
+                "mensagem": "A quantidade deve ser maior que zero.",
+                "icone": "cancel"
+                }
 
         try:
             self.model.editar_pendencia(dados)
             self.limpar_formulario()
-            self.view.exibir_mensagem("Sucesso", "Pendência Editada!", icone="check")
+            return {
+                "sucesso": True,
+                "titulo": "Sucesso",
+                "mensagem": "Pendência Editada!",
+                "icone": "check"
+                }
         except Exception as e:
-            self.view.exibir_mensagem("Erro", f"Falha no banco: {e}", icone="cancel")
+            return {
+                "sucesso": False,
+                "titulo": "Erro",
+                "mensagem": f"Falha no banco: {e}",
+                "icone": "cancel"
+                }
 
     def confirmar_exclusao_pendencia(self):
         dados = {
@@ -148,44 +170,76 @@ class PendenciaController:
             "quantidade": self.view.entry_quantidade.get()
         }
 
-        if not self.view.entry_cupom.get():
-            self.view.exibir_mensagem("Erro", "O campo 'Cupom' deve estar preenchido.", icone="cancel")
-            return
-        
+        # VALIDAÇÃO SE PENDÊNCIA EXISTE AQUI....
+
+
         for campo, valor in dados.items():
             if not valor or valor.strip() == "":
-                self.view.exibir_mensagem("Erro", f"O campo '{campo.replace('_', ' ').replace('co', 'có').replace('sa', 'sá').title()}' é obrigatório!", icone="cancel")
-                return
+                return {
+                    "sucesso": False,
+                    "titulo": "Erro",
+                    "mensagem": f"O campo '{campo.replace('_', ' ').replace('co', 'có').replace('sa', 'sá').title()}' é obrigatório!",
+                    "icone": "cancel"
+                    }
             
         if dados["tipo"] not in ["Pendência", "Troca"]:
-            self.view.exibir_mensagem("Erro", "O valor do campo 'Tipo' está incorreto.", icone="cancel")
-            return
+            return {
+                "sucesso": False,
+                "titulo": "Erro",
+                "mensagem": "O valor do campo 'Tipo' está incorreto.",
+                "icone": "cancel"
+                }
 
         if int(dados["quantidade"]) <= 0:
-            self.view.exibir_mensagem("Erro", "A quantidade deve ser maior que zero.", icone="cancel")
-            return
+            return {
+                "sucesso": False,
+                "titulo": "Erro",
+                "mensagem": "A quantidade deve ser maior que zero.",
+                "icone": "cancel"
+                }
 
         try:
             self.model.excluir_pendencia(dados["cupom"])
             self.limpar_formulario()
-            self.view.exibir_mensagem("Sucesso", "Pendência Excluída!", icone="check")
+            return {
+                "sucesso": True,
+                "titulo": "Sucesso",
+                "mensagem": "Pendência Excluída!",
+                "icone": "check"
+                }
         except Exception as e:
-            self.view.exibir_mensagem("Erro", f"Falha no banco: {e}", icone="cancel")
+            return {
+                "sucesso": False,
+                "titulo": "Erro",
+                "mensagem": f"Falha no banco: {e}",
+                "icone": "cancel"
+                }
 
 
     def buscar_e_exibir_informacoes_pendencia(self):
 
 
         if not self.view.entry_cupom.get():
-            self.view.exibir_mensagem("Erro", "O campo 'Cupom' deve estar preenchido.", icone="cancel")
-            return
+            return {
+                "sucesso": False,
+                "titulo": "Erro",
+                "mensagem": "O campo 'Cupom' deve estar preenchido.",
+                "icone": "cancel"
+                }
 
         
         resultado = self.model.buscar_pendencia(self.view.entry_cupom.get())
 
         if not resultado:
-            self.view.exibir_mensagem("Aviso", "Cupom não encontrado.", icone="warning")
-            return
+
+            self.limpar_formulario()
+
+            return {
+                "sucesso": False,
+                "titulo": "Aviso",
+                "mensagem": "Cupom não encontrado.",
+                "icone": "warning"
+                }
 
         self.limpar_formulario()
 
@@ -197,6 +251,14 @@ class PendenciaController:
         self.view.entry_responsavel.insert(0, resultado[5])
         self.view.entry_codigo_produto.insert(0, resultado[6])
         self.view.entry_quantidade.insert(0, resultado[7])
+
+        return {
+                "sucesso": True,
+                "titulo": "Sucesso",
+                "mensagem": "Cupom encontrado",
+                "icone": "warning"
+                }
+
 
 
 
