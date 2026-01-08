@@ -88,7 +88,7 @@ class RelatorioPendenciaView(ctk.CTkFrame):
         self.entry_carga.place(x=570, y=130)
 
         ctk.CTkLabel(self, text="Tipo:", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=755, y=130)
-        self.entry_tipo = ctk.CTkComboBox(self, font=FONTE_TEXTO, values=["", "Pendência", "Troca"], width=110, height=30, corner_radius=2)
+        self.entry_tipo = ctk.CTkComboBox(self, font=FONTE_TEXTO, values=["Ambos", "Pendência", "Troca"], width=110, height=30, corner_radius=2)
         self.entry_tipo.set("")
         self.entry_tipo.place(x=801, y=130)
 

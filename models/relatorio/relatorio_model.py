@@ -56,6 +56,8 @@ class RelatorioModel:
             consulta_sql += " AND codigo_cliente LIKE ?"
             parametros.append("%" + codigo_cliente + "%")
 
+        if tipo not in ["Pendência", "Troca"]:
+            tipo = ""
         if tipo:
             consulta_sql += " AND tipo LIKE ?"
             parametros.append("%" + tipo + "%")
