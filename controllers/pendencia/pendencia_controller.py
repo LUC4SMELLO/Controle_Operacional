@@ -98,6 +98,7 @@ class PendenciaController:
     
         for campo, valor in dados.items():
             if not valor or valor.strip() == "":
+                self.view.entry_carga.focus_set()
                 return {
                     "sucesso": False,
                     "titulo": "Erro",
@@ -106,6 +107,7 @@ class PendenciaController:
                     }
             
         if dados["tipo"] not in ["Pendência", "Troca"]:
+            self.view.entry_tipo.focus_set()
             return {
                 "sucesso": False,
                 "titulo": "Erro",
@@ -114,6 +116,7 @@ class PendenciaController:
                 }
 
         if int(dados["quantidade"]) <= 0:
+            self.view.entry_quantidade.focus_set()
             return {
                 "sucesso": False,
                 "titulo": "Erro",
@@ -155,6 +158,7 @@ class PendenciaController:
     
         for campo, valor in dados.items():
             if not valor or valor.strip() == "":
+                self.view.entry_cupom.focus_set()
                 return {
                     "sucesso": False,
                     "titulo": "Erro",
@@ -163,6 +167,7 @@ class PendenciaController:
                     }
             
         if dados["tipo"] not in ["Pendência", "Troca"]:
+            self.view.entry_tipo.focus_set()
             return {
                 "sucesso": False,
                 "titulo": "Erro",
@@ -171,6 +176,7 @@ class PendenciaController:
                 }
 
         if int(dados["quantidade"]) <= 0:
+            self.view.entry_quantidade.focus_set()            
             return {
                 "sucesso": False,
                 "titulo": "Erro",
@@ -219,6 +225,7 @@ class PendenciaController:
 
         for campo, valor in dados.items():
             if not valor or valor.strip() == "":
+                self.view.entry_cupom.focus_set()
                 return {
                     "sucesso": False,
                     "titulo": "Erro",
@@ -227,6 +234,7 @@ class PendenciaController:
                     }
             
         if dados["tipo"] not in ["Pendência", "Troca"]:
+            self.view.entry_tipo.focus_set()
             return {
                 "sucesso": False,
                 "titulo": "Erro",
@@ -235,6 +243,7 @@ class PendenciaController:
                 }
 
         if int(dados["quantidade"]) <= 0:
+            self.view.entry_quantidade.focus_set()
             return {
                 "sucesso": False,
                 "titulo": "Erro",
