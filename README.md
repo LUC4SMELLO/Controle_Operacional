@@ -83,10 +83,10 @@ Este software foi desenvolvido para ajudar a ter o controle da operação de uma
 |
 ├── assets/
 |   ├── icons/
-|       ├── settings_dark.png
-|       ├── settings_light.png
-|       ├── lupa_dark.png
-|       ├── lupa_light.png
+|        ├── settings_dark.png
+|        ├── settings_light.png
+|        ├── lupa_dark.png
+|        ├── lupa_light.png
 |
 ├── constants/
 |   ├── __init__.py
@@ -99,16 +99,16 @@ Este software foi desenvolvido para ajudar a ter o controle da operação de uma
 |   ├── __init__.py
 |   |
 |   ├── menu/
-|   |   ├── __init__.py
-|   |   ├── menu_controller.py
+|   |    ├── __init__.py
+|   |    ├── menu_controller.py
 |   |
 |   ├── pendencia/
-|   |   ├── __init__.py
-|   |   ├── pendencia_controller.py
+|   |    ├── __init__.py
+|   |    ├── pendencia_controller.py
 |   |
 |   ├── relatorio/
-|   |   ├── __init__.py
-|   |   ├── relatorio_controller.py
+|   |    ├── __init__.py
+|   |    ├── relatorio_controller.py
 |
 |
 ├── database/
@@ -124,17 +124,25 @@ Este software foi desenvolvido para ajudar a ter o controle da operação de uma
 |   |    ├── pendencia_model.py
 |   |    
 |   ├── relatorio/
-|       ├── __init__.py
-|       ├── relatorio_model.py
+|        ├── __init__.py
+|        ├── relatorio_model.py
 |
 |
 ├── views/
+|   ├── __init__.py
+|   |  
 |   ├── menu/
-|   |   ├── menu_view.py
+|   |    ├── menu_view.py
 |   |   
-|   ├── menu/
-|       ├── menu_view.py
-
+|   ├── pendencia/
+|   |    ├── cadastrar_pendencia_view.py
+|   |    ├── editar_pendencia_view.py
+|   |    ├── excluir_pendencia_view.py
+|   |
+|   ├── relatorio/
+|   |    ├── relatorio_pendencia_view.py
+|   |
+|   ├── janela.py
 |
 ├── .gitignore
 ├── README.md
