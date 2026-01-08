@@ -41,9 +41,33 @@ class PendenciaController:
         for widget_atual, proximo_widget in fluxo_entrys:
             widget_atual.bind("<Return>", lambda event, nxt=proximo_widget: self.focar_proximo(nxt))
 
+        combobox_tipo = self.view.entry_tipo
+        combobox_tipo.bind("<Left>", lambda e: self.navegar_combobox(e, combobox_tipo))
+        combobox_tipo.bind("<Right>", lambda e: self.navegar_combobox(e, combobox_tipo))
+
     def focar_proximo(self, proximo_widget):
         proximo_widget.focus_set()
         return "break"
+    
+    def navegar_combobox(self, event, combobox):
+        valores = combobox.cget("values")
+        if not valores: return "break"
+        
+        try:
+            indice_atual = valores.index(combobox.get())
+        except ValueError:
+            indice_atual = -1
+
+        if event.keysym == "Right":
+            proximo_indice = (indice_atual + 1) % len(valores)
+        elif event.keysym == "Left":
+            proximo_indice = (indice_atual - 1) % len(valores)
+        else:
+            return
+
+        combobox.set(valores[proximo_indice])
+        return "break"
+
     
 
     def confirmar_cadastro_pendencia(self):
