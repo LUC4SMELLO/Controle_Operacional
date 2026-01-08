@@ -85,14 +85,56 @@ Este software foi desenvolvido para ajudar a ter o controle da operação de uma
 |   ├── icons/
 |       ├── settings_dark.png
 |       ├── settings_light.png
+|       ├── lupa_dark.png
+|       ├── lupa_light.png
 |
 ├── constants/
+|   ├── __init__.py
+|   ├── banco_dados.py
 |   ├── cores.py
+|   ├── date_entry.py
 |   ├── textos.py
 |
+├── controllers/
+|   ├── __init__.py
+|   |
+|   ├── menu/
+|   |   ├── __init__.py
+|   |   ├── menu_controller.py
+|   |
+|   ├── pendencia/
+|   |   ├── __init__.py
+|   |   ├── pendencia_controller.py
+|   |
+|   ├── relatorio/
+|   |   ├── __init__.py
+|   |   ├── relatorio_controller.py
+|
+|
+├── database/
+|   ├── __init__.py
+|   ├── banco_dados_pendencias.py
+|   ├── pendencias.db
+|
+├── models/
+|   ├── __init__.py
+|   |
+|   ├── pendencia/
+|   |    ├── __init__.py
+|   |    ├── pendencia_model.py
+|   |    
+|   ├── relatorio/
+|       ├── __init__.py
+|       ├── relatorio_model.py
+|
+|
 ├── views/
-|   ├── janela.py
-|   ├── menu.py
+|   ├── menu/
+|   |   ├── menu_view.py
+|   |   
+|   ├── menu/
+|       ├── menu_view.py
+
 |
 ├── .gitignore
 ├── README.md
