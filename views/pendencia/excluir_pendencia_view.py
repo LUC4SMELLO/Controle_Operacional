@@ -51,7 +51,7 @@ class ExcluirPendenciaView(ctk.CTkFrame):
         self.botao_buscar_cupom = ctk.CTkButton(
             self,
             text="Buscar",
-            command=self.controller.buscar_e_exibir_informacoes_pendencia,
+            command=self.buscar_cupom,
             width=50,
             height=30,
             font=FONTE_BOTAO_SECUNDARIO,

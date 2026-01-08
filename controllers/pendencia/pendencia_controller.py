@@ -164,6 +164,16 @@ class PendenciaController:
                 "mensagem": "A quantidade deve ser maior que zero.",
                 "icone": "cancel"
                 }
+        
+        pendencia_existe = self.model.buscar_pendencia(dados["cupom"])
+        if not pendencia_existe:
+            self.limpar_formulario()
+            return {
+                "sucesso": False,
+                "titulo": "Erro",
+                "mensagem": "Pendência Não Encontrada.",
+                "icone": "cancel"
+                }
 
         try:
             self.model.editar_pendencia(dados)
@@ -194,9 +204,6 @@ class PendenciaController:
             "quantidade": self.view.entry_quantidade.get()
         }
 
-        # VALIDAÇÃO SE PENDÊNCIA EXISTE AQUI....
-
-
         for campo, valor in dados.items():
             if not valor or valor.strip() == "":
                 return {
@@ -219,6 +226,16 @@ class PendenciaController:
                 "sucesso": False,
                 "titulo": "Erro",
                 "mensagem": "A quantidade deve ser maior que zero.",
+                "icone": "cancel"
+                }
+
+        pendencia_existe = self.model.buscar_pendencia(dados["cupom"])
+        if not pendencia_existe:
+            self.limpar_formulario()
+            return {
+                "sucesso": False,
+                "titulo": "Erro",
+                "mensagem": "Pendência Não Encontrada.",
                 "icone": "cancel"
                 }
 
