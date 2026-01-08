@@ -61,23 +61,45 @@ class PendenciaController:
     
         for campo, valor in dados.items():
             if not valor or valor.strip() == "":
-                self.view.exibir_mensagem("Erro", f"O campo '{campo.replace('_', ' ').replace('co', 'có').replace('sa', 'sá').title()}' é obrigatório!", icone="cancel")
-                return
+                return {
+                    "sucesso": False,
+                    "titulo": "Erro",
+                    "mensagem": f"O campo '{campo.replace('_', ' ').replace('co', 'có').replace('sa', 'sá').title()}' é obrigatório!",
+                    "icone": "cancel"
+                    }
             
         if dados["tipo"] not in ["Pendência", "Troca"]:
-            self.view.exibir_mensagem("Erro", "O valor do campo 'Tipo' está incorreto.", icone="cancel")
-            return
+            return {
+                "sucesso": False,
+                "titulo": "Erro",
+                "mensagem": "O valor do campo 'Tipo' está incorreto.",
+                "icone": "cancel"
+                }
 
         if int(dados["quantidade"]) <= 0:
-            self.view.exibir_mensagem("Erro", "A quantidade deve ser maior que zero.", icone="cancel")
-            return
+            return {
+                "sucesso": False,
+                "titulo": "Erro",
+                "mensagem": "A quantidade deve ser maior que zero.",
+                "icone": "cancel"
+                }
 
         try:
             self.model.cadastrar_pendencia(dados)
             self.limpar_formulario()
-            self.view.exibir_mensagem("Sucesso", "Pendência Cadastrada!", icone="check")
+            return {
+                "sucesso": True,
+                "titulo": "Sucesso",
+                "mensagem": "Pendência Cadastrada!",
+                "icone": "check"
+                }
         except Exception as e:
-            self.view.exibir_mensagem("Erro", f"Falha no banco: {e}", icone="cancel")
+            return {
+                "sucesso": False,
+                "titulo": "Erro",
+                "mensagem": f"Falha no banco: {e}",
+                "icone": "cancel"
+                }
 
 
     def confirmar_edicao_pendencia(self):
