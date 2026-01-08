@@ -3,6 +3,8 @@ from CTkMessagebox import CTkMessagebox
 from PIL import Image
 from tkcalendar import DateEntry
 
+from views.dialogs.pesquisa_produto_view import TelaPesquisaProdutoView
+
 from constants.textos import FONTE_TITULO
 from constants.textos import FONTE_SUBTITULO
 from constants.textos import FONTE_LABEL
@@ -120,6 +122,7 @@ class ExcluirPendenciaView(ctk.CTkFrame):
             self,
             image=icone_lupa,
             text="",
+            command=self.abrir_tela_pesquisa_produto,
             width=20,
             height=20,
             fg_color=COR_BOTAO,
@@ -159,6 +162,9 @@ class ExcluirPendenciaView(ctk.CTkFrame):
             text_color=COR_TEXTO_BOTAO,
         )
         self.botao_cancelar.place(x=382, y=545)
+
+    def abrir_tela_pesquisa_produto(self):
+        TelaPesquisaProdutoView(self, self.entry_codigo_produto, self.entry_quantidade)
 
     def exibir_mensagem(self, titulo, mensagem, icone="info"):
         CTkMessagebox(
