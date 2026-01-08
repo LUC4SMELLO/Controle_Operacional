@@ -18,7 +18,7 @@ def exibir_mensagem(titulo:str, mensagem:str, icone="info"):
             O ícone do popup, podem ser (check, cancel, info, question, warning).
             O padrão é "info".
     """
-    CTkMessagebox(
+    mensagem = CTkMessagebox(
         title=titulo,
         message=mensagem,
         icon=icone,
@@ -31,3 +31,5 @@ def exibir_mensagem(titulo:str, mensagem:str, icone="info"):
         button_hover_color=HOVER_BOTAO,
         option_1="Ok"
         )
+
+    return mensagem.get()
