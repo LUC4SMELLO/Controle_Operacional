@@ -1,10 +1,12 @@
 import customtkinter as ctk
 import tkinter as tk
 
+import re
+
 from constants.textos import FONTE_TEXTO
 
 
-class TelaBuscarProdutoView(ctk.CTkToplevel):
+class TelaPesquisaProdutoView(ctk.CTkToplevel):
 
     def __init__(self, master, campo_destino, campo_apos_pesquisa):
         super().__init__(master)
@@ -20,7 +22,9 @@ class TelaBuscarProdutoView(ctk.CTkToplevel):
         self.produtos = {
             "8533": "Coca Cola Lata 350ml",
             "56600": "Coca Cola 2L",
-            "55818": "Coca Cola Zero 2L"
+            "55818": "Coca Cola Zero 2L",
+            "119567": "Ades Pessêgo 200ml",
+            "141160": "Pringles Original"
         }
 
 
@@ -30,6 +34,10 @@ class TelaBuscarProdutoView(ctk.CTkToplevel):
         self.entry_pesquisa.bind("<KeyRelease>", self.filtrar_produtos)
         self.entry_pesquisa.bind("<Return>", self.selecionar_produto)
         self.entry_pesquisa.bind("<Down>", self.ir_para_lista)
+
+        self.bind("<Escape>", lambda event: self.destroy())  
+
+        self.focus_force()
 
 
         # LISTBOX (TKINTER)
@@ -67,10 +75,14 @@ class TelaBuscarProdutoView(ctk.CTkToplevel):
 
     def selecionar_produto(self, event=None):
         try:
-            selecionado = self.listbox.get(self.listbox.curselection())
+            produto_selecionado = self.listbox.get(self.listbox.curselection())
+
+            resultado = re.search(r"^\d+", produto_selecionado)
+            
+            codigo_produto = resultado.group()
 
             self.campo_destino.delete(0, tk.END)
-            self.campo_destino.insert(0, selecionado)
+            self.campo_destino.insert(0, codigo_produto)
 
             self.destroy()
 

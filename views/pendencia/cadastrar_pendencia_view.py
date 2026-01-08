@@ -3,7 +3,7 @@ from CTkMessagebox import CTkMessagebox
 from PIL import Image
 from tkcalendar import DateEntry
 
-from views.dialogs.pesquisa_produto_view import TelaBuscarProdutoView
+from views.dialogs.pesquisa_produto_view import TelaPesquisaProdutoView
 
 from constants.textos import (
     FONTE_TITULO,
@@ -153,7 +153,7 @@ class CadastrarPendenciaView(ctk.CTkFrame):
         self.botao_cancelar.place(x=382, y=465)
 
     def abrir_tela_pesquisa_produto(self):
-        TelaBuscarProdutoView(self, self.entry_codigo_produto, self.entry_quantidade)
+        TelaPesquisaProdutoView(self, self.entry_codigo_produto, self.entry_quantidade)
 
 
 
