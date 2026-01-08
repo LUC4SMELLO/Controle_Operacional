@@ -38,16 +38,29 @@ class PendenciaController:
                 (self.view.entry_quantidade, self.view.botao_confirmar)
             ]
 
+
         for widget_atual, proximo_widget in fluxo_entrys:
-            widget_atual.bind("<Return>", lambda event, nxt=proximo_widget: self.focar_proximo(nxt))
+            widget_atual.bind("<Return>", lambda event, nxt=proximo_widget: nxt.focus_set())
+    
+            if isinstance(proximo_widget, ctk.CTkButton):
+                # QUANDO O FOCO CHEGA NO BOTÃO
+                proximo_widget.bind("<FocusIn>", lambda event, btn=proximo_widget: btn.configure(
+                    border_width=1, 
+                    border_color="#FFFFFF"
+                ))
+                
+                # QUANDO O FOCO SAI DO BOTÃO
+                proximo_widget.bind("<FocusOut>", lambda event, btn=proximo_widget: btn.configure(
+                    border_width=0
+                ))
+                
+                # BIND PARA EXECUTAR FUNÇÃO AO APERTAR ENTER NO BOTÃO FOCADO
+                proximo_widget.bind("<Return>", lambda event, btn=proximo_widget: btn.invoke())
 
         combobox_tipo = self.view.entry_tipo
         combobox_tipo.bind("<Left>", lambda e: self.navegar_combobox(e, combobox_tipo))
         combobox_tipo.bind("<Right>", lambda e: self.navegar_combobox(e, combobox_tipo))
 
-    def focar_proximo(self, proximo_widget):
-        proximo_widget.focus_set()
-        return "break"
     
     def navegar_combobox(self, event, combobox):
         valores = combobox.cget("values")
