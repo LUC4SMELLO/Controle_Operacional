@@ -1,33 +1,30 @@
 import customtkinter as ctk
 import tkinter as tk
 
+from constants.textos import FONTE_TEXTO
 
-class TelaPesquisaProdutoView(ctk.CTkToplevel):
 
-    def __init__(self, master, campo_destino):
+class TelaBuscarProdutoView(ctk.CTkToplevel):
+
+    def __init__(self, master, campo_destino, campo_apos_pesquisa):
         super().__init__(master)
 
-        self.title("Pesquisar Produto")
-        self.geometry("300x400")
+        self.title("Buscar Produto")
+        self.geometry("300x400+850+100")
+        self.resizable(False, False)
         self.grab_set()
 
         self.campo_destino = campo_destino
+        self.campo_apos_pesquisa = campo_apos_pesquisa
 
-        self.produtos = [
-            "Arroz",
-            "Feijão",
-            "Açúcar",
-            "Café",
-            "Macarrão",
-            "Farinha de Trigo",
-            "Óleo de Soja",
-            "Sal",
-            "Leite",
-            "Manteiga"
-        ]
+        self.produtos = {
+            "8533": "Coca Cola Lata 350ml",
+            "56600": "Coca Cola 2L",
+            "55818": "Coca Cola Zero 2L"
+        }
 
 
-        self.entry_pesquisa = ctk.CTkEntry(self, placeholder_text="Digite o nome do produto")
+        self.entry_pesquisa = ctk.CTkEntry(self, font=FONTE_TEXTO, corner_radius=2, placeholder_text="Digite o nome do produto")
         self.entry_pesquisa.pack(fill="x", padx=10, pady=10)
         self.after(100, self.entry_pesquisa.focus_set)
         self.entry_pesquisa.bind("<KeyRelease>", self.filtrar_produtos)
@@ -45,24 +42,28 @@ class TelaPesquisaProdutoView(ctk.CTkToplevel):
         self.listbox.bind("<Down>", self.navegar_lista)
 
 
-        self.atualizar_lista(self.produtos)
+        self.atualizar_lista(self.produtos.items())
 
 
     def filtrar_produtos(self, event=None):
         texto = self.entry_pesquisa.get().lower()
 
         filtrados = [
-            produto for produto in self.produtos
-            if texto in produto.lower()
+            (codigo, nome) for codigo, nome in self.produtos.items()
+            if texto in codigo.lower() or texto in nome.lower()
         ]
+
 
         self.atualizar_lista(filtrados)
 
     def atualizar_lista(self, lista):
         self.listbox.delete(0, tk.END)
 
-        for item in lista:
-            self.listbox.insert(tk.END, item)
+        for codigo, nome in lista:
+
+            item_formatado = f"{codigo} - {nome}"
+
+            self.listbox.insert(tk.END, item_formatado)
 
     def selecionar_produto(self, event=None):
         try:
@@ -73,8 +74,13 @@ class TelaPesquisaProdutoView(ctk.CTkToplevel):
 
             self.destroy()
 
+            self.campo_apos_pesquisa.focus_set()
+
         except tk.TclError:
             pass
+
+
+
 
     def ir_para_lista(self, event):
         if self.listbox.size() == 0:
