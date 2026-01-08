@@ -168,7 +168,7 @@ class EditarPendenciaView(ctk.CTkFrame):
         resultado = self.controller.confirmar_edicao_pendencia()
 
         exibir_mensagem(resultado["titulo"], resultado["mensagem"], resultado["icone"])
-        return
+        return "break"
     
     def buscar_cupom(self):
         resultado = self.controller.buscar_e_exibir_informacoes_pendencia()
@@ -176,8 +176,9 @@ class EditarPendenciaView(ctk.CTkFrame):
         if resultado["sucesso"]:
             return
 
+        self.entry_cupom.focus_set()
         exibir_mensagem(resultado["titulo"], resultado["mensagem"], resultado["icone"])
-        return
+        return "break"
 
     def abrir_tela_pesquisa_produto(self):
         TelaPesquisaProdutoView(self, self.entry_codigo_produto, self.entry_quantidade)
