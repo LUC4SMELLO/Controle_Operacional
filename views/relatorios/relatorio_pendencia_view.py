@@ -9,7 +9,8 @@ from constants.textos import (
     FONTE_TITULO,
     FONTE_SUBTITULO,
     FONTE_LABEL,
-    FONTE_TREE_VIEW,
+    FONTE_CABECALHO_TREE_VIEW,
+    FONTE_TEXTO_TREE_VIEW,
     FONTE_TEXTO,
     FONTE_PEQUENA,
     FONTE_BOTAO_PRINCIPAL,
@@ -153,9 +154,19 @@ class RelatorioPendenciaView(ctk.CTkFrame):
 
         style.configure(
             "Treeview.Heading",
-            font=FONTE_TREE_VIEW,
+            font=FONTE_CABECALHO_TREE_VIEW,
             background="#343638",
             foreground="#FFFFFF",
+        )
+        style.configure(
+            "Treeview",
+            font=FONTE_TEXTO_TREE_VIEW,
+            rowheight=40,
+        )
+        style.map(
+            "Treeview", 
+            background=[('selected', "#bfc5c2")],
+            foreground=[('selected', 'white')]
         )
         
 
@@ -191,16 +202,16 @@ class RelatorioPendenciaView(ctk.CTkFrame):
         self.tree.heading("codigo_produto", text="Código Produto", anchor="center")
         self.tree.heading("quantidade", text="Quantidade", anchor="center")
 
-        self.tree.column("cupom", width=70, anchor="center")
-        self.tree.column("data", width=80, anchor="center")
-        self.tree.column("carga",width=70, anchor="center")
-        self.tree.column("codigo_cliente", width=135, anchor="center")
+        self.tree.column("cupom", width=90, anchor="center")
+        self.tree.column("data", width=125, anchor="center")
+        self.tree.column("carga",width=115, anchor="center")
+        self.tree.column("codigo_cliente", width=160, anchor="center")
         # self.tree.column("razao_social", width=150, anchor="center")
         # self.tree.column("vendedor", width=90, anchor="center")
-        self.tree.column("tipo", width=70, anchor="center")
-        self.tree.column("responsavel", width=150, anchor="center")
-        self.tree.column("codigo_produto", width= 140, anchor="center")
-        self.tree.column("quantidade", width=125, anchor="center")
+        self.tree.column("tipo", width=110, anchor="center")
+        self.tree.column("responsavel", width=190, anchor="center")
+        self.tree.column("codigo_produto", width= 175, anchor="center")
+        self.tree.column("quantidade", width=140, anchor="center")
 
         self.tree.bind("<MouseWheel>", lambda e: self.tree.yview_scroll(-int(e.delta / 100), "units"))
         self.tree.bind("<Shift-MouseWheel>", lambda e: self.tree.xview_scroll(-int(e.delta / 2.5), "units"))
