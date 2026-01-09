@@ -13,6 +13,9 @@ class RelatorioController:
 
     def mostrar_pendencias(self):
         
+        for item in self.view.tree.get_children():
+            self.view.tree.delete(item)
+
         resultado = self.model.buscar_pendencias(
             self.view.entry_cupom.get(),
             self.view.entry_data_inicio.get(),
@@ -27,8 +30,20 @@ class RelatorioController:
             self.view.exibir_mensagem("Aviso", "Não Há Pendências a Serem Listadas.", "warning")
             return
 
-        for item in self.view.tree.get_children():
-            self.view.tree.delete(item)
-
         for linha in resultado:
             self.view.tree.insert("", ctk.END, values=linha)
+
+    def limpar_filtros(self):
+
+        for item in self.view.tree.get_children():
+            self.view.tree.delete(item)
+        
+        self.view.entry_cupom.delete(0, ctk.END)
+        self.view.entry_data_inicio.delete(0, ctk.END)
+        self.view.entry_data_fim.delete(0, ctk.END)
+        self.view.entry_carga.delete(0, ctk.END)
+        self.view.entry_codigo_cliente.delete(0, ctk.END)
+        self.view.entry_tipo.set("Ambos")
+        self.view.entry_codigo_produto.delete(0, ctk.END)
+
+        

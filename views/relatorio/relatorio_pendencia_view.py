@@ -120,13 +120,13 @@ class RelatorioPendenciaView(ctk.CTkFrame):
         self.entry_tipo.set("Ambos")
         self.entry_tipo.place(x=696, y=130)
 
-        ctk.CTkLabel(self, text="Código Cliente:", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=40, y=180)
+        ctk.CTkLabel(self, text="Código Cliente:", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=40, y=190)
         self.entry_codigo_cliente = ctk.CTkEntry(self, font=FONTE_TEXTO, width=65, height=30, corner_radius=2)
-        self.entry_codigo_cliente.place(x=170, y=180)
+        self.entry_codigo_cliente.place(x=170, y=190)
 
-        ctk.CTkLabel(self, text="Código Produto:", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=250, y=180)
+        ctk.CTkLabel(self, text="Código Produto:", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=250, y=190)
         self.entry_codigo_produto = ctk.CTkEntry(self, font=FONTE_TEXTO, width=62, height=30, corner_radius=2)
-        self.entry_codigo_produto.place(x=390, y=180)
+        self.entry_codigo_produto.place(x=390, y=190)
 
 
         self.botao_buscar_pendencia = ctk.CTkButton(
@@ -142,7 +142,20 @@ class RelatorioPendenciaView(ctk.CTkFrame):
         )
         self.botao_buscar_pendencia.place(x=880, y=130)
 
-        ctk.CTkFrame(self, width=950, height=2, fg_color=COR_LINHAS).place(x=40, y=240)
+        self.botao_limpar_filtros = ctk.CTkButton(
+            self,
+            text="Limpar \nFiltros",
+            command=self.controller.limpar_filtros,
+            width=110,
+            height=35,
+            font=FONTE_BOTAO_SECUNDARIO,
+            fg_color= COR_BOTAO,
+            hover_color=HOVER_BOTAO,
+            text_color=COR_TEXTO_BOTAO
+        )
+        self.botao_limpar_filtros.place(x=880, y=180)
+
+        ctk.CTkFrame(self, width=950, height=2, fg_color=COR_LINHAS).place(x=40, y=245)
 
 
 
