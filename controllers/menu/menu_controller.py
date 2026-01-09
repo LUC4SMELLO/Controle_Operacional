@@ -3,7 +3,7 @@ import customtkinter as ctk
 from views.pendencia.cadastrar_pendencia_view import CadastrarPendenciaView
 from views.pendencia.editar_pendencia_view import EditarPendenciaView
 from views.pendencia.excluir_pendencia_view import ExcluirPendenciaView
-from views.relatorios.relatorio_pendencia_view import RelatorioPendenciaView
+from views.relatorio.relatorio_pendencia_view import RelatorioPendenciaView
 
 from controllers.pendencia.pendencia_controller import PendenciaController
 from controllers.relatorio.relatorio_controller import RelatorioController
