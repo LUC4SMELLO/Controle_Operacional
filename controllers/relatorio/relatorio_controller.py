@@ -15,13 +15,12 @@ class RelatorioController:
         
         resultado = self.model.buscar_pendencias(
             self.view.entry_cupom.get(),
-            self.view.entry_data.get(),
+            self.view.entry_data_inicio.get(),
+            self.view.entry_data_fim.get(),
             self.view.entry_carga.get(),
             self.view.entry_codigo_cliente.get(),
             self.view.entry_tipo.get(),
-            self.view.entry_responsavel.get(),
             self.view.entry_codigo_produto.get(),
-            self.view.entry_quantidade.get()
         )
 
         if not resultado:
