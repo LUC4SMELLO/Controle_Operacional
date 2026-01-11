@@ -165,6 +165,19 @@ class ExcluirPendenciaView(ctk.CTkFrame):
         self.botao_cancelar.place(x=382, y=545)
 
     def confirmar(self):
+
+        resposta = exibir_mensagem(
+            titulo="Confirmar Exclusão",
+            mensagem="Tem certeza que deseja excluir esta pendência?",
+            icone="warning",
+            opcao_1="Não",
+            opcao_2="Sim"
+            )
+        
+        if resposta != "Sim":
+            self.controller.limpar_formulario()
+            return "break"
+        
         resultado = self.controller.confirmar_exclusao_pendencia()
 
         exibir_mensagem(resultado["titulo"], resultado["mensagem"], resultado["icone"])
