@@ -1,10 +1,18 @@
 from CTkMessagebox import CTkMessagebox
+from typing import Literal
 
 from constants.textos import FONTE_TEXTO
 from constants.cores import COR_TEXTO, COR_BOTAO, COR_TEXTO_BOTAO, HOVER_BOTAO
 
 
-def exibir_mensagem(titulo:str, mensagem:str, icone="info"):
+def exibir_mensagem(
+        titulo: str,
+        mensagem: str,
+        icone: Literal["info", "warning", "cancel", "check"] = "info",
+        opcao_1:str ="Ok",
+        opcao_2:str ="",
+        opcao_3:str =""
+        ) -> str:
     """
     Exibe um popup com uma mensagem.
 
@@ -17,6 +25,13 @@ def exibir_mensagem(titulo:str, mensagem:str, icone="info"):
         icone : str
             O ícone do popup, podem ser (check, cancel, info, question, warning).
             O padrão é "info".
+        opcao_1: str
+            O texto do primeiro botão.
+        opcao_2: str
+            O texto do segundo botão.
+        opcao_3: str
+            O texo do terceiro botão.
+        
     """
     mensagem = CTkMessagebox(
         title=titulo,
@@ -29,7 +44,9 @@ def exibir_mensagem(titulo:str, mensagem:str, icone="info"):
         button_color=COR_BOTAO,
         button_text_color=COR_TEXTO_BOTAO,
         button_hover_color=HOVER_BOTAO,
-        option_1="Ok"
+        option_1=opcao_1,
+        option_2=opcao_2,
+        option_3=opcao_3
         )
 
     return mensagem.get()
