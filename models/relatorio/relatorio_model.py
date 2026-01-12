@@ -1,6 +1,6 @@
 from database.banco_dados_pendencias import conectar_banco_de_dados_pendencias
 
-from constants.banco_dados import TABELA_PENDENCIAS
+from constants.banco_dados import BANCO_DADOS_CLIENTES, TABELA_CLIENTES, TABELA_PENDENCIAS
 
 class RelatorioModel:
     def __init__(self):
@@ -23,18 +23,23 @@ class RelatorioModel:
         conexao = conectar_banco_de_dados_pendencias()
         cursor = conexao.cursor()
 
+        cursor.execute(f"ATTACH DATABASE '{BANCO_DADOS_CLIENTES}' AS cli")
+
         consulta_sql = f"""
         SELECT
-        cupom,
-        data,
-        carga,
-        codigo_cliente,
-        tipo,
-        responsavel,
-        codigo_produto,
-        quantidade
-        FROM {TABELA_PENDENCIAS}
-        WHERE 1=1
+        p.cupom,
+        p.data,
+        p.carga,
+        c.vendedor,
+        p.codigo_cliente,
+        c.razao_social,
+        p.tipo,
+        p.responsavel,
+        p.codigo_produto,
+        p.quantidade
+        FROM {TABELA_PENDENCIAS} as p
+        JOIN cli.{TABELA_CLIENTES} as c
+        ON p.codigo_cliente = c.codigo
         """
 
         parametros = []
