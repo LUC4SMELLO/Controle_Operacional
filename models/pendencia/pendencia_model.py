@@ -1,6 +1,9 @@
 from database.banco_dados_pendencias import conectar_banco_de_dados_pendencias
-
 from constants.banco_dados import TABELA_PENDENCIAS
+
+from database.banco_dados_clientes import conectar_banco_de_dados_clientes
+from constants.banco_dados import TABELA_CLIENTES
+
 
 class PendenciaModel:
     def __init__(self):
@@ -105,6 +108,26 @@ class PendenciaModel:
         FROM {TABELA_PENDENCIAS}
         WHERE cupom = ?
         """, (cupom,)
+        )
+
+        resultado = cursor.fetchone()
+
+        conexao.close()
+
+        return resultado
+    
+    def buscar_cliente(self, codigo_cliente):
+
+        conexao = conectar_banco_de_dados_clientes()
+        cursor = conexao.cursor()
+
+        cursor.execute(
+        f"""
+        SELECT
+        razao_social
+        FROM {TABELA_CLIENTES}
+        WHERE codigo = ?
+        """, (codigo_cliente,)
         )
 
         resultado = cursor.fetchone()

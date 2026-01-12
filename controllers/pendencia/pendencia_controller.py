@@ -58,8 +58,10 @@ class PendenciaController:
                 proximo_widget.bind("<Return>", lambda event, btn=proximo_widget: btn.invoke())
 
         combobox_tipo = self.view.entry_tipo
-        combobox_tipo.bind("<Left>", lambda e: self.navegar_combobox(e, combobox_tipo))
-        combobox_tipo.bind("<Right>", lambda e: self.navegar_combobox(e, combobox_tipo))
+        combobox_tipo.bind("<Left>", lambda event: self.navegar_combobox(event, combobox_tipo))
+        combobox_tipo.bind("<Right>", lambda event: self.navegar_combobox(event, combobox_tipo))
+
+        self.view.entry_codigo_cliente.bind("<Return>", lambda event: self.exibir_razao_social_cliente(event))
 
     
     def navegar_combobox(self, event, combobox):
@@ -80,6 +82,16 @@ class PendenciaController:
 
         combobox.set(valores[proximo_indice])
         return "break"
+    
+    def exibir_razao_social_cliente(self, event):
+        codigo_cliente = self.view.entry_codigo_cliente.get()
+
+        resultado = self.model.buscar_cliente(codigo_cliente)
+        if not resultado:
+            self.view.label_razao_social.configure(text="Cliente não encontrado.")
+            return
+
+        self.view.label_razao_social.configure(text=resultado[0])
 
     
 
@@ -340,6 +352,7 @@ class PendenciaController:
             self.view.entry_data.set_date(data_formatada)
             self.view.entry_carga.delete(0, ctk.END)
             self.view.entry_codigo_cliente.delete(0, ctk.END)
+            self.view.label_razao_social.configure(text="")
             self.view.entry_tipo.set("")
             self.view.entry_responsavel.delete(0, ctk.END)
             self.view.entry_codigo_produto.delete(0, ctk.END)
