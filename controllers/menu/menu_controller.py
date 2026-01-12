@@ -1,4 +1,5 @@
 import customtkinter as ctk
+import os
 
 from views.pendencia.cadastrar_pendencia_view import CadastrarPendenciaView
 from views.pendencia.editar_pendencia_view import EditarPendenciaView
@@ -10,6 +11,12 @@ from controllers.relatorio.relatorio_controller import RelatorioController
 
 from models.pendencia.pendencia_model import PendenciaModel
 from models.relatorio.relatorio_model import RelatorioModel
+
+
+from constants.arquivos import CAMINHO_PASTA_ARQUIVOS
+
+from scripts.formatar_arquivo_clientes import formatar_arquivo_clientes
+from database.banco_dados_clientes import sincronizar_csv_com_banco
 
 
 class MenuController:
@@ -26,6 +33,15 @@ class MenuController:
             ctk.set_appearance_mode("Dark")
         else:
             ctk.set_appearance_mode("Light")
+
+    def atualizar_todos_os_bancos_dados(self):
+
+        if os.path.exists(CAMINHO_PASTA_ARQUIVOS):
+            
+            formatar_arquivo_clientes()
+            sincronizar_csv_com_banco()
+            print("Banco dados clientes atualizado")
+
 
     def definir_tela_atual(self, nova_tela=None):
         if self.tela_atual:

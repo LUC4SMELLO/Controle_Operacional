@@ -16,6 +16,9 @@ class MenuView(ctk.CTkFrame):
 
         self.controller = controller
 
+        self.controller.atualizar_todos_os_bancos_dados()
+
+
         ctk.CTkLabel(self, text="Menu", font=FONTE_TITULO, text_color=COR_TEXTO).place(x=15, y=15)
 
         ctk.CTkFrame(self, width=5, height=1280, fg_color=COR_LINHAS).place(
