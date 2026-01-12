@@ -41,7 +41,7 @@ def sincronizar_csv_com_banco():
     try:
         with open(CAMINHO_ARQUIVO_CLIENTES_FORMATADOS, mode="r", encoding="utf-8-sig") as arquivo:
 
-            leitor_csv = csv.DictReader(arquivo, delimiter=",")
+            leitor_csv = csv.DictReader(arquivo, delimiter=";")
             
             dados = []
             for linha in leitor_csv:
