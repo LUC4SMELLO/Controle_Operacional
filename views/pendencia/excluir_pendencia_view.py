@@ -4,6 +4,8 @@ from tkcalendar import DateEntry
 
 from views.dialogs.exibir_mensagem import exibir_mensagem
 
+from views.dialogs.pesquisa_cliente_view import TelaPesquisaClienteView
+
 from views.dialogs.pesquisa_produto_view import TelaPesquisaProdutoView
 
 from constants.textos import FONTE_TITULO
@@ -37,6 +39,12 @@ class ExcluirPendenciaView(ctk.CTkFrame):
         super().__init__(master)
 
         self.controller = controller
+
+        icone_lupa = ctk.CTkImage(
+            light_image=Image.open("assets/icons/lupa_dark.png"),
+            dark_image=Image.open("assets/icons/lupa_dark.png"),
+            size=(23, 23)
+        )
 
         ctk.CTkLabel(self, text="Pendência & Troca", font=FONTE_TITULO, text_color=COR_TEXTO).place(x=40, y=15)
 
@@ -97,8 +105,21 @@ class ExcluirPendenciaView(ctk.CTkFrame):
         self.entry_codigo_cliente = ctk.CTkEntry(self, font=FONTE_TEXTO, width=100, height=30, corner_radius=2)
         self.entry_codigo_cliente.place(x=184, y=280)
 
+        self.botao_pesquisar_cliente = ctk.CTkButton(
+            self,
+            image=icone_lupa,
+            text="",
+            command=self.abrir_tela_pesquisa_cliente,
+            width=20,
+            height=20,
+            fg_color=COR_BOTAO,
+            hover_color=HOVER_BOTAO,
+            cursor="hand2",
+        )
+        self.botao_pesquisar_cliente.place(x=295, y=280)
+
         self.label_razao_social = ctk.CTkLabel(self, text="", font=FONTE_TEXTO, text_color=COR_TEXTO)
-        self.label_razao_social.place(x=300, y=280)
+        self.label_razao_social.place(x=350, y=280)
 
 
         ctk.CTkLabel(self, text="Tipo:", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=138, y=315)
@@ -116,13 +137,7 @@ class ExcluirPendenciaView(ctk.CTkFrame):
         self.entry_codigo_produto = ctk.CTkEntry(self, font=FONTE_TEXTO, width=100, height=30, corner_radius=2)
         self.entry_codigo_produto.place(x=184, y=430)
 
-        icone_lupa = ctk.CTkImage(
-            light_image=Image.open("assets/icons/lupa_dark.png"),
-            dark_image=Image.open("assets/icons/lupa_dark.png"),
-            size=(23, 23)
-        )
-
-        self.botao_buscar_produto = ctk.CTkButton(
+        self.botao_pesquisar_produto = ctk.CTkButton(
             self,
             image=icone_lupa,
             text="",
@@ -133,7 +148,7 @@ class ExcluirPendenciaView(ctk.CTkFrame):
             hover_color=HOVER_BOTAO,
             cursor="hand2",
         )
-        self.botao_buscar_produto.place(x=295, y=430)
+        self.botao_pesquisar_produto.place(x=295, y=430)
 
         ctk.CTkLabel(self, text="Quantidade:", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=79, y=465)
         self.entry_quantidade = ctk.CTkEntry(self, font=FONTE_TEXTO, width=100, height=30, corner_radius=2)
@@ -195,6 +210,9 @@ class ExcluirPendenciaView(ctk.CTkFrame):
         self.entry_cupom.focus_set()
         exibir_mensagem(resultado["titulo"], resultado["mensagem"], resultado["icone"])
         return "break"
+
+    def abrir_tela_pesquisa_cliente(self):
+        TelaPesquisaClienteView(self, self.entry_codigo_cliente, self.entry_tipo, self.label_razao_social)
 
     def abrir_tela_pesquisa_produto(self):
         TelaPesquisaProdutoView(self, self.entry_codigo_produto, self.entry_quantidade)
