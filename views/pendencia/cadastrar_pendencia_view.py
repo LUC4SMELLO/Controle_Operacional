@@ -95,7 +95,7 @@ class CadastrarPendenciaView(ctk.CTkFrame):
         self.entry_codigo_cliente = ctk.CTkEntry(self, font=FONTE_TEXTO, width=100, height=30, corner_radius=2)
         self.entry_codigo_cliente.place(x=184, y=200)
 
-        self.botao_pesquisa_cliente = ctk.CTkButton(
+        self.botao_pesquisar_cliente = ctk.CTkButton(
             self,
             image=icone_lupa,
             text="",
@@ -106,7 +106,7 @@ class CadastrarPendenciaView(ctk.CTkFrame):
             hover_color=HOVER_BOTAO,
             cursor="hand2",
         )
-        self.botao_pesquisa_cliente.place(x=295, y=200)
+        self.botao_pesquisar_cliente.place(x=295, y=200)
 
         self.label_razao_social = ctk.CTkLabel(self, text="", font=FONTE_TEXTO, text_color=COR_TEXTO)
         self.label_razao_social.place(x=350, y=200)
