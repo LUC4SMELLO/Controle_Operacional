@@ -151,6 +151,9 @@ class EditarPendenciaView(ctk.CTkFrame):
         )
         self.botao_pesquisar_produto.place(x=295, y=430)
 
+        self.label_descricao_produto = ctk.CTkLabel(self, text="", font=FONTE_TEXTO, text_color=COR_TEXTO)
+        self.label_descricao_produto.place(x=350, y=430)
+
         ctk.CTkLabel(self, text="Quantidade:", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=79, y=465)
         self.entry_quantidade = ctk.CTkEntry(self, font=FONTE_TEXTO, width=100, height=30, corner_radius=2)
         self.entry_quantidade.place(x=184, y=465)
@@ -203,4 +206,4 @@ class EditarPendenciaView(ctk.CTkFrame):
         TelaPesquisaClienteView(self, self.entry_codigo_cliente, self.entry_tipo, self.label_razao_social)
 
     def abrir_tela_pesquisa_produto(self):
-        TelaPesquisaProdutoView(self, self.entry_codigo_produto, self.entry_quantidade)
+        TelaPesquisaProdutoView(self, self.entry_codigo_produto, self.entry_quantidade, self.label_descricao_produto)
