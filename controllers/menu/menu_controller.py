@@ -16,7 +16,10 @@ from models.relatorio.relatorio_model import RelatorioModel
 from constants.arquivos import CAMINHO_PASTA_ARQUIVOS
 
 from scripts.formatar_arquivo_clientes import formatar_arquivo_clientes
-from database.banco_dados_clientes import sincronizar_csv_com_banco
+from database.banco_dados_clientes import sincronizar_csv_com_banco_dados_clientes
+
+from scripts.formatar_arquivo_produtos import formatar_arquivo_produtos
+from database.banco_dados_produtos import sincronizar_csv_com_banco_dados_produtos
 
 
 class MenuController:
@@ -39,9 +42,13 @@ class MenuController:
         if os.path.exists(CAMINHO_PASTA_ARQUIVOS):
             
             formatar_arquivo_clientes()
-            sincronizar_csv_com_banco()
-            print("Banco dados clientes atualizado")
+            sincronizar_csv_com_banco_dados_clientes()
+            print("Banco dados clientes atualizado.")
 
+
+            formatar_arquivo_produtos()
+            sincronizar_csv_com_banco_dados_produtos()
+            print("Banco dados produtos atualizado.")
 
     def definir_tela_atual(self, nova_tela=None):
         if self.tela_atual:
