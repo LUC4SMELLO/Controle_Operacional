@@ -33,7 +33,7 @@ def criar_tabela_clientes():
     conexao.close()
 
 
-def sincronizar_csv_com_banco():
+def sincronizar_csv_com_banco_dados_clientes():
 
     conexao = conectar_banco_de_dados_clientes()
     cursor = conexao.cursor()
