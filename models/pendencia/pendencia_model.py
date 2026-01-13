@@ -2,7 +2,7 @@ from database.banco_dados_pendencias import conectar_banco_de_dados_pendencias
 from constants.banco_dados import TABELA_PENDENCIAS
 
 from database.banco_dados_clientes import conectar_banco_de_dados_clientes
-from constants.banco_dados import TABELA_CLIENTES
+from constants.banco_dados import TABELA_CLIENTES, BANCO_DADOS_CLIENTES
 
 
 class PendenciaModel:
@@ -91,30 +91,38 @@ class PendenciaModel:
 
     def buscar_pendencia(self, cupom):
 
-        conexao = conectar_banco_de_dados_pendencias()
-        cursor = conexao.cursor()
+        try:
+            conexao = conectar_banco_de_dados_pendencias()
+            cursor = conexao.cursor()
 
-        cursor.execute(
-        f"""
-        SELECT
-        cupom,
-        data,
-        carga,
-        codigo_cliente,
-        tipo,
-        responsavel,
-        codigo_produto,
-        quantidade
-        FROM {TABELA_PENDENCIAS}
-        WHERE cupom = ?
-        """, (cupom,)
-        )
+            cursor.execute(f"ATTACH DATABASE '{BANCO_DADOS_CLIENTES}' AS cli")
 
-        resultado = cursor.fetchone()
 
-        conexao.close()
+            cursor.execute(f"""
+            SELECT
+            p.cupom,
+            p.data,
+            p.carga,
+            p.codigo_cliente,
+            c.razao_social,
+            p.tipo,
+            p.responsavel,
+            p.codigo_produto,
+            p.quantidade
+            FROM {TABELA_PENDENCIAS} as p
+            JOIN cli.{TABELA_CLIENTES} as c
+            ON p.codigo_cliente = c.codigo
+            WHERE cupom = ?
+            """, (cupom,)
+            )
 
-        return resultado
+            resultado = cursor.fetchone()
+
+            return resultado
+        
+        finally:
+            conexao.close()
+
     
     def buscar_cliente(self, codigo_cliente):
 
