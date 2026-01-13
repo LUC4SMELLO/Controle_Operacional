@@ -62,6 +62,7 @@ class PendenciaController:
         combobox_tipo.bind("<Right>", lambda event: self.navegar_combobox(event, combobox_tipo))
 
         self.view.entry_codigo_cliente.bind("<Return>", lambda event: self.exibir_razao_social_cliente(event))
+        self.view.entry_codigo_produto.bind("<Return>", lambda event: self.exibir_descricao_produto(event))
 
     
     def navegar_combobox(self, event, combobox):
@@ -92,6 +93,16 @@ class PendenciaController:
             return
 
         self.view.label_razao_social.configure(text=resultado[0])
+
+    def exibir_descricao_produto(self, event):
+        codigo_produto = self.view.entry_codigo_produto.get()
+
+        resultado = self.model.buscar_produto(codigo_produto)
+        if not resultado:
+            self.view.label_descricao_produto.configure(text="Produto não encontrado.")
+            return
+
+        self.view.label_descricao_produto.configure(text=resultado[0])
 
     
 
@@ -357,5 +368,6 @@ class PendenciaController:
             self.view.entry_tipo.set("")
             self.view.entry_responsavel.delete(0, ctk.END)
             self.view.entry_codigo_produto.delete(0, ctk.END)
+            self.view.label_descricao_produto.configure(text="")
             self.view.entry_quantidade.delete(0, ctk.END)
 
