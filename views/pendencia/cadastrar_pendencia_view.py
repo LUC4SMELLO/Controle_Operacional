@@ -51,7 +51,7 @@ class CadastrarPendenciaView(ctk.CTkFrame):
 
 
         icone_lupa = ctk.CTkImage(
-            light_image=Image.open("assets/icons/lupa_light.png"),
+            light_image=Image.open("assets/icons/lupa_dark.png"),
             dark_image=Image.open("assets/icons/lupa_dark.png"),
             size=(23, 23)
         )
