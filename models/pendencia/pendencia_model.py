@@ -4,6 +4,9 @@ from constants.banco_dados import TABELA_PENDENCIAS
 from database.banco_dados_clientes import conectar_banco_de_dados_clientes
 from constants.banco_dados import TABELA_CLIENTES, BANCO_DADOS_CLIENTES
 
+from database.banco_dados_produtos import conectar_banco_de_dados_produtos
+from constants.banco_dados import TABELA_PRODUTOS
+
 
 class PendenciaModel:
     def __init__(self):
@@ -143,3 +146,25 @@ class PendenciaModel:
         conexao.close()
 
         return resultado
+    
+
+    def buscar_produto(self, codigo_produto):
+
+        conexao = conectar_banco_de_dados_produtos()
+        cursor = conexao.cursor()
+
+        cursor.execute(
+        f"""
+        SELECT
+        descricao
+        FROM {TABELA_PRODUTOS}
+        WHERE codigo = ?
+        """, (codigo_produto,)
+        )
+
+        resultado = cursor.fetchone()
+
+        conexao.close()
+
+        return resultado
+
