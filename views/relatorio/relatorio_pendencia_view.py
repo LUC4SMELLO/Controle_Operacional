@@ -23,7 +23,14 @@ from constants.cores import (
     COR_BOTAO,
     HOVER_BOTAO,
     COR_TEXTO,
-    COR_TEXTO_BOTAO
+    COR_TEXTO_BOTAO,
+    COR_BACKGROUND_HEADING_TREE,
+    COR_FOREGROUND_HEADING_TREE,
+    COR_BACKGROUND_HEADING_HOVER_TREE,
+    COR_FOREGROUND_HEADING_HOVER_TREE,
+    COR_BACKGROUND_VALORES_HOVER_TREE,
+    COR_FOREGROUND_VALORES_HOVER_TREE
+
 )
 
 from constants.date_entry import (
@@ -168,8 +175,13 @@ class RelatorioPendenciaView(ctk.CTkFrame):
         style.configure(
             "Treeview.Heading",
             font=FONTE_CABECALHO_TREE_VIEW,
-            background="#343638",
-            foreground="#FFFFFF",
+            background=COR_BACKGROUND_HEADING_TREE,
+            foreground=COR_FOREGROUND_HEADING_TREE,
+        )
+        style.map(
+            "Treeview.Heading",
+            background=[("active", COR_BACKGROUND_HEADING_HOVER_TREE)],
+            foreground=[("active", COR_FOREGROUND_HEADING_HOVER_TREE)]
         )
         style.configure(
             "Treeview",
@@ -178,8 +190,8 @@ class RelatorioPendenciaView(ctk.CTkFrame):
         )
         style.map(
             "Treeview", 
-            background=[('selected', "#bfc5c2")],
-            foreground=[('selected', 'white')]
+            background=[('selected', COR_BACKGROUND_VALORES_HOVER_TREE)],
+            foreground=[('selected', COR_FOREGROUND_VALORES_HOVER_TREE)]
         )
         
 
