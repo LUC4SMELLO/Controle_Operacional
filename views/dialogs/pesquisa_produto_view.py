@@ -5,10 +5,12 @@ import re
 
 from constants.textos import FONTE_TEXTO
 
+from services.produtos_service import listar_produtos_banco_dados
+
 
 class TelaPesquisaProdutoView(ctk.CTkToplevel):
 
-    def __init__(self, master, campo_destino, campo_apos_pesquisa):
+    def __init__(self, master, campo_destino, campo_apos_pesquisa, label_descricao_produto):
         super().__init__(master)
 
         self.title("Buscar Produto")
@@ -18,14 +20,9 @@ class TelaPesquisaProdutoView(ctk.CTkToplevel):
 
         self.campo_destino = campo_destino
         self.campo_apos_pesquisa = campo_apos_pesquisa
+        self.label_descricao_produto = label_descricao_produto
 
-        self.produtos = {
-            "8533": "Coca Cola Lata 350ml",
-            "56600": "Coca Cola 2L",
-            "55818": "Coca Cola Zero 2L",
-            "119567": "Ades Pessêgo 200ml",
-            "141160": "Pringles Original"
-        }
+        self.produtos = listar_produtos_banco_dados() or {}
 
 
         self.entry_pesquisa = ctk.CTkEntry(self, font=FONTE_TEXTO, corner_radius=2, placeholder_text="Digite o nome do produto")
@@ -58,7 +55,7 @@ class TelaPesquisaProdutoView(ctk.CTkToplevel):
 
         filtrados = [
             (codigo, nome) for codigo, nome in self.produtos.items()
-            if texto in codigo.lower() or texto in nome.lower()
+            if texto in str(codigo).lower() or texto in nome.lower()
         ]
 
 
@@ -77,16 +74,23 @@ class TelaPesquisaProdutoView(ctk.CTkToplevel):
         try:
             produto_selecionado = self.listbox.get(self.listbox.curselection())
 
-            resultado = re.search(r"^\d+", produto_selecionado)
-            
-            codigo_produto = resultado.group()
+            match_codigo = re.search(r"^\d+", produto_selecionado)
+            match_descricao = re.search(r" - (.+)", produto_selecionado)
 
-            self.campo_destino.delete(0, tk.END)
-            self.campo_destino.insert(0, codigo_produto)
 
-            self.destroy()
+            if match_codigo and match_descricao:
 
-            self.campo_apos_pesquisa.focus_set()
+                codigo_produto = match_codigo.group()
+                descricao_produto = match_descricao.group(1)
+                
+
+                self.campo_destino.delete(0, tk.END)
+                self.campo_destino.insert(0, codigo_produto)
+                self.label_descricao_produto.configure(text=descricao_produto)
+
+                self.destroy()
+
+                self.campo_apos_pesquisa.focus_set()
 
         except tk.TclError:
             pass
