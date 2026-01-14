@@ -51,7 +51,7 @@ class EditarPendenciaView(ctk.CTkFrame):
 
         ctk.CTkLabel(self, text="Editar", font=FONTE_SUBTITULO, text_color=COR_TEXTO).place(x=40, y=65)
 
-        ctk.CTkFrame(self, width=500, height=2, fg_color=COR_LINHAS).place(x=40, y=105)
+        ctk.CTkFrame(self, width=650, height=2, fg_color=COR_LINHAS).place(x=40, y=105)
 
         ctk.CTkLabel(self, text="Cupom:", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=115, y=130)
         self.entry_cupom = ctk.CTkEntry(self, font=FONTE_TEXTO, width=100, height=30, corner_radius=2)
@@ -71,7 +71,7 @@ class EditarPendenciaView(ctk.CTkFrame):
         self.botao_buscar_cupom.place(x=295, y=130)
 
 
-        ctk.CTkFrame(self, width=500, height=2, fg_color=COR_LINHAS).place(x=40, y=180)
+        ctk.CTkFrame(self, width=650, height=2, fg_color=COR_LINHAS).place(x=40, y=180)
 
         ctk.CTkLabel(self, text="Data:", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=135, y=210)
 
@@ -132,7 +132,7 @@ class EditarPendenciaView(ctk.CTkFrame):
         self.entry_responsavel = ctk.CTkEntry(self, font=FONTE_TEXTO, width=150, height=30, corner_radius=2)
         self.entry_responsavel.place(x=184, y=350)
 
-        ctk.CTkFrame(self, width=500, height=2, fg_color=COR_LINHAS).place(x=40, y=405)
+        ctk.CTkFrame(self, width=650, height=2, fg_color=COR_LINHAS).place(x=40, y=405)
 
         ctk.CTkLabel(self, text="Código Produto:", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=45, y=430)
         self.entry_codigo_produto = ctk.CTkEntry(self, font=FONTE_TEXTO, width=100, height=30, corner_radius=2)
@@ -158,7 +158,7 @@ class EditarPendenciaView(ctk.CTkFrame):
         self.entry_quantidade = ctk.CTkEntry(self, font=FONTE_TEXTO, width=100, height=30, corner_radius=2)
         self.entry_quantidade.place(x=184, y=465)
 
-        ctk.CTkFrame(self, width=500, height=2, fg_color=COR_LINHAS).place(x=40, y=520)
+        ctk.CTkFrame(self, width=650, height=2, fg_color=COR_LINHAS).place(x=40, y=520)
 
         self.botao_confirmar = ctk.CTkButton(
             self,
@@ -171,7 +171,7 @@ class EditarPendenciaView(ctk.CTkFrame):
             hover_color=HOVER_BOTAO,
             text_color= COR_TEXTO_BOTAO,
         )
-        self.botao_confirmar.place(x=200, y=545)
+        self.botao_confirmar.place(x=350, y=545)
 
         self.botao_cancelar= ctk.CTkButton(
             self,
@@ -184,7 +184,7 @@ class EditarPendenciaView(ctk.CTkFrame):
             hover_color=HOVER_BOTAO,
             text_color=COR_TEXTO_BOTAO,
         )
-        self.botao_cancelar.place(x=382, y=545)
+        self.botao_cancelar.place(x=532, y=545)
 
     def confirmar(self):
         resultado = self.controller.confirmar_edicao_pendencia()

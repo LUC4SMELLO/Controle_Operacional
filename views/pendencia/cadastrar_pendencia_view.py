@@ -60,7 +60,7 @@ class CadastrarPendenciaView(ctk.CTkFrame):
 
         ctk.CTkLabel(self, text="Cadastrar", font=FONTE_SUBTITULO, text_color=COR_TEXTO).place(x=40, y=65)
 
-        ctk.CTkFrame(self, width=500, height=2, fg_color=COR_LINHAS).place(x=40, y=105)
+        ctk.CTkFrame(self, width=650, height=2, fg_color=COR_LINHAS).place(x=40, y=105)
 
         ctk.CTkLabel(self, text="Data:", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=135, y=130)
 
@@ -120,7 +120,7 @@ class CadastrarPendenciaView(ctk.CTkFrame):
         self.entry_responsavel = ctk.CTkEntry(self, font=FONTE_TEXTO, width=150, height=30, corner_radius=2)
         self.entry_responsavel.place(x=184, y=270)
 
-        ctk.CTkFrame(self, width=500, height=2, fg_color=COR_LINHAS).place(x=40, y=325)
+        ctk.CTkFrame(self, width=650, height=2, fg_color=COR_LINHAS).place(x=40, y=325)
 
         ctk.CTkLabel(self, text="Código Produto:", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=45, y=350)
         self.entry_codigo_produto = ctk.CTkEntry(self, font=FONTE_TEXTO, width=100, height=30, corner_radius=2)
@@ -146,7 +146,7 @@ class CadastrarPendenciaView(ctk.CTkFrame):
         self.entry_quantidade = ctk.CTkEntry(self, font=FONTE_TEXTO, width=100, height=30, corner_radius=2)
         self.entry_quantidade.place(x=184, y=385)
 
-        ctk.CTkFrame(self, width=500, height=2, fg_color=COR_LINHAS).place(x=40, y=440)
+        ctk.CTkFrame(self, width=650, height=2, fg_color=COR_LINHAS).place(x=40, y=440)
 
         self.botao_confirmar = ctk.CTkButton(
             self,
@@ -159,7 +159,7 @@ class CadastrarPendenciaView(ctk.CTkFrame):
             hover_color=HOVER_BOTAO,
             text_color= COR_TEXTO_BOTAO,
         )
-        self.botao_confirmar.place(x=200, y=465)
+        self.botao_confirmar.place(x=350, y=465)
 
         self.botao_cancelar= ctk.CTkButton(
             self,
@@ -172,7 +172,7 @@ class CadastrarPendenciaView(ctk.CTkFrame):
             hover_color=HOVER_BOTAO,
             text_color=COR_TEXTO_BOTAO,
         )
-        self.botao_cancelar.place(x=382, y=465)
+        self.botao_cancelar.place(x=532, y=465)
 
     def confirmar(self):
         resultado = self.controller.confirmar_cadastro_pendencia()
