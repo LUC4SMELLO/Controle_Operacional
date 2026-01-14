@@ -1,9 +1,9 @@
 import customtkinter as ctk
 from tkinter import ttk
-from CTkMessagebox import CTkMessagebox
 from PIL import Image
 from tkcalendar import DateEntry
 
+from views.dialogs.exibir_mensagem import exibir_mensagem
 
 from constants.textos import (
     FONTE_TITULO,
@@ -139,7 +139,7 @@ class RelatorioPendenciaView(ctk.CTkFrame):
         self.botao_buscar_pendencia = ctk.CTkButton(
             self,
             text="Buscar",
-            command=self.controller.mostrar_pendencias,
+            command=self.buscar,
             width=110,
             height=35,
             font=FONTE_BOTAO_SECUNDARIO,
@@ -243,17 +243,11 @@ class RelatorioPendenciaView(ctk.CTkFrame):
         self.tree.bind("<MouseWheel>", lambda e: self.tree.yview_scroll(-int(e.delta / 100), "units"))
         self.tree.bind("<Shift-MouseWheel>", lambda e: self.tree.xview_scroll(-int(e.delta / 2.5), "units"))
 
-    def exibir_mensagem(self, titulo, mensagem, icone="info"):
-        CTkMessagebox(
-            title=titulo,
-            message=mensagem,
-            icon=icone,
-            width=320,
-            height=50,
-            font=FONTE_TEXTO,
-            text_color=COR_TEXTO,
-            button_color=COR_BOTAO,
-            button_text_color=COR_TEXTO_BOTAO,
-            button_hover_color=HOVER_BOTAO,
-            option_1="Ok"
-            )
+    def buscar(self):
+        resultado = self.controller.mostrar_pendencias()
+
+        if resultado["sucesso"]:
+            return
+
+        exibir_mensagem(resultado["titulo"], resultado["mensagem"], resultado["icone"])
+        return

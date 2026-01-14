@@ -27,11 +27,23 @@ class RelatorioController:
         )
 
         if not resultado:
-            self.view.exibir_mensagem("Aviso", "Não Há Pendências a Serem Listadas.", "warning")
-            return
-
+            return {
+                "sucesso": False,
+                "titulo": "Aviso.",
+                "mensagem": "Não há pendências com esses filtros.",
+                "icone": "warning"
+                }
+        
         for linha in resultado:
             self.view.tree.insert("", ctk.END, values=linha)
+
+        return {
+            "sucesso": True,
+            "titulo": "Sucesso",
+            "mensagem": "Pendência Encontradas!",
+            "icone": "check"
+            }
+    
 
     def limpar_filtros(self):
 
