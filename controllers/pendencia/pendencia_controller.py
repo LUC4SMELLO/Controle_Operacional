@@ -333,11 +333,21 @@ class PendenciaController:
         self.view.entry_data.set_date(resultado[1])
         self.view.entry_carga.insert(0, resultado[2])
         self.view.entry_codigo_cliente.insert(0, resultado[3])
-        self.view.label_razao_social.configure(text=resultado[4])
+
+        if not resultado[4]:
+            self.view.label_razao_social.configure(text="Cliente não encontrado.")
+        else:
+            self.view.label_razao_social.configure(text=resultado[4])
+
         self.view.entry_tipo.set(resultado[5])
         self.view.entry_responsavel.insert(0, resultado[6])
         self.view.entry_codigo_produto.insert(0, resultado[7])
-        self.view.label_descricao_produto.configure(text=resultado[8])
+
+        if not resultado[8]:
+            self.view.label_descricao_produto.configure(text="Produto não encontrado.")
+        else:
+            self.view.label_descricao_produto.configure(text=resultado[8])
+            
         self.view.entry_quantidade.insert(0, resultado[9])
 
         return {

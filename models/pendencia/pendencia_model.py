@@ -116,8 +116,8 @@ class PendenciaModel:
             pro.descricao,
             pen.quantidade
             FROM {TABELA_PENDENCIAS} AS pen
-            JOIN clientes.{TABELA_CLIENTES} AS cli ON pen.codigo_cliente = cli.codigo
-            JOIN produtos.{TABELA_PRODUTOS} AS pro ON pen.codigo_produto = pro.codigo
+            LEFT JOIN clientes.{TABELA_CLIENTES} AS cli ON pen.codigo_cliente = cli.codigo
+            LEFT JOIN produtos.{TABELA_PRODUTOS} AS pro ON pen.codigo_produto = pro.codigo
             WHERE pen.cupom = ?
             """, (cupom,)
             )
