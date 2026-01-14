@@ -350,6 +350,13 @@ class PendenciaController:
             
         self.view.entry_quantidade.insert(0, resultado[9])
 
+        self.view.entry_carga.configure(state="readonly")
+        self.view.entry_codigo_cliente.configure(state="readonly")
+        self.view.entry_tipo.configure(state="readonly")
+        self.view.entry_responsavel.configure(state="readonly")
+        self.view.entry_codigo_produto.configure(state="readonly")
+        self.view.entry_quantidade.configure(state="readonly")
+
         return {
                 "sucesso": True,
                 "titulo": "Sucesso",
@@ -361,6 +368,15 @@ class PendenciaController:
 
 
     def limpar_formulario(self):
+        campos_bloqueáveis = [
+            self.view.entry_carga, self.view.entry_codigo_cliente,
+            self.view.entry_tipo, self.view.entry_responsavel,
+            self.view.entry_codigo_produto, self.view.entry_quantidade
+        ]
+
+        for campo in campos_bloqueáveis:
+            campo.configure(state="normal")
+
         data_atual = date.today()
         data_formatada = data_atual.strftime('%d/%m/%Y')
 

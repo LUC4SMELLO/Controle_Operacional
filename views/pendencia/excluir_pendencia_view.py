@@ -97,12 +97,12 @@ class ExcluirPendenciaView(ctk.CTkFrame):
         self.entry_data.place(x=184, y=210)
         
         ctk.CTkLabel(self, text="Carga:", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=127, y=245)
-        self.entry_carga = ctk.CTkEntry(self, font=FONTE_TEXTO, width=100, height=30, corner_radius=2)
+        self.entry_carga = ctk.CTkEntry(self, font=FONTE_TEXTO, width=100, height=30, corner_radius=2, state="readonly")
         self.entry_carga.place(x=184, y=245)
 
 
         ctk.CTkLabel(self, text="Código Cliente:", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=55, y=280)
-        self.entry_codigo_cliente = ctk.CTkEntry(self, font=FONTE_TEXTO, width=100, height=30, corner_radius=2)
+        self.entry_codigo_cliente = ctk.CTkEntry(self, font=FONTE_TEXTO, width=100, height=30, corner_radius=2, state="readonly")
         self.entry_codigo_cliente.place(x=184, y=280)
 
         self.botao_pesquisar_cliente = ctk.CTkButton(
@@ -123,18 +123,18 @@ class ExcluirPendenciaView(ctk.CTkFrame):
 
 
         ctk.CTkLabel(self, text="Tipo:", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=138, y=315)
-        self.entry_tipo = ctk.CTkComboBox(self, font=FONTE_TEXTO, values=["Pendência", "Troca"], width=150, height=30, corner_radius=2)
+        self.entry_tipo = ctk.CTkComboBox(self, font=FONTE_TEXTO, values=["Pendência", "Troca"], width=150, height=30, corner_radius=2, state="readonly")
         self.entry_tipo.set("")
         self.entry_tipo.place(x=184, y=315)
 
         ctk.CTkLabel(self, text="Responsável:", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=77, y=350)
-        self.entry_responsavel = ctk.CTkEntry(self, font=FONTE_TEXTO, width=150, height=30, corner_radius=2)
+        self.entry_responsavel = ctk.CTkEntry(self, font=FONTE_TEXTO, width=150, height=30, corner_radius=2, state="readonly")
         self.entry_responsavel.place(x=184, y=350)
 
         ctk.CTkFrame(self, width=650, height=2, fg_color=COR_LINHAS).place(x=40, y=405)
 
         ctk.CTkLabel(self, text="Código Produto:", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=45, y=430)
-        self.entry_codigo_produto = ctk.CTkEntry(self, font=FONTE_TEXTO, width=100, height=30, corner_radius=2)
+        self.entry_codigo_produto = ctk.CTkEntry(self, font=FONTE_TEXTO, width=100, height=30, corner_radius=2, state="readonly")
         self.entry_codigo_produto.place(x=184, y=430)
 
         self.botao_pesquisar_produto = ctk.CTkButton(
@@ -154,7 +154,7 @@ class ExcluirPendenciaView(ctk.CTkFrame):
         self.label_descricao_produto.place(x=350, y=430)
 
         ctk.CTkLabel(self, text="Quantidade:", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=79, y=465)
-        self.entry_quantidade = ctk.CTkEntry(self, font=FONTE_TEXTO, width=100, height=30, corner_radius=2)
+        self.entry_quantidade = ctk.CTkEntry(self, font=FONTE_TEXTO, width=100, height=30, corner_radius=2, state="readonly")
         self.entry_quantidade.place(x=184, y=465)
 
         ctk.CTkFrame(self, width=650, height=2, fg_color=COR_LINHAS).place(x=40, y=520)
