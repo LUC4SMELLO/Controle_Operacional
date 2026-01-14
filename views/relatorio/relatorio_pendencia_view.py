@@ -195,7 +195,7 @@ class RelatorioPendenciaView(ctk.CTkFrame):
         )
         
 
-        colunas = ("cupom", "data", "carga", "vendedor", "codigo_cliente", "razao_social", "tipo", "responsavel", "codigo_produto", "quantidade")
+        colunas = ("cupom", "data", "carga", "vendedor", "codigo_cliente", "razao_social", "tipo", "responsavel", "codigo_produto", "descricao", "quantidade")
         self.tree = ttk.Treeview(
             self,
             columns=colunas,
@@ -225,6 +225,7 @@ class RelatorioPendenciaView(ctk.CTkFrame):
         self.tree.heading("tipo", text="Tipo", anchor="center")
         self.tree.heading("responsavel", text="Responsável", anchor="center")
         self.tree.heading("codigo_produto", text="Código Produto", anchor="center")
+        self.tree.heading("descricao", text="Descrição", anchor="center")
         self.tree.heading("quantidade", text="Quantidade", anchor="center")
 
         self.tree.column("cupom", width=90, anchor="center")
@@ -235,7 +236,8 @@ class RelatorioPendenciaView(ctk.CTkFrame):
         self.tree.column("razao_social", width=280, anchor="center")
         self.tree.column("tipo", width=110, anchor="center")
         self.tree.column("responsavel", width=190, anchor="center")
-        self.tree.column("codigo_produto", width= 175, anchor="center")
+        self.tree.column("codigo_produto", width=175, anchor="center")
+        self.tree.column("descricao", width=280, anchor="center")
         self.tree.column("quantidade", width=140, anchor="center")
 
         self.tree.bind("<MouseWheel>", lambda e: self.tree.yview_scroll(-int(e.delta / 100), "units"))
