@@ -16,8 +16,6 @@ def formatar_arquivo_produtos():
         index_col=False,
     )
 
-    print(df_produtos.columns)
-
     df_produtos = df_produtos[
         [
             "Codigo",
