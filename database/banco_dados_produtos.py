@@ -18,7 +18,7 @@ def criar_tabela_produtos():
     cursor.execute(
     f"""
     CREATE TABLE IF NOT EXISTS {TABELA_PRODUTOS} (
-    codigo INTERGER PRIMARY KEY,
+    codigo INTEGER PRIMARY KEY,
     descricao VARCHAR(250)
     )
     """
