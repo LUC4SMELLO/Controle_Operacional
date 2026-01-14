@@ -5,7 +5,7 @@ from database.banco_dados_clientes import conectar_banco_de_dados_clientes
 from constants.banco_dados import TABELA_CLIENTES, BANCO_DADOS_CLIENTES
 
 from database.banco_dados_produtos import conectar_banco_de_dados_produtos
-from constants.banco_dados import TABELA_PRODUTOS
+from constants.banco_dados import TABELA_PRODUTOS, BANCO_DADOS_PRODUTOS
 
 
 class PendenciaModel:
@@ -98,24 +98,27 @@ class PendenciaModel:
             conexao = conectar_banco_de_dados_pendencias()
             cursor = conexao.cursor()
 
-            cursor.execute(f"ATTACH DATABASE '{BANCO_DADOS_CLIENTES}' AS cli")
+            cursor.execute(f"ATTACH DATABASE '{BANCO_DADOS_CLIENTES}' AS clientes")
+
+            cursor.execute(f"ATTACH DATABASE '{BANCO_DADOS_PRODUTOS}' AS produtos")
 
 
             cursor.execute(f"""
             SELECT
-            p.cupom,
-            p.data,
-            p.carga,
-            p.codigo_cliente,
-            c.razao_social,
-            p.tipo,
-            p.responsavel,
-            p.codigo_produto,
-            p.quantidade
-            FROM {TABELA_PENDENCIAS} as p
-            JOIN cli.{TABELA_CLIENTES} as c
-            ON p.codigo_cliente = c.codigo
-            WHERE cupom = ?
+            pen.cupom,
+            pen.data,
+            pen.carga,
+            pen.codigo_cliente,
+            cli.razao_social,
+            pen.tipo,
+            pen.responsavel,
+            pen.codigo_produto,
+            pro.descricao,
+            pen.quantidade
+            FROM {TABELA_PENDENCIAS} AS pen
+            JOIN clientes.{TABELA_CLIENTES} AS cli ON pen.codigo_cliente = cli.codigo
+            JOIN produtos.{TABELA_PRODUTOS} AS pro ON pen.codigo_produto = pro.codigo
+            WHERE pen.cupom = ?
             """, (cupom,)
             )
 

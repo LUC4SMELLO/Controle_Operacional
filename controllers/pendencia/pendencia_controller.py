@@ -337,7 +337,8 @@ class PendenciaController:
         self.view.entry_tipo.set(resultado[5])
         self.view.entry_responsavel.insert(0, resultado[6])
         self.view.entry_codigo_produto.insert(0, resultado[7])
-        self.view.entry_quantidade.insert(0, resultado[8])
+        self.view.label_descricao_produto.configure(text=resultado[8])
+        self.view.entry_quantidade.insert(0, resultado[9])
 
         return {
                 "sucesso": True,
