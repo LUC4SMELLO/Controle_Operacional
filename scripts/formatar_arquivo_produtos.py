@@ -12,20 +12,20 @@ def formatar_arquivo_produtos():
         CAMINHO_ARQUIVO_PRODUTOS_CTA,
         header=0,
         delimiter=";",
-        encoding="ISO-8859-1",
+        encoding="iso-8859-1",
         index_col=False,
     )
 
     df_produtos = df_produtos[
         [
             "Codigo",
-            "Descrição",
+            "Descriï¿½ï¿½o",
             "Grupo",
         ]
     ]
 
     df_produtos.rename(
-        columns={"Codigo": "codigo", "Descrição": "descricao", "Grupo": "grupo"},
+        columns={"Codigo": "codigo", "Descriï¿½ï¿½o": "descricao", "Grupo": "grupo"},
         inplace=True,
     )
 
