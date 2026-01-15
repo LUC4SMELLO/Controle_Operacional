@@ -80,12 +80,12 @@ class MenuController:
 
         controller = PendenciaController(model)
 
-        tela_pendencia = CadastrarPendenciaView(self.janela, controller)
+        tela_cadastrar_pendencia = CadastrarPendenciaView(self.janela, controller)
 
-        controller.set_view(tela_pendencia)
+        controller.set_view(tela_cadastrar_pendencia)
         controller.configurar_binds("cadastrar")
 
-        self.definir_tela_atual(tela_pendencia)
+        self.definir_tela_atual(tela_cadastrar_pendencia)
 
     def mostrar_tela_editar_pendencia(self):
 
