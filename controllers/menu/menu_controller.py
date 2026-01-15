@@ -1,14 +1,17 @@
 import customtkinter as ctk
 import os
 
+from views.escala.editar_escala_view import EditarEscalaView
 from views.pendencia.cadastrar_pendencia_view import CadastrarPendenciaView
 from views.pendencia.editar_pendencia_view import EditarPendenciaView
 from views.pendencia.excluir_pendencia_view import ExcluirPendenciaView
 from views.relatorio.relatorio_pendencia_view import RelatorioPendenciaView
 
+from controllers.escala.escala_controller import EscalaController
 from controllers.pendencia.pendencia_controller import PendenciaController
 from controllers.relatorio.relatorio_controller import RelatorioController
 
+from models.escala.escala_model import EscalaModel
 from models.pendencia.pendencia_model import PendenciaModel
 from models.relatorio.relatorio_model import RelatorioModel
 
@@ -73,6 +76,18 @@ class MenuController:
     def mostrar_opcoes_relatorios(self):
         self.definir_tela_atual(None)
         self.view.mostrar_opcoes_relatorios()
+
+    def mostrar_tela_editar_escala(self):
+
+        model = EscalaModel()
+
+        controller = EscalaController(model)
+
+        tela_editar_escala = EditarEscalaView(self.janela, controller)
+
+        controller.set_view(tela_editar_escala)
+
+        self.definir_tela_atual(tela_editar_escala)
 
     def mostrar_tela_cadastrar_pendencia(self):
 

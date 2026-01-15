@@ -78,9 +78,10 @@ class MenuView(ctk.CTkFrame):
 
         # BOTÕES SECUNDARIOS
 
-        self.botao_criar_escala = ctk.CTkButton(
+        self.botao_editar_escala = ctk.CTkButton(
             self,
             text="Editar",
+            command=self.controller.mostrar_tela_editar_escala,
             font=FONTE_BOTAO_SECUNDARIO,
             fg_color= COR_BOTAO,
             hover_color=HOVER_BOTAO,
@@ -144,7 +145,7 @@ class MenuView(ctk.CTkFrame):
 
         self.botao_relatorio_pendencia.place_forget()
 
-        self.botao_criar_escala.place(x=50, y=140)
+        self.botao_editar_escala.place(x=50, y=140)
         self.botao_visualizar_escala.place(x=50, y=170)
 
     def mostrar_opcoes_pendencia_troca(self):
@@ -152,7 +153,7 @@ class MenuView(ctk.CTkFrame):
         self.botao_pendencia_troca.place(x=10, y=140)
         self.botao_relatorios.place(x=10, y=280)
 
-        self.botao_criar_escala.place_forget()
+        self.botao_editar_escala.place_forget()
         self.botao_visualizar_escala.place_forget()
 
         self.botao_relatorio_pendencia.place_forget()
@@ -166,7 +167,7 @@ class MenuView(ctk.CTkFrame):
         self.botao_pendencia_troca.place(x=10, y=140)
         self.botao_relatorios.place(x=10, y=180)
 
-        self.botao_criar_escala.place_forget()
+        self.botao_editar_escala.place_forget()
         self.botao_visualizar_escala.place_forget()
 
         self.botao_cadastrar_pendencia_troca.place_forget()
