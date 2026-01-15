@@ -27,7 +27,7 @@ class TelaPesquisaProdutoView(ctk.CTkToplevel):
 
         self.entry_pesquisa = ctk.CTkEntry(self, font=FONTE_TEXTO, corner_radius=2, placeholder_text="Digite o nome do produto")
         self.entry_pesquisa.pack(fill="x", padx=10, pady=10)
-        self.after(100, self.entry_pesquisa.focus_set)
+        self.after(200, self.entry_pesquisa.focus_set)
         self.entry_pesquisa.bind("<KeyRelease>", self.filtrar_produtos)
         self.entry_pesquisa.bind("<Return>", self.selecionar_produto)
         self.entry_pesquisa.bind("<Down>", self.ir_para_lista)
