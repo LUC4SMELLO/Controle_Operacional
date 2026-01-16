@@ -3,6 +3,8 @@ from PIL import Image
 
 from views.dialogs.exibir_mensagem import exibir_mensagem
 
+from constants.rotas import ROTAS
+
 from constants.textos import (
     FONTE_TITULO,
     FONTE_SUBTITULO,
@@ -165,25 +167,10 @@ class EditarEscalaView(ctk.CTkFrame):
         ctk.CTkFrame(self.frame_carga, width=3, height=80, fg_color="#FFFFFF").place(x=325, y=2)
 
 
-        self.label_rota = ctk.CTkLabel(self.frame_carga, text="EXTREMA (SEG) JD.EUROPA/P.ALTA", font=FONTE_TEXTO, text_color=COR_TEXTO)
-        self.label_rota.place(x=335, y=30)
-
-        icone_lupa = ctk.CTkImage(
-            light_image=Image.open("assets/icons/lupa_dark.png"),
-            dark_image=Image.open("assets/icons/lupa_dark.png"),
-            size=(20, 20)
-        )
-        self.botao_pesquisar_rota = ctk.CTkButton(
-            self.frame_carga,
-            image=icone_lupa,
-            text="",
-            width=14,
-            height=14,
-            fg_color=COR_BOTAO,
-            hover_color=HOVER_BOTAO,
-            cursor="hand2",
-        )
-        self.botao_pesquisar_rota.place(x=560, y=30)
+        nome_rotas = [valores[1] for valores in ROTAS.values()]
+        self.entry_rota = ctk.CTkComboBox(self.frame_carga, font=FONTE_TEXTO, values=nome_rotas, width=279, height=30, corner_radius=2)
+        self.entry_rota.set("")
+        self.entry_rota.place(x=328, y=25)
 
 
         ctk.CTkFrame(self.frame_carga, width=3, height=80, fg_color="#FFFFFF").place(x=605, y=2)
