@@ -205,7 +205,7 @@ class ExcluirPendenciaView(ctk.CTkFrame):
         return "break"
     
     def buscar_cupom(self):
-        resultado = self.controller.buscar_e_exibir_informacoes_pendencia()
+        resultado = self.controller.buscar_e_exibir_informacoes_pendencia(tipo_view="excluir")
 
         if resultado["sucesso"]:
             return

@@ -302,7 +302,7 @@ class PendenciaController:
                 }
 
 
-    def buscar_e_exibir_informacoes_pendencia(self):
+    def buscar_e_exibir_informacoes_pendencia(self, tipo_view="editar"):
 
 
         if not self.view.entry_cupom.get():
@@ -350,12 +350,13 @@ class PendenciaController:
             
         self.view.entry_quantidade.insert(0, resultado[9])
 
-        self.view.entry_carga.configure(state="readonly")
-        self.view.entry_codigo_cliente.configure(state="readonly")
-        self.view.entry_tipo.configure(state="readonly")
-        self.view.entry_responsavel.configure(state="readonly")
-        self.view.entry_codigo_produto.configure(state="readonly")
-        self.view.entry_quantidade.configure(state="readonly")
+        if tipo_view == "excluir":
+            self.view.entry_carga.configure(state="readonly")
+            self.view.entry_codigo_cliente.configure(state="readonly")
+            self.view.entry_tipo.configure(state="readonly")
+            self.view.entry_responsavel.configure(state="readonly")
+            self.view.entry_codigo_produto.configure(state="readonly")
+            self.view.entry_quantidade.configure(state="readonly")
 
         return {
                 "sucesso": True,

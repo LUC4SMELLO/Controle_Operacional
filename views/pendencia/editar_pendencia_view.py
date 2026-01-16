@@ -193,7 +193,7 @@ class EditarPendenciaView(ctk.CTkFrame):
         return "break"
     
     def buscar_cupom(self):
-        resultado = self.controller.buscar_e_exibir_informacoes_pendencia()
+        resultado = self.controller.buscar_e_exibir_informacoes_pendencia(tipo_view="editar")
 
         if resultado["sucesso"]:
             return
