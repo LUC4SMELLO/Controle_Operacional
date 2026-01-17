@@ -43,5 +43,5 @@ class FrameCarga(ctk.CTkFrame):
         self.entry_rota.grid(row=2, column=4, padx=10, sticky="w")
 
         # Observação
-        self.entry_observação = ctk.CTkEntry(self, width=300)
-        self.entry_observação.grid(row=2, column=5, padx=10)
+        self.entry_observacao = ctk.CTkEntry(self, width=300)
+        self.entry_observacao.grid(row=2, column=5, padx=10)
