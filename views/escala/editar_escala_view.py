@@ -92,7 +92,7 @@ class EditarEscalaView(ctk.CTkFrame):
         self.botao_utilizar_cargas = ctk.CTkButton(
             self,
             text="Utilizar",
-            command=self.criar_cargas,
+            command=self.controller.criar_cargas,
             font=FONTE_BOTAO_SECUNDARIO,
             text_color=COR_TEXTO_BOTAO,
             fg_color=COR_BOTAO,
@@ -137,55 +137,6 @@ class EditarEscalaView(ctk.CTkFrame):
         self.frames_cargas = []  # guarda todas as cargas
 
         self.container_cargas._scrollbar.configure(command=lambda *args: None)
-        self.container_cargas.bind("<Enter>", self._bind_mousewheel)
-        self.container_cargas.bind("<Leave>", self._unbind_mousewheel)
-
-
-
-
-    def criar_cargas(self):
-        try:
-            quantidade = int(self.entry_numero_cargas.get())
-        except ValueError:
-            exibir_mensagem("Erro", "Informe um número válido", "warning")
-            return
-
-        # Limpa cargas anteriores
-        for frame in self.frames_cargas:
-            frame.destroy()
-
-        self.frames_cargas.clear()
-
-        for i in range(quantidade):
-            frame = FrameCarga(self.container_cargas)
-            frame.pack(fill="x", pady=5, padx=5)
-            self.frames_cargas.append(frame)
-
-        
-
-    def coletar_dados(self):
-        dados = []
-
-        for frame in self.frames_cargas:
-            dados.append({
-                "carga": frame.numero_carga,
-                "motorista": frame.motorista.get(),
-                "ajudante_1": frame.aj1.get(),
-                "ajudante_2": frame.aj2.get(),
-                "rota": frame.rota.get(),
-                "observacao": frame.obs.get()
-            })
-
-        return dados
-    
-    def _bind_mousewheel(self, event):
-        self.container_cargas._parent_canvas.bind_all(
-            "<MouseWheel>",
-            lambda e: self.container_cargas._parent_canvas.yview_scroll(
-                int(-1 * (e.delta / 14)), "units"
-            )
-        )
-
-    def _unbind_mousewheel(self, event):
-        self.container_cargas._parent_canvas.unbind_all("<MouseWheel>")
-    
+        self.container_cargas._scrollbar.grid_remove()
+        self.container_cargas.bind("<Enter>", self.controller._bind_mousewheel)
+        self.container_cargas.bind("<Leave>", self.controller._unbind_mousewheel)    
