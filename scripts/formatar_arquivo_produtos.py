@@ -1,6 +1,6 @@
 import pandas as pd
 
-from constants.arquivos import (
+from constants.caminho_arquivos import (
     CAMINHO_ARQUIVO_PRODUTOS_CTA,
     CAMINHO_ARQUIVO_PRODUTOS_FORMATADOS,
 )

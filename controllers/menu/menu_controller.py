@@ -16,7 +16,7 @@ from models.pendencia.pendencia_model import PendenciaModel
 from models.relatorio.relatorio_model import RelatorioModel
 
 
-from constants.arquivos import CAMINHO_PASTA_ARQUIVOS
+from constants.paths import ARCHIVES_DIR
 
 from scripts.formatar_arquivo_clientes import formatar_arquivo_clientes
 from database.banco_dados_clientes import sincronizar_csv_com_banco_dados_clientes
@@ -42,7 +42,7 @@ class MenuController:
 
     def atualizar_todos_os_bancos_dados(self):
 
-        if os.path.exists(CAMINHO_PASTA_ARQUIVOS):
+        if ARCHIVES_DIR.exists():
             
             formatar_arquivo_clientes()
             sincronizar_csv_com_banco_dados_clientes()

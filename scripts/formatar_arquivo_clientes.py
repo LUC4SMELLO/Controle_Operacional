@@ -1,6 +1,6 @@
 import pandas as pd
 
-from constants.arquivos import CAMINHO_ARQUIVO_CLIENTES_CTA, CAMINHO_ARQUIVO_CLIENTES_FORMATADOS
+from constants.caminho_arquivos import CAMINHO_ARQUIVO_CLIENTES_CTA, CAMINHO_ARQUIVO_CLIENTES_FORMATADOS
 
 
 def formatar_arquivo_clientes():

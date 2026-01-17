@@ -3,7 +3,7 @@ import csv
 
 from constants.banco_dados import BANCO_DADOS_CLIENTES, TABELA_CLIENTES
 
-from constants.arquivos import CAMINHO_ARQUIVO_CLIENTES_FORMATADOS
+from constants.caminho_arquivos import CAMINHO_ARQUIVO_CLIENTES_FORMATADOS
 
 
 def conectar_banco_de_dados_clientes():
