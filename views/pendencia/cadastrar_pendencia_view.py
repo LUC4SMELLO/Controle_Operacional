@@ -8,6 +8,8 @@ from views.dialogs.pesquisa_cliente_view import TelaPesquisaClienteView
 
 from views.dialogs.pesquisa_produto_view import TelaPesquisaProdutoView
 
+from constants.paths import ICONS_DIR
+
 from constants.textos import (
     FONTE_TITULO,
     FONTE_SUBTITULO,
@@ -51,8 +53,8 @@ class CadastrarPendenciaView(ctk.CTkFrame):
 
 
         icone_lupa = ctk.CTkImage(
-            light_image=Image.open("assets/icons/lupa_dark.png"),
-            dark_image=Image.open("assets/icons/lupa_dark.png"),
+            light_image=Image.open(ICONS_DIR / "lupa_dark.png"),
+            dark_image=Image.open(ICONS_DIR / "lupa_dark.png"),
             size=(23, 23)
         )
 
