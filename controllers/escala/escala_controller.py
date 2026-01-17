@@ -45,6 +45,21 @@ class EscalaController:
             self.view.frames_cargas.append(frame)
 
 
+    def adicionar_carga_separada(self):
+        frame = FrameCarga(self.view.container_cargas)
+        frame.pack(fill="x", pady=5, padx=(5, 10))
+        self.view.frames_cargas.append(frame)
+
+
+    def remover_ultima_carga(self):
+        if not self.view.frames_cargas:
+            exibir_mensagem("Aviso", "Não há cargas para remover.", "warning")
+            return
+
+        frame = self.view.frames_cargas.pop()
+        frame.destroy()
+
+
     def coletar_dados(self):
         dados = []
 

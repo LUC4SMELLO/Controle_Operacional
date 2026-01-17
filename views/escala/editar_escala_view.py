@@ -1,11 +1,7 @@
 import customtkinter as ctk
 from PIL import Image
 
-from views.escala.components.frame_carga import FrameCarga
-
-from views.dialogs.exibir_mensagem import exibir_mensagem
-
-from constants.rotas import ROTAS
+from constants.paths import ICONS_DIR
 
 from constants.textos import (
     FONTE_TITULO,
@@ -148,4 +144,44 @@ class EditarEscalaView(ctk.CTkFrame):
         self.container_cargas._scrollbar.configure(command=lambda *args: None)
         self.container_cargas._scrollbar.grid_remove()
         self.container_cargas.bind("<Enter>", self.controller._bind_mousewheel)
-        self.container_cargas.bind("<Leave>", self.controller._unbind_mousewheel)    
+        self.container_cargas.bind("<Leave>", self.controller._unbind_mousewheel)
+
+
+        self.icone_mais = ctk.CTkImage(
+            light_image=Image.open(ICONS_DIR / "mais_dark.png"),
+            dark_image=Image.open(ICONS_DIR / "mais_dark.png"),
+            size=(16, 16)
+        )
+
+        self.botao_adicionar_carga = ctk.CTkButton(
+            self,
+            image=self.icone_mais,
+            text="",
+            command=self.controller.adicionar_carga_separada,
+            width=20,
+            height=20,
+            fg_color=COR_BOTAO,
+            hover_color=HOVER_BOTAO,
+            cursor="hand2",
+        )
+        self.botao_adicionar_carga.place(x=965, y=640)
+
+
+        self.icone_menos = ctk.CTkImage(
+            light_image=Image.open(ICONS_DIR / "menos_dark.png"),
+            dark_image=Image.open(ICONS_DIR / "menos_dark.png"),
+            size=(16, 16)
+        )
+
+        self.botao_remover_ultima_carga = ctk.CTkButton(
+            self,
+            image=self.icone_menos,
+            text="",
+            command=self.controller.remover_ultima_carga,
+            width=20,
+            height=20,
+            fg_color=COR_BOTAO,
+            hover_color=HOVER_BOTAO,
+            cursor="hand2",
+        )
+        self.botao_remover_ultima_carga.place(x=915, y=640)
