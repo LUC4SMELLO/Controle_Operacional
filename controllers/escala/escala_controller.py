@@ -41,7 +41,7 @@ class EscalaController:
 
         for i in range(quantidade):
             frame = FrameCarga(self.view.container_cargas)
-            frame.pack(fill="x", pady=5, padx=5)
+            frame.pack(fill="x", pady=5, padx=(5, 10))
             self.view.frames_cargas.append(frame)
 
 
