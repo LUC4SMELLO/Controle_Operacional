@@ -1,6 +1,8 @@
 import customtkinter as ctk
 from PIL import Image
 
+from views.escala.components.frame_carga import FrameCarga
+
 from views.dialogs.exibir_mensagem import exibir_mensagem
 
 from constants.rotas import ROTAS
@@ -90,6 +92,7 @@ class EditarEscalaView(ctk.CTkFrame):
         self.botao_utilizar_cargas = ctk.CTkButton(
             self,
             text="Utilizar",
+            command=self.criar_cargas,
             font=FONTE_BOTAO_SECUNDARIO,
             text_color=COR_TEXTO_BOTAO,
             fg_color=COR_BOTAO,
@@ -125,70 +128,64 @@ class EditarEscalaView(ctk.CTkFrame):
 
 
 
-        ctk.CTkFrame(self, width=950, height=2, fg_color=COR_LINHAS).place(x=40, y=210)
+        self.container_cargas = ctk.CTkScrollableFrame(
+            self,
+            width=950,
+            height=350
+            )
+        self.container_cargas.place(x=40, y=270)
+        self.frames_cargas = []  # guarda todas as cargas
+
+        self.container_cargas._scrollbar.configure(command=lambda *args: None)
+        self.container_cargas.bind("<Enter>", self._bind_mousewheel)
+        self.container_cargas.bind("<Leave>", self._unbind_mousewheel)
 
 
 
-        ctk.CTkLabel(self, text="Carga", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=55, y=240)
-        ctk.CTkLabel(self, text="Cód", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=125, y=240)
-        ctk.CTkLabel(self, text="Nome", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=220, y=240)
-        ctk.CTkLabel(self, text="Rota", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=460, y=240)
-        ctk.CTkLabel(self, text="Observação", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=665, y=240)
 
+    def criar_cargas(self):
+        try:
+            quantidade = int(self.entry_numero_cargas.get())
+        except ValueError:
+            exibir_mensagem("Erro", "Informe um número válido", "warning")
+            return
 
-        self.frame_carga = ctk.CTkFrame(self, width=950, height=85, border_color="#4a4d50", border_width=2)
-        self.frame_carga.place(x=40, y=270)
+        # Limpa cargas anteriores
+        for frame in self.frames_cargas:
+            frame.destroy()
 
+        self.frames_cargas.clear()
 
+        for i in range(quantidade):
+            frame = FrameCarga(self.container_cargas)
+            frame.pack(fill="x", pady=5, padx=5)
+            self.frames_cargas.append(frame)
 
-        self.label_carga = ctk.CTkLabel(self.frame_carga, text="7191601", font=FONTE_TEXTO, text_color=COR_TEXTO)
-        self.label_carga.place(x=15, y=28)
+        
 
-        self.entry_codigo_motorista = ctk.CTkEntry(self.frame_carga, font=FONTE_TEXTO, text_color=COR_TEXTO, width=40, height=26, border_width=1, corner_radius=1)
-        self.entry_codigo_motorista.place(x=80, y=4)
+    def coletar_dados(self):
+        dados = []
 
-        self.entry_codigo_ajudante_1 = ctk.CTkEntry(self.frame_carga, font=FONTE_TEXTO, text_color=COR_TEXTO, width=40, height=26, border_width=1, corner_radius=1)
-        self.entry_codigo_ajudante_1.place(x=80, y=29)
+        for frame in self.frames_cargas:
+            dados.append({
+                "carga": frame.numero_carga,
+                "motorista": frame.motorista.get(),
+                "ajudante_1": frame.aj1.get(),
+                "ajudante_2": frame.aj2.get(),
+                "rota": frame.rota.get(),
+                "observacao": frame.obs.get()
+            })
 
-        self.entry_codigo_ajudante_2 = ctk.CTkEntry(self.frame_carga, font=FONTE_TEXTO, text_color=COR_TEXTO, width=40, height=26, border_width=1, corner_radius=1)
-        self.entry_codigo_ajudante_2.place(x=80, y=54)
+        return dados
+    
+    def _bind_mousewheel(self, event):
+        self.container_cargas._parent_canvas.bind_all(
+            "<MouseWheel>",
+            lambda e: self.container_cargas._parent_canvas.yview_scroll(
+                int(-1 * (e.delta / 14)), "units"
+            )
+        )
 
-
-        self.label_nome_motorista = ctk.CTkLabel(self.frame_carga, text="Marcos Aparecido de Oliveira", font=FONTE_TEXTO, text_color=COR_TEXTO)
-        self.label_nome_motorista.place(x=135, y=3)
-
-        self.label_nome_ajudante_1 = ctk.CTkLabel(self.frame_carga, text="Wesley Michel do Nascimento", font=FONTE_TEXTO, text_color=COR_TEXTO)
-        self.label_nome_ajudante_1.place(x=135, y=28)
-
-        self.label_nome_ajudante_2 = ctk.CTkLabel(self.frame_carga, text="Tomas de Oliveira Rangel", font=FONTE_TEXTO, text_color=COR_TEXTO)
-        self.label_nome_ajudante_2.place(x=135, y=53)
-
-
-        ctk.CTkFrame(self.frame_carga, width=3, height=80, fg_color="#FFFFFF").place(x=325, y=2)
-
-
-        nome_rotas = [valores[1] for valores in ROTAS.values()]
-        self.entry_rota = ctk.CTkComboBox(self.frame_carga, font=FONTE_TEXTO, values=nome_rotas, width=279, height=30, corner_radius=2)
-        self.entry_rota.set("")
-        self.entry_rota.place(x=328, y=25)
-
-
-        ctk.CTkFrame(self.frame_carga, width=3, height=80, fg_color="#FFFFFF").place(x=605, y=2)
-
-
-        self.label_observacao = ctk.CTkLabel(self.frame_carga, text="Rota", font=FONTE_TEXTO, text_color=COR_TEXTO)
-        self.label_observacao.place(x=655, y=30)
-
-
-        ctk.CTkFrame(self.frame_carga, width=3, height=80, fg_color="#FFFFFF").place(x=730, y=2)
-
-        ctk.CTkFrame(self.frame_carga, width=216, height=3, fg_color="#FFFFFF").place(x=732, y=30)
-
-        self.label_horario_saida = ctk.CTkLabel(self.frame_carga, text="07:30", font=FONTE_TEXTO, text_color=COR_TEXTO)
-        self.label_horario_saida.place(x=820, y=2)
-
-        self.label_numero_caminhao = ctk.CTkLabel(self.frame_carga, text="Caminhão: 19", font=FONTE_TEXTO, text_color=COR_TEXTO)
-        self.label_numero_caminhao.place(x=740, y=40)
-
-        self.label_placa_caminhao = ctk.CTkLabel(self.frame_carga, text="Placa: TDS1D07", font=FONTE_TEXTO, text_color=COR_TEXTO)
-        self.label_placa_caminhao.place(x=835, y=40)
+    def _unbind_mousewheel(self, event):
+        self.container_cargas._parent_canvas.unbind_all("<MouseWheel>")
+    
