@@ -17,7 +17,7 @@ class EscalaController:
         self.view.container_cargas._parent_canvas.bind_all(
             "<MouseWheel>",
             lambda e: self.view.container_cargas._parent_canvas.yview_scroll(
-                int(-1 * (e.delta / 14)), "units"
+                int(-1 * (e.delta / 5)), "units"
                 )
             )
         
@@ -33,9 +33,7 @@ class EscalaController:
             exibir_mensagem("Erro", "Informe um número válido", "warning")
             return
 
-        # Limpa cargas anteriores
-        for frame in self.view.frames_cargas:
-            frame.destroy()
+        self.limpar_cargas()
 
         self.view.frames_cargas.clear()
 
@@ -43,6 +41,11 @@ class EscalaController:
             frame = FrameCarga(self.view.container_cargas)
             frame.pack(fill="x", pady=5, padx=(5, 10))
             self.view.frames_cargas.append(frame)
+
+
+    def limpar_cargas(self):
+        for frame in self.view.frames_cargas:
+            frame.destroy()
 
 
     def adicionar_carga_separada(self):
@@ -65,7 +68,7 @@ class EscalaController:
 
         for frame in self.view.frames_cargas:
             dados.append({
-                "carga": frame.numero_carga,
+                "numero_carga": frame.label_numero_carga.cget("text"),
                 "motorista": frame.entry_cod_motorista.get(),
                 "ajudante_1": frame.entry_cod_ajudante_1.get(),
                 "ajudante_2": frame.entry_cod_ajudante_2.get(),
