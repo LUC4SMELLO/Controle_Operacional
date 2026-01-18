@@ -1,4 +1,3 @@
-# views/components/frame_carga.py
 import customtkinter as ctk
 from constants.textos import FONTE_TEXTO, FONTE_LABEL
 from constants.cores import COR_TEXTO
@@ -17,8 +16,10 @@ class FrameCarga(ctk.CTkFrame):
         self.grid_columnconfigure(4, weight=2)
         self.grid_columnconfigure(5, weight=1)
 
-        self.label_carga = ctk.CTkLabel(self, text="7191001", font=FONTE_TEXTO, text_color=COR_TEXTO)
-        self.label_carga.grid(row=2, column=1, padx=10)
+
+        # Número Carga
+        self.label_numero_carga = ctk.CTkLabel(self, text="7191001", font=FONTE_TEXTO, text_color=COR_TEXTO)
+        self.label_numero_carga.grid(row=2, column=1, padx=10)
 
 
         # Códigos
@@ -40,7 +41,6 @@ class FrameCarga(ctk.CTkFrame):
 
         self.label_nome_ajdudante_2 = ctk.CTkLabel(self, text="Ajudante 2")
         self.label_nome_ajdudante_2.grid(row=3, column=3, sticky="w", padx=2, pady=2)
-
 
         # Rota
         nome_rotas = [r[1] for r in ROTAS.values()]
