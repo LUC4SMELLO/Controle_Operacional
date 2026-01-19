@@ -1,5 +1,8 @@
 from views.escala.components.frame_carga import FrameCarga
+
 from views.dialogs.exibir_mensagem import exibir_mensagem
+
+from datetime import datetime
 
 
 class EscalaController:
@@ -27,14 +30,25 @@ class EscalaController:
             self._recursive_bind_scroll(child)
 
 
+    def exibir_data_atual(self):
+        data_atual = datetime.now()
+        data_formatada = data_atual.strftime("%d/%m/%Y")
+
+        self.view.label_data.configure(text=data_formatada)
+        return
+
 
 
 
     def criar_cargas(self):
         try:
             quantidade = int(self.view.entry_numero_cargas.get())
+
+            if quantidade > 30:
+                exibir_mensagem("Aviso", "Esse número de cargas não é permitido.", "warning")
+
         except ValueError:
-            exibir_mensagem("Erro", "Informe um número válido", "warning")
+            exibir_mensagem("Aviso", "Informe um número válido", "warning")
             return
 
         self.limpar_cargas()
@@ -43,7 +57,9 @@ class EscalaController:
 
         for i in range(quantidade):
             frame = FrameCarga(self.view.container_cargas, self.view.controller)
-            frame.pack(fill="x", pady=5, padx=(5, 10))
+            frame.label_cod_carga.configure(text=i + 1)
+
+            frame.pack(fill="x", pady=5, padx=(5))
             self.view.frames_cargas.append(frame)
         
             self._recursive_bind_scroll(frame)
@@ -53,9 +69,17 @@ class EscalaController:
         for frame in self.view.frames_cargas:
             frame.destroy()
 
+        self.view.frames_cargas.clear()
+        
+
 
     def adicionar_carga_separada(self):
+
+        quantidade_cargas_total = len(self.view.frames_cargas)
+
         frame = FrameCarga(self.view.container_cargas, self.view.controller)
+        frame.label_cod_carga.configure(text=quantidade_cargas_total + 1)
+
         frame.pack(fill="x", pady=5, padx=(5, 10))
         self.view.frames_cargas.append(frame)
 
@@ -69,6 +93,24 @@ class EscalaController:
 
         frame = self.view.frames_cargas.pop()
         frame.destroy()
+
+
+    def remover_carga_especifica(self, frame):
+        if not self.view.frames_cargas:
+            exibir_mensagem("Aviso", "Não há cargas para remover.", "warning")
+            return
+        
+        if frame in self.view.frames_cargas:
+            self.view.frames_cargas.remove(frame)
+
+        frame.destroy()
+
+        self.atualizar_indices_cargas()
+
+
+    def atualizar_indices_cargas(self):
+        for i, frame in enumerate(self.view.frames_cargas):
+            frame.label_cod_carga.configure(text=i + 1)
 
 
     def coletar_dados(self):
