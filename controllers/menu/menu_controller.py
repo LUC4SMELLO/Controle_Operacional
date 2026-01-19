@@ -86,6 +86,7 @@ class MenuController:
         tela_editar_escala = EditarEscalaView(self.janela, controller)
 
         controller.set_view(tela_editar_escala)
+        controller.exibir_data_atual()
 
         self.definir_tela_atual(tela_editar_escala)
 
