@@ -13,16 +13,20 @@ class EscalaController:
 
 
 
-    def _bind_mousewheel(self, event):
-        self.view.container_cargas._parent_canvas.bind_all(
-            "<MouseWheel>",
-            lambda e: self.view.container_cargas._parent_canvas.yview_scroll(
-                int(-1 * (e.delta / 5)), "units"
-                )
-            )
+    def _on_mousewheel(self, event):
+        # USE O CANVAS INTERNO PARA ROLAR
+        self.view.container_cargas._parent_canvas.yview_scroll(int(-1 * (event.delta / 250)), "units")
+
+    def _recursive_bind_scroll(self, widget):
+        # O 'add="+"' PERMITE QUE O SCROLL FUNCIONE SEM QUEBRAR O CLIQUE/HOVER DO WIDGET
+        widget.bind("<MouseWheel>", self._on_mousewheel, add="+")
         
-    def _unbind_mousewheel(self, event):
-        self.view.container_cargas._parent_canvas.unbind_all("<MouseWheel>")
+        # IMPORTANTE: ACESSAR COMPONENTES INTERNOS SE FOR UM WIDGET DO CUSTOMTKINTER
+        
+        for child in widget.winfo_children():
+            self._recursive_bind_scroll(child)
+
+
 
 
 
@@ -38,9 +42,11 @@ class EscalaController:
         self.view.frames_cargas.clear()
 
         for i in range(quantidade):
-            frame = FrameCarga(self.view.container_cargas)
+            frame = FrameCarga(self.view.container_cargas, self.view.controller)
             frame.pack(fill="x", pady=5, padx=(5, 10))
             self.view.frames_cargas.append(frame)
+        
+            self._recursive_bind_scroll(frame)
 
 
     def limpar_cargas(self):
@@ -49,9 +55,11 @@ class EscalaController:
 
 
     def adicionar_carga_separada(self):
-        frame = FrameCarga(self.view.container_cargas)
+        frame = FrameCarga(self.view.container_cargas, self.view.controller)
         frame.pack(fill="x", pady=5, padx=(5, 10))
         self.view.frames_cargas.append(frame)
+
+        self._recursive_bind_scroll(frame)
 
 
     def remover_ultima_carga(self):

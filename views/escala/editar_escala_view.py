@@ -141,12 +141,10 @@ class EditarEscalaView(ctk.CTkFrame):
             height=350
             )
         self.container_cargas.place(x=40, y=270)
+        self.container_cargas._scrollbar.grid_remove()
+        
         self.frames_cargas = []  # guarda todas as cargas
 
-        self.container_cargas._scrollbar.configure(command=lambda *args: None)
-        self.container_cargas._scrollbar.grid_remove()
-        self.container_cargas.bind("<Enter>", self.controller._bind_mousewheel)
-        self.container_cargas.bind("<Leave>", self.controller._unbind_mousewheel)
 
 
         self.icone_mais = ctk.CTkImage(
