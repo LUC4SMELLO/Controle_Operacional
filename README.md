@@ -1,6 +1,6 @@
 <table>
   <tr>
-    <td><img src="assets/images/computer_icon_2.png" width="60"></td>
+    <td><img src="assets/images/computer_light_icon.png" width="60"></td>
     <td><h1>&nbsp;Controle Operacional &nbsp;</h1 hspace="10"></td>
     <td><img src="assets/images/computer_black_icon.png" width="60"></td>
   </tr>
