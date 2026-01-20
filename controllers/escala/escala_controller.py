@@ -1,3 +1,4 @@
+import customtkinter as ctk
 from datetime import datetime
 
 from views.escala.components.frame_carga import FrameCarga
@@ -114,10 +115,16 @@ class EscalaController:
 
 
     def limpar_cargas(self):
+        
+        self.view.entry_numero_cargas.delete(0, ctk.END)
+
         for frame in self.view.frames_cargas:
             frame.destroy()
 
         self.view.frames_cargas.clear()
+
+
+        self.view.container_cargas._parent_canvas.focus_set()
         
 
 
