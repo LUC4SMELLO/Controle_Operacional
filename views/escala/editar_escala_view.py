@@ -38,6 +38,7 @@ class EditarEscalaView(ctk.CTkFrame):
         self.botao_segunda_feira = ctk.CTkButton(
             self,
             text="Segunda",
+            command=lambda: self.controller.mostrar_escala_dia_semana("segunda"),
             font=FONTE_BOTAO_SECUNDARIO,
             text_color=COR_TEXTO_BOTAO,
             fg_color=COR_BOTAO,
@@ -50,6 +51,7 @@ class EditarEscalaView(ctk.CTkFrame):
         self.botao_terca_feira = ctk.CTkButton(
             self,
             text="Terça",
+            command=lambda: self.controller.mostrar_escala_dia_semana("terça"),
             font=FONTE_BOTAO_SECUNDARIO,
             text_color=COR_TEXTO_BOTAO,
             fg_color=COR_BOTAO,
@@ -62,6 +64,7 @@ class EditarEscalaView(ctk.CTkFrame):
         self.botao_quarta_feira = ctk.CTkButton(
             self,
             text="Quarta",
+            command=lambda: self.controller.mostrar_escala_dia_semana("quarta"),
             font=FONTE_BOTAO_SECUNDARIO,
             text_color=COR_TEXTO_BOTAO,
             fg_color=COR_BOTAO,
@@ -74,6 +77,7 @@ class EditarEscalaView(ctk.CTkFrame):
         self.botao_quinta_feira = ctk.CTkButton(
             self,
             text="Quinta",
+            command=lambda: self.controller.mostrar_escala_dia_semana("quinta"),
             font=FONTE_BOTAO_SECUNDARIO,
             text_color=COR_TEXTO_BOTAO,
             fg_color=COR_BOTAO,
@@ -164,7 +168,7 @@ class EditarEscalaView(ctk.CTkFrame):
         self.container_cargas.place(x=40, y=270)
         self.container_cargas._scrollbar.grid_remove()
         
-        self.frames_cargas = []  # guarda todas as cargas
+        self.frames_cargas = []  # GUARDA TODAS AS CARGAS
 
 
         self.icone_seta_cima = ctk.CTkImage(

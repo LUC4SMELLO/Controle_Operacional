@@ -1,8 +1,16 @@
+from datetime import datetime
+
 from views.escala.components.frame_carga import FrameCarga
 
 from views.dialogs.exibir_mensagem import exibir_mensagem
 
-from datetime import datetime
+from constants.rotas import (
+    ROTAS_SEGUNDA,
+    ROTAS_TERCA,
+    ROTAS_QUARTA,
+    ROTAS_QUINTA,
+    ROTAS_SEXTA
+)
 
 
 class EscalaController:
@@ -35,9 +43,6 @@ class EscalaController:
     def scroll_final(self):
         self.view.container_cargas._parent_canvas.yview_moveto(1.0)
 
-
-
-
     def exibir_data_atual(self):
         dias_semana = ("Segunda", "Terça", "Quarta", 
                 "Quinta", "Sexta", "Sábado", "Domingo")
@@ -49,7 +54,36 @@ class EscalaController:
 
         self.view.label_data.configure(text=f"{dia_semana}  -  {data}")
         return
+    
 
+    def mostrar_escala_dia_semana(self, dia_semana):
+
+        mapa_rotas = {
+            "segunda": ROTAS_SEGUNDA,
+            "terça":   ROTAS_TERCA,
+            "quarta":  ROTAS_QUARTA,
+            "quinta":  ROTAS_QUINTA,
+            "sexta":   ROTAS_SEXTA
+        }
+
+        rotas = mapa_rotas.get(dia_semana.lower(), [])
+
+        self.limpar_cargas()
+
+        self.view.frames_cargas.clear()
+
+        for index, (chave, dados) in enumerate(rotas.items()):
+            frame = FrameCarga(self.view.container_cargas, self.view.controller)
+
+            frame.label_cod_carga.configure(text= index + 1)
+
+            frame.entry_rota.set(dados[1])
+            frame.entry_observacao.insert(0, dados[2])
+
+            frame.pack(fill="x", pady=5, padx=(5))
+            self.view.frames_cargas.append(frame)
+        
+            self._recursive_bind_scroll(frame)
 
 
 
