@@ -64,5 +64,74 @@ ROTAS = {
     "853": ["13", "TOLEDO (QUA) PEREIRAS", "06:00"],
     "307": ["35", "MELHORAMENTOS (SEX)", "07:30"],
     "308": ["35", "SÃO MATEUS (SEX)", "07:30"],
-    "309": ["40", "SALTO (SEX)", "07:30"]
+    "309": ["40", "SALTO (SEX)", "07:30"],
+    "104": ["33", "CAMBUÍ (QUA) V. COLÉGIO", "07:30"],
 }
+
+ROTAS_SEGUNDA = {
+    "551": ["48", "JACUTINGA I (SEG)", "ROTA", "06:00"],
+    "701": ["45", "OURO FINO (SEG)", "ROTA", "06:00"],
+    "250": ["46", "BUENO BRANDÃO (SEG) CENTRO", "ROTA", "06:00"],
+    "705": ["47", "OURO FINO A.S. (SEG)", "MERCADOS", "06:00"],
+    "409": ["40", "EXTREMA (SEG) JD.EUROPA/P.ALTA", "ROTA", "07:30"],
+    "408": ["40", "EXTREMA (SEG) TENENTES", "ROTA + P.NOVA", "07:30"],
+    "406": ["42", "RODOVIA I (SEG)", "ROTA", "07:30"],
+    "407": ["42", "RODOVIA II (SEG)", "ROTA", "07:30"],
+    "304": ["35", "MONTE VERDE (SEG) AVENIDA", "ROTA", "06:00"],
+    "305": ["14", "MONTE VERDE (SEG) POUSADA", "ROTA", "06:00"],
+    "101": ["33", "CAMBUÍ (SEG) MATADOURO", "ROTA", "07:30"],
+    "150": ["13", "BOM REPOUSO I (SEG)", "ROTA", "07:30"],
+    "151": ["48", "BOM REPOUSO II (SEG)", "ROTA", "07:30"],
+    "705": ["47", "OURO FINO A.S. (SEG)", "SUPERMERCADO BH", "06:00"],
+}
+
+ROTAS_TERCA = {
+    "601": ["48", "MONTE SIÃO I (TER)", "ROTAS + MERCADOS", "06:00"],
+    "600": ["48", "MONTE SIÃO II (TER)", "ROTAS + MERCADOS", "06:00"],
+    "603": ["47", "MONTE SIÃO A.S. (TER)", "MERCADOS", "06:00"],
+    "702": ["45", "OURO FINO (TER)", "ROTA", "06:00"],
+    "451": ["46", "INCONFIDENTES (TER)", "ROTA", "06:00"],
+    "251": ["46", "BUENO BRANDÃO (SEG) BAIRROS", "ROTA", "06:00"],
+    "401": ["40", "EXTREMA (TER) J.MENDES", "ROTA", "07:30"],
+    "404": ["40", "EXTREMA (TER) PRAÇA", "ROTA", "07:30"],
+    "501": ["42", "ITAPEVA (TER)", "ROTA", "07:30"],
+    "403": ["14", "ITAPEVA A.S. (TER)", "MERCADOS", "07:30"],
+    "852": ["35", "ROSEIRA/AREIAS (TER)", "ROTA", "07:30"],
+    "651": ["13", "MUNHOZ (TER)", "ROTA", "06:00"],
+    "102": ["33", "CAMBUÍ (TER) P. BANDEIRA", "ROTA", "07:30"],
+    "105": ["14", "CAMBUÍ A.S. (TER)", "1º ENTREGA: 5 IRMÃOS", "07:30"],
+    "107": ["33", "CAMBUÍ A.S. (TER) P. BANDEIRA", "2º ENTREGA: MERCADOS", "07:30"]
+}
+
+ROTAS_QUARTA = {
+    "553": ["48", "JACUTINGA I (QUA)", "ROTA", "06:00"],
+    "554": ["46", "JACUTINGA II (QUA)", "ROTA", "06:00"],
+    "556": ["48", "JACUTINGA III (QUA)", "ROTA", "06:00"],
+    "703": ["45", "OURO FINO (QUA)", "ROTA", "06:00"],
+    "203": ["47", "BORDA DA MATA A.S. (QUA)", "MERCADOS", "06:00"],
+    "801": ["35", "TOCOS DO MOJI (QUA)", "ROTA", "06:00"],
+    "402": ["40", "EXTREMA (QUA) BENJAMIN", "ROTA", "07:30"],
+    "410": ["14", "EXTREMA (QUI) FÁBRICAS", "ROTA", "07:30"],
+    "302": ["42", "CAMANDUCAIA (QUA)", "ROTA", "07:30"],
+    "303": ["14", "CAMANDUCAIA A.S. (QUA)", "MERCADOS", "07:30"],
+    "104": ["33", "CAMBUÍ (QUA) V. COLÉGIO", "ROTA", "07:30"],
+    "851": ["13", "TOLEDO (QUA)", "ROTA", "06:00"],
+    "853": ["13", "TOLEDO (QUA) PEREIRAS", "ROTA", "06:00"],
+}
+
+ROTAS_QUINTA = {
+    "602": ["48", "MONTE SIÃO (QUI)", "ROTA", "06:00"],
+    "604": ["48", "MONTE SIÃO (QUI) MOCOCA", "ROTA", "06:00"],
+    "704": ["45", "OURO FINO (QUI)", "ROTA", "06:00"],
+    "202": ["46", "BORDA DA MATA (QUI)", "ROTA", "06:00"],
+    "400": ["40", "EXTREMA (QUI) B.VISTA/FAEX", "ROTA", "07:30"],
+    "400": ["40", "EXTREMA (QUI) B.VISTA/FAEX", "ROTA", "07:30"],
+    "410": ["14", "EXTREMA (QUI) FÁBRICAS", "ROTA", "07:30"],
+    "301": ["42", "CAMANDUCAIA (QUI)", "ROTA", "07:30"],
+    "751": ["13", "SENADOR AMARAL (QUI)", "ROTA", "07:30"],
+    "502": ["13", "P.SEGURA/RIBEIRÃO FUNDO (QUI)", "ROTA", "07:30"],
+    "103": ["33", "CAMBUÍ (QUI) P. MATRIZ", "ROTA", "07:30"],
+    "351": ["35", "CÓRREGO DO BOM JESUS (QUI)", "ROTA + ESTRADA DE BOM REPOUSO", "07:30"],
+}
+
+ROTAS_SEXTA = {}
