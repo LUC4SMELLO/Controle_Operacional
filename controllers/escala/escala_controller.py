@@ -29,12 +29,25 @@ class EscalaController:
         for child in widget.winfo_children():
             self._recursive_bind_scroll(child)
 
+    def scroll_topo(self):
+        self.view.container_cargas._parent_canvas.yview_moveto(0.0)
+
+    def scroll_final(self):
+        self.view.container_cargas._parent_canvas.yview_moveto(1.0)
+
+
+
 
     def exibir_data_atual(self):
-        data_atual = datetime.now()
-        data_formatada = data_atual.strftime("%d/%m/%Y")
+        dias_semana = ("Segunda", "Terça", "Quarta", 
+                "Quinta", "Sexta", "Sábado", "Domingo")
 
-        self.view.label_data.configure(text=data_formatada)
+        hoje = datetime.now()
+
+        data = hoje.strftime("%d/%m/%Y")
+        dia_semana = dias_semana[hoje.weekday()]
+
+        self.view.label_data.configure(text=f"{dia_semana}  -  {data}")
         return
 
 
@@ -46,6 +59,7 @@ class EscalaController:
 
             if quantidade > 30:
                 exibir_mensagem("Aviso", "Esse número de cargas não é permitido.", "warning")
+                return
 
         except ValueError:
             exibir_mensagem("Aviso", "Informe um número válido", "warning")
@@ -85,14 +99,7 @@ class EscalaController:
 
         self._recursive_bind_scroll(frame)
 
-
-    def remover_ultima_carga(self):
-        if not self.view.frames_cargas:
-            exibir_mensagem("Aviso", "Não há cargas para remover.", "warning")
-            return
-
-        frame = self.view.frames_cargas.pop()
-        frame.destroy()
+        frame.after(10, self.scroll_final)
 
 
     def remover_carga_especifica(self, frame):

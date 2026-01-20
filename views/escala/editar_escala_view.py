@@ -31,7 +31,9 @@ class EditarEscalaView(ctk.CTkFrame):
         ctk.CTkFrame(self, width=950, height=2, fg_color=COR_LINHAS).place(x=40, y=105)
 
         self.label_data = ctk.CTkLabel(self, text="", font=("Segoe UI", 14, "bold"), text_color=COR_TEXTO)
-        self.label_data.place(x=915, y=120)
+        self.label_data.place(x=855, y=65)
+
+        ctk.CTkLabel(self, text="Dia da Semana:", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=69, y=120)
 
         self.botao_segunda_feira = ctk.CTkButton(
             self,
@@ -43,7 +45,7 @@ class EditarEscalaView(ctk.CTkFrame):
             width=70,
             height=30,
         )
-        self.botao_segunda_feira.place(x=40, y=120)
+        self.botao_segunda_feira.place(x=200, y=120)
 
         self.botao_terca_feira = ctk.CTkButton(
             self,
@@ -55,7 +57,7 @@ class EditarEscalaView(ctk.CTkFrame):
             width=70,
             height=30,
         )
-        self.botao_terca_feira.place(x=120, y=120)
+        self.botao_terca_feira.place(x=278, y=120)
 
         self.botao_quarta_feira = ctk.CTkButton(
             self,
@@ -67,7 +69,7 @@ class EditarEscalaView(ctk.CTkFrame):
             width=70,
             height=30,
         )
-        self.botao_quarta_feira.place(x=200, y=120)
+        self.botao_quarta_feira.place(x=354, y=120)
 
         self.botao_quinta_feira = ctk.CTkButton(
             self,
@@ -79,7 +81,7 @@ class EditarEscalaView(ctk.CTkFrame):
             width=70,
             height=30,
         )
-        self.botao_quinta_feira.place(x=280, y=120)
+        self.botao_quinta_feira.place(x=430, y=120)
 
         ctk.CTkLabel(self, text="Número de Cargas:", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=40, y=165)
         self.entry_numero_cargas = ctk.CTkEntry(self, font=FONTE_TEXTO, width=30, height=30, corner_radius=2)
@@ -93,10 +95,29 @@ class EditarEscalaView(ctk.CTkFrame):
             text_color=COR_TEXTO_BOTAO,
             fg_color=COR_BOTAO,
             hover_color=HOVER_BOTAO,
-            width=110,
+            width=112,
             height=30
         )
-        self.botao_utilizar_cargas.place(x=240, y=165)
+        self.botao_utilizar_cargas.place(x=236, y=165)
+
+        self.icone_mais = ctk.CTkImage(
+            light_image=Image.open(ICONS_DIR / "mais_dark.png"),
+            dark_image=Image.open(ICONS_DIR / "mais_dark.png"),
+            size=(18, 18)
+        )
+        self.botao_adicionar_carga = ctk.CTkButton(
+            self,
+            image=self.icone_mais,
+            text="",
+            command=self.controller.adicionar_carga_separada,
+            width=20,
+            height=30,
+            fg_color=COR_BOTAO,
+            hover_color=HOVER_BOTAO,
+            cursor="hand2"
+        )
+        self.botao_adicionar_carga.place(x=354, y=165)
+
 
         self.botao_salvar_escala = ctk.CTkButton(
             self,
@@ -109,7 +130,7 @@ class EditarEscalaView(ctk.CTkFrame):
             width=110,
             height=30
         )
-        self.botao_salvar_escala.place(x=760, y=120)
+        self.botao_salvar_escala.place(x=880, y=120)
 
         self.botao_limpar_escala = ctk.CTkButton(
             self,
@@ -122,7 +143,7 @@ class EditarEscalaView(ctk.CTkFrame):
             width=110,
             height=30
         )
-        self.botao_limpar_escala.place(x=640, y=120)
+        self.botao_limpar_escala.place(x=760, y=120)
 
         ctk.CTkFrame(self, width=950, height=2, fg_color=COR_LINHAS).place(x=40, y=210)
 
@@ -138,7 +159,7 @@ class EditarEscalaView(ctk.CTkFrame):
         self.container_cargas = ctk.CTkScrollableFrame(
             self,
             width=950,
-            height=350
+            height=550
             )
         self.container_cargas.place(x=40, y=270)
         self.container_cargas._scrollbar.grid_remove()
@@ -146,42 +167,39 @@ class EditarEscalaView(ctk.CTkFrame):
         self.frames_cargas = []  # guarda todas as cargas
 
 
-
-        self.icone_mais = ctk.CTkImage(
-            light_image=Image.open(ICONS_DIR / "mais_dark.png"),
-            dark_image=Image.open(ICONS_DIR / "mais_dark.png"),
-            size=(16, 16)
+        self.icone_seta_cima = ctk.CTkImage(
+            light_image=Image.open(ICONS_DIR / "seta_cima_dark.png"),
+            dark_image=Image.open(ICONS_DIR / "seta_cima_dark.png"),
+            size=(18, 18)
         )
-
-        self.botao_adicionar_carga = ctk.CTkButton(
+        self.botao_ir_para_o_topo = ctk.CTkButton(
             self,
-            image=self.icone_mais,
+            image=self.icone_seta_cima,
             text="",
-            command=self.controller.adicionar_carga_separada,
+            command=self.controller.scroll_topo,
             width=20,
-            height=20,
+            height=30,
             fg_color=COR_BOTAO,
             hover_color=HOVER_BOTAO,
-            cursor="hand2",
+            cursor="hand2"
         )
-        self.botao_adicionar_carga.place(x=965, y=640)
+        self.botao_ir_para_o_topo.place(x=962, y=234)
 
-
-        self.icone_menos = ctk.CTkImage(
-            light_image=Image.open(ICONS_DIR / "menos_dark.png"),
-            dark_image=Image.open(ICONS_DIR / "menos_dark.png"),
-            size=(16, 16)
+        self.icone_seta_baixo = ctk.CTkImage(
+            light_image=Image.open(ICONS_DIR / "seta_baixo_dark.png"),
+            dark_image=Image.open(ICONS_DIR / "seta_baixo_dark.png"),
+            size=(18, 18)
         )
-
-        self.botao_remover_ultima_carga = ctk.CTkButton(
+        self.botao_ir_para_o_final = ctk.CTkButton(
             self,
-            image=self.icone_menos,
+            image=self.icone_seta_baixo,
             text="",
-            command=self.controller.remover_ultima_carga,
+            command=self.controller.scroll_final,
             width=20,
-            height=20,
+            height=30,
             fg_color=COR_BOTAO,
             hover_color=HOVER_BOTAO,
-            cursor="hand2",
+            cursor="hand2"
         )
-        self.botao_remover_ultima_carga.place(x=915, y=640)
+        self.botao_ir_para_o_final.place(x=963, y=838)
+
