@@ -1,3 +1,4 @@
+from typing import Literal
 import customtkinter as ctk
 from datetime import datetime
 
@@ -83,7 +84,7 @@ class EscalaController:
             frame.pack(fill="x", pady=5, padx=(5))
             self.view.frames_cargas.append(frame)
         
-            self._recursive_bind_scroll(frame)
+            self._configurar_eventos_frame_carga(frame)
 
         self.atualizar_numero_total_cargas()
 
@@ -112,7 +113,7 @@ class EscalaController:
             frame.pack(fill="x", pady=5, padx=(5))
             self.view.frames_cargas.append(frame)
         
-            self._recursive_bind_scroll(frame)
+            self._configurar_eventos_frame_carga(frame)
 
         self.atualizar_numero_total_cargas()
 
@@ -146,7 +147,7 @@ class EscalaController:
         frame.pack(fill="x", pady=5, padx=(5, 10))
         self.view.frames_cargas.append(frame)
 
-        self._recursive_bind_scroll(frame)
+        self._configurar_eventos_frame_carga(frame)
 
         frame.after(10, self.scroll_final)
 
@@ -176,6 +177,46 @@ class EscalaController:
         quantidade_total = len(self.view.frames_cargas)
 
         self.view.label_numero_total_cargas.configure(text=f"Total: {quantidade_total}")
+
+
+    def exibir_nome_funcionario(self, frame, tipo: Literal["motorista", "ajudante1", "ajudante2"]):
+        widgets = {
+            "motorista": (frame.entry_cod_motorista, frame.label_nome_motorista),
+            "ajudante1": (frame.entry_cod_ajudante_1, frame.label_nome_ajudante_1),
+            "ajudante2": (frame.entry_cod_ajudante_2, frame.label_nome_ajdudante_2)
+        }
+        
+        entry, label = widgets[tipo]
+        codigo = entry.get().strip()
+
+        if codigo:
+            resultado = self.model.buscar_informacoes_funcionario(codigo)
+            if resultado:
+                nome_exibicao = (resultado[0][:23] + "...") if len(resultado[0]) > 25 else resultado[0]
+                label.configure(text=nome_exibicao)
+            else:
+                label.configure(text="Não encontrado")
+        else:
+            label.configure(text=tipo.capitalize())
+
+
+
+
+    def _configurar_eventos_frame_carga(self, frame):
+        """Configura os eventos de digitação para um frame carga recém-criado."""
+
+        frame.entry_cod_motorista.bind("<Return>", 
+            lambda event: self.exibir_nome_funcionario(frame, "motorista"))
+            
+        frame.entry_cod_ajudante_1.bind("<Return>", 
+            lambda event: self.exibir_nome_funcionario(frame, "ajudante1"))
+            
+        frame.entry_cod_ajudante_2.bind("<Return>", 
+            lambda event: self.exibir_nome_funcionario(frame, "ajudante2"))
+
+        self._recursive_bind_scroll(frame)
+
+
 
 
 

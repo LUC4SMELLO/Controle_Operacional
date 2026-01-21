@@ -20,7 +20,7 @@ class FrameCarga(ctk.CTkFrame):
         self.grid_columnconfigure(0, weight=0)
         self.grid_columnconfigure(1, weight=0)
         self.grid_columnconfigure(2, weight=0)
-        self.grid_columnconfigure(3, weight=1)
+        self.grid_columnconfigure(3, weight=0, minsize=150)
         self.grid_columnconfigure(4, weight=2)
         self.grid_columnconfigure(5, weight=1)
         self.grid_columnconfigure(6, weight=0)
@@ -45,14 +45,14 @@ class FrameCarga(ctk.CTkFrame):
         self.entry_cod_ajudante_2.grid(row=3, column=2, pady=3)
 
         # Nomes
-        self.label_nome_motorista = ctk.CTkLabel(self, text="Motorista")
-        self.label_nome_motorista.grid(row=1, column=3, sticky="w", padx=(0, 50), pady=2)
+        self.label_nome_motorista = ctk.CTkLabel(self, text="", wraplength=158, width=160, anchor="w", justify="left")
+        self.label_nome_motorista.grid(row=1, column=3, sticky="w", padx=(0, 5), pady=2)
 
-        self.label_nome_ajudante_1 = ctk.CTkLabel(self, text="Ajudante 1")
-        self.label_nome_ajudante_1.grid(row=2, column=3, sticky="w", padx=(0, 50), pady=1)
+        self.label_nome_ajudante_1 = ctk.CTkLabel(self, text="", wraplength=158, width=160, anchor="w", justify="left")
+        self.label_nome_ajudante_1.grid(row=2, column=3, sticky="w", padx=(0, 5), pady=1)
 
-        self.label_nome_ajdudante_2 = ctk.CTkLabel(self, text="Ajudante 2")
-        self.label_nome_ajdudante_2.grid(row=3, column=3, sticky="w", padx=(0, 50), pady=2)
+        self.label_nome_ajdudante_2 = ctk.CTkLabel(self, text="", wraplength=158,  width=160, anchor="w", justify="left")
+        self.label_nome_ajdudante_2.grid(row=3, column=3, sticky="w", padx=(0, 5), pady=2)
 
         # Rota
         nome_rotas = [r[1] for r in ROTAS.values()]
