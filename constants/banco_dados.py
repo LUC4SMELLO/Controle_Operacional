@@ -12,3 +12,6 @@ TABELA_PRODUTOS = "produtos"
 
 BANCO_DADOS_FUNCIONARIOS = DATABASE_DIR / "funcionarios.db"
 TABELA_FUNCIONARIOS = "funcionarios"
+
+BANCO_DADOS_VEICULOS = DATABASE_DIR / "veiculos.db"
+TABELA_VEICULOS = "veiculos"
