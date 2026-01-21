@@ -19,7 +19,7 @@ def criar_tabela_funcionarios():
     nome VARCHAR(250),
     funcao VARCHAR(100),
     cpf VARCHAR(50),
-    rg VARCHAR(50),
+    rg VARCHAR(50)
     )
     """
     )
