@@ -86,6 +86,8 @@ class EscalaController:
         
             self._recursive_bind_scroll(frame)
 
+        self.atualizar_numero_total_cargas()
+
 
 
     def criar_cargas(self):
@@ -97,7 +99,7 @@ class EscalaController:
                 return
 
         except ValueError:
-            exibir_mensagem("Aviso", "Informe um número válido", "warning")
+            exibir_mensagem("Aviso", "Informe um número válido.", "warning")
             return
 
         self.limpar_cargas()
@@ -113,6 +115,8 @@ class EscalaController:
         
             self._recursive_bind_scroll(frame)
 
+        self.atualizar_numero_total_cargas()
+
 
     def limpar_cargas(self):
         
@@ -125,12 +129,17 @@ class EscalaController:
 
 
         self.view.container_cargas._parent_canvas.focus_set()
+        self.atualizar_numero_total_cargas()
         
 
 
     def adicionar_carga_separada(self):
 
         quantidade_cargas_total = len(self.view.frames_cargas)
+
+        if quantidade_cargas_total >= 30:
+            exibir_mensagem("Aviso", "Número máximo de cargas já alcançado.", "warning")
+            return
 
         frame = FrameCarga(self.view.container_cargas, self.view.controller)
         frame.label_cod_carga.configure(text=quantidade_cargas_total + 1)
@@ -141,6 +150,8 @@ class EscalaController:
         self._recursive_bind_scroll(frame)
 
         frame.after(10, self.scroll_final)
+
+        self.atualizar_numero_total_cargas()
 
 
     def remover_carga_especifica(self, frame):
@@ -154,11 +165,19 @@ class EscalaController:
         frame.destroy()
 
         self.atualizar_indices_cargas()
+        self.atualizar_numero_total_cargas()
 
 
     def atualizar_indices_cargas(self):
         for i, frame in enumerate(self.view.frames_cargas):
             frame.label_cod_carga.configure(text=i + 1)
+
+
+    def atualizar_numero_total_cargas(self):
+        quantidade_total = len(self.view.frames_cargas)
+
+        self.view.label_numero_total_cargas.configure(text=f"Total: {quantidade_total}")
+
 
 
     def coletar_dados(self):
