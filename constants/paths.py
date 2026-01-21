@@ -6,3 +6,5 @@ ASSETS_DIR = BASE_DIR / "assets"
 ICONS_DIR = ASSETS_DIR / "icons"
 
 ARCHIVES_DIR = BASE_DIR / "archives"
+
+DATABASE_DIR = BASE_DIR / "database"

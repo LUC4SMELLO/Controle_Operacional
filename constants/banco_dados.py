@@ -1,8 +1,14 @@
-BANCO_DADOS_PENDENCIAS = "database/pendencias.db"
+from constants.paths import DATABASE_DIR
+
+
+BANCO_DADOS_PENDENCIAS = DATABASE_DIR / "pendencias.db"
 TABELA_PENDENCIAS = "pendencias"
 
-BANCO_DADOS_CLIENTES = "database/clientes.db"
+BANCO_DADOS_CLIENTES = DATABASE_DIR / "clientes.db"
 TABELA_CLIENTES = "clientes"
 
-BANCO_DADOS_PRODUTOS = "database/produtos.db"
+BANCO_DADOS_PRODUTOS = DATABASE_DIR / "produtos.db"
 TABELA_PRODUTOS = "produtos"
+
+BANCO_DADOS_FUNCIONARIOS = DATABASE_DIR / "funcionarios.db"
+TABELA_FUNCIONARIOS = "funcionarios"
