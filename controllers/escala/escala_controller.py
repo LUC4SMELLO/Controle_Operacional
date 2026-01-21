@@ -15,10 +15,9 @@ from constants.rotas import (
 
 
 class EscalaController:
-    def __init__(self, janela):
-        self.janela = janela
+    def __init__(self, model):
+        self.model = model
         self.view = None
-        self.tela_atual = None
 
     def set_view(self, view):
         self.view = view
