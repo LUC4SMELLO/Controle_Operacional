@@ -18,7 +18,7 @@ class FrameCarga(ctk.CTkFrame):
 
 
         self.grid_columnconfigure(0, weight=0)
-        self.grid_columnconfigure(1, weight=0)
+        self.grid_columnconfigure(1, weight=0, minsize=60)
         self.grid_columnconfigure(2, weight=0)
         self.grid_columnconfigure(3, weight=0, minsize=150)
         self.grid_columnconfigure(4, weight=2)
@@ -30,8 +30,8 @@ class FrameCarga(ctk.CTkFrame):
         self.label_cod_carga.grid(row=1, column=0, padx=(2, 5), pady=(0, 5))
 
         # Número Carga
-        self.label_numero_carga = ctk.CTkLabel(self, text="7191001", font=FONTE_TEXTO, text_color=COR_TEXTO)
-        self.label_numero_carga.grid(row=2, column=1)
+        self.label_numero_carga = ctk.CTkLabel(self, text="       ", font=FONTE_TEXTO, text_color=COR_TEXTO)
+        self.label_numero_carga.grid(row=2, column=1, sticky="w")
 
 
         # Códigos

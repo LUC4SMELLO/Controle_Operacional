@@ -197,7 +197,29 @@ class EscalaController:
             else:
                 label.configure(text="Não encontrado")
         else:
-            label.configure(text=tipo.capitalize())
+            label.configure(text="")
+
+        self.exibir_numero_carga(frame)
+
+    
+    def exibir_numero_carga(self, frame):
+
+        hoje = datetime.now()
+
+        dia_formatado_atual = hoje.strftime("%d")
+
+        codigo = frame.entry_cod_motorista.get()
+
+        resultado = self.model.buscar_informacoes_funcionario(codigo)
+        if resultado:
+            if resultado[1] != "Ajudante":
+                numero_carga = f"7{resultado[4]}{dia_formatado_atual}01"
+                frame.label_numero_carga.configure(text=numero_carga)
+            else:
+                frame.label_numero_carga.configure(text="")
+        else:
+            frame.label_numero_carga.configure(text="")
+
 
 
 
