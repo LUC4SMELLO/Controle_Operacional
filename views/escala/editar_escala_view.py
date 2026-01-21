@@ -31,7 +31,7 @@ class EditarEscalaView(ctk.CTkFrame):
         ctk.CTkFrame(self, width=950, height=2, fg_color=COR_LINHAS).place(x=40, y=105)
 
         self.label_data = ctk.CTkLabel(self, text="", font=("Segoe UI", 14, "bold"), text_color=COR_TEXTO)
-        self.label_data.place(x=855, y=65)
+        self.label_data.place(x=845, y=65)
 
         ctk.CTkLabel(self, text="Dia da Semana:", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=69, y=120)
 
@@ -152,10 +152,10 @@ class EditarEscalaView(ctk.CTkFrame):
         ctk.CTkFrame(self, width=950, height=2, fg_color=COR_LINHAS).place(x=40, y=210)
 
 
-        ctk.CTkLabel(self, text="Carga", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=90, y=240)
-        ctk.CTkLabel(self, text="Cód", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=185, y=240)
+        ctk.CTkLabel(self, text="Carga", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=75, y=240)
+        ctk.CTkLabel(self, text="Cód", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=152, y=240)
         ctk.CTkLabel(self, text="Nome", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=270, y=240)
-        ctk.CTkLabel(self, text="Rota", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=510, y=240)
+        ctk.CTkLabel(self, text="Rota", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=490, y=240)
         ctk.CTkLabel(self, text="Observação", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=750, y=240)
 
 
@@ -207,3 +207,6 @@ class EditarEscalaView(ctk.CTkFrame):
         )
         self.botao_ir_para_o_final.place(x=963, y=838)
 
+
+        self.label_numero_total_cargas = ctk.CTkLabel(self, text="Total: 0", anchor="w", font=("Segoe UI", 14, "bold"), text_color=COR_TEXTO)
+        self.label_numero_total_cargas.place(x=43, y=835)

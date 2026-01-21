@@ -26,12 +26,12 @@ class FrameCarga(ctk.CTkFrame):
         self.grid_columnconfigure(6, weight=0)
 
 
-        self.label_cod_carga = ctk.CTkLabel(self, text="", font=("Segoe UI", 14, "bold"))
-        self.label_cod_carga.grid(row=1, column=0, padx=(5, 5))
+        self.label_cod_carga = ctk.CTkLabel(self, text="", width=20, font=("Segoe UI", 14, "bold"))
+        self.label_cod_carga.grid(row=1, column=0, padx=(2, 5), pady=(0, 5))
 
         # Número Carga
         self.label_numero_carga = ctk.CTkLabel(self, text="7191001", font=FONTE_TEXTO, text_color=COR_TEXTO)
-        self.label_numero_carga.grid(row=2, column=1, padx=20)
+        self.label_numero_carga.grid(row=2, column=1)
 
 
         # Códigos
