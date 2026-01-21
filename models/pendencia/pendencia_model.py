@@ -2,10 +2,10 @@ from database.banco_dados_pendencias import conectar_banco_de_dados_pendencias
 from constants.banco_dados import TABELA_PENDENCIAS
 
 from database.banco_dados_clientes import conectar_banco_de_dados_clientes
-from constants.banco_dados import TABELA_CLIENTES, BANCO_DADOS_CLIENTES
+from constants.banco_dados import BANCO_DADOS_CLIENTES, TABELA_CLIENTES
 
 from database.banco_dados_produtos import conectar_banco_de_dados_produtos
-from constants.banco_dados import TABELA_PRODUTOS, BANCO_DADOS_PRODUTOS
+from constants.banco_dados import BANCO_DADOS_PRODUTOS, TABELA_PRODUTOS
 
 
 class PendenciaModel:
