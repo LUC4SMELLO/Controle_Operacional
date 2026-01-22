@@ -88,7 +88,7 @@ class EditarEscalaView(ctk.CTkFrame):
         self.botao_quinta_feira.place(x=430, y=120)
 
         ctk.CTkLabel(self, text="Número de Cargas:", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=40, y=165)
-        self.entry_numero_cargas = ctk.CTkEntry(self, font=FONTE_TEXTO, width=30, height=30, corner_radius=2)
+        self.entry_numero_cargas = ctk.CTkEntry(self, font=FONTE_TEXTO, width=73, height=30, corner_radius=2)
         self.entry_numero_cargas.place(x=200, y=165)
 
         self.botao_utilizar_cargas = ctk.CTkButton(
@@ -99,10 +99,10 @@ class EditarEscalaView(ctk.CTkFrame):
             text_color=COR_TEXTO_BOTAO,
             fg_color=COR_BOTAO,
             hover_color=HOVER_BOTAO,
-            width=112,
+            width=107,
             height=30
         )
-        self.botao_utilizar_cargas.place(x=236, y=165)
+        self.botao_utilizar_cargas.place(x=278, y=165)
 
         self.icone_mais = ctk.CTkImage(
             light_image=Image.open(ICONS_DIR / "mais_dark.png"),
@@ -120,7 +120,7 @@ class EditarEscalaView(ctk.CTkFrame):
             hover_color=HOVER_BOTAO,
             cursor="hand2"
         )
-        self.botao_adicionar_carga.place(x=354, y=165)
+        self.botao_adicionar_carga.place(x=390, y=165)
 
 
         self.botao_salvar_escala = ctk.CTkButton(
@@ -153,7 +153,7 @@ class EditarEscalaView(ctk.CTkFrame):
 
 
         ctk.CTkLabel(self, text="Carga", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=75, y=240)
-        ctk.CTkLabel(self, text="Cód", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=152, y=240)
+        ctk.CTkLabel(self, text="Cód", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=157, y=240)
         ctk.CTkLabel(self, text="Nome", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=270, y=240)
         ctk.CTkLabel(self, text="Rota", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=490, y=240)
         ctk.CTkLabel(self, text="Observação", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=750, y=240)
