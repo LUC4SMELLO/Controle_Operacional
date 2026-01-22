@@ -257,14 +257,34 @@ class EscalaController:
     def _configurar_eventos_frame_carga(self, frame):
         """Configura os eventos de digitação para um frame carga recém-criado."""
 
-        frame.entry_cod_motorista.bind("<Return>", 
+        fluxo_entrys = [
+            (frame.entry_cod_motorista, frame.entry_cod_ajudante_1),
+            (frame.entry_cod_ajudante_1, frame.entry_cod_ajudante_2)
+        ]
+        for widget_atual, proximo_widget in fluxo_entrys:
+            widget_atual.bind("<Return>", lambda event, nxt=proximo_widget: nxt.focus_set())
+
+
+
+        frame.entry_cod_motorista.bind("<Return>",
             lambda event: self.exibir_nome_funcionario(frame, "motorista"))
             
-        frame.entry_cod_ajudante_1.bind("<Return>", 
+        frame.entry_cod_ajudante_1.bind("<Return>",
             lambda event: self.exibir_nome_funcionario(frame, "ajudante1"))
             
-        frame.entry_cod_ajudante_2.bind("<Return>", 
+        frame.entry_cod_ajudante_2.bind("<Return>",
             lambda event: self.exibir_nome_funcionario(frame, "ajudante2"))
+        
+        frame.entry_cod_motorista.bind("<FocusOut>",
+            lambda event: self.exibir_nome_funcionario(frame, "motorista"))
+            
+        frame.entry_cod_ajudante_1.bind("<FocusOut>",
+            lambda event: self.exibir_nome_funcionario(frame, "ajudante1"))
+            
+        frame.entry_cod_ajudante_2.bind("<FocusOut>",
+            lambda event: self.exibir_nome_funcionario(frame, "ajudante2"))
+
+
 
         self._recursive_bind_scroll(frame)
 
