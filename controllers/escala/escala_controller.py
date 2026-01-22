@@ -183,7 +183,7 @@ class EscalaController:
         widgets = {
             "motorista": (frame.entry_cod_motorista, frame.label_nome_motorista),
             "ajudante1": (frame.entry_cod_ajudante_1, frame.label_nome_ajudante_1),
-            "ajudante2": (frame.entry_cod_ajudante_2, frame.label_nome_ajdudante_2)
+            "ajudante2": (frame.entry_cod_ajudante_2, frame.label_nome_ajudante_2)
         }
         
         entry, label = widgets[tipo]
