@@ -172,8 +172,8 @@ class EditarEscalaView(ctk.CTkFrame):
 
 
         self.icone_seta_cima = ctk.CTkImage(
-            light_image=Image.open(ICONS_DIR / "seta_cima_dark_2.png"),
-            dark_image=Image.open(ICONS_DIR / "seta_cima_dark_2.png"),
+            light_image=Image.open(ICONS_DIR / "seta_cima_dark.png"),
+            dark_image=Image.open(ICONS_DIR / "seta_cima_dark.png"),
             size=(16, 16)
         )
         self.botao_ir_para_o_topo = ctk.CTkButton(
@@ -190,8 +190,8 @@ class EditarEscalaView(ctk.CTkFrame):
         self.botao_ir_para_o_topo.place(x=430, y=165)
 
         self.icone_seta_baixo = ctk.CTkImage(
-            light_image=Image.open(ICONS_DIR / "seta_baixo_dark_2.png"),
-            dark_image=Image.open(ICONS_DIR / "seta_baixo_dark_2.png"),
+            light_image=Image.open(ICONS_DIR / "seta_baixo_dark.png"),
+            dark_image=Image.open(ICONS_DIR / "seta_baixo_dark.png"),
             size=(16, 16)
         )
         self.botao_ir_para_o_final = ctk.CTkButton(
