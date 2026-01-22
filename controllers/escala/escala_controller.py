@@ -119,6 +119,8 @@ class EscalaController:
 
 
     def limpar_cargas(self):
+
+        self.scroll_topo()
         
         self.view.entry_numero_cargas.delete(0, ctk.END)
 
