@@ -152,6 +152,7 @@ class EscalaController:
         frame.after(10, self.scroll_final)
 
         self.atualizar_numero_total_cargas()
+        self.atualizar_numero_viagem_cargas()
 
 
     def remover_carga_especifica(self, frame):
@@ -166,6 +167,7 @@ class EscalaController:
 
         self.atualizar_indices_cargas()
         self.atualizar_numero_total_cargas()
+        self.atualizar_numero_viagem_cargas()
 
 
     def atualizar_indices_cargas(self):
@@ -195,7 +197,7 @@ class EscalaController:
                 nome_exibicao = (resultado[0][:23] + "...") if len(resultado[0]) > 25 else resultado[0]
                 label.configure(text=nome_exibicao)
             else:
-                label.configure(text="Não encontrado")
+                label.configure(text="Não encontrado.")
         else:
             label.configure(text="")
 
@@ -205,20 +207,46 @@ class EscalaController:
     def exibir_numero_carga(self, frame):
 
         hoje = datetime.now()
+        dia_atual = hoje.strftime("%d")
 
-        dia_formatado_atual = hoje.strftime("%d")
-
-        codigo = frame.entry_cod_motorista.get()
+        codigo = frame.entry_cod_motorista.get().strip()
 
         resultado = self.model.buscar_informacoes_funcionario(codigo)
-        if resultado:
+        try:
             if resultado[1] != "Ajudante":
-                numero_carga = f"7{resultado[4]}{dia_formatado_atual}01"
+                viagem = self.calcular_numero_viagem_carga(codigo, frame)
+                numero_carga = f"7{resultado[4]}{dia_atual}{viagem:02d}"
                 frame.label_numero_carga.configure(text=numero_carga)
             else:
                 frame.label_numero_carga.configure(text="")
-        else:
+        except Exception:
             frame.label_numero_carga.configure(text="")
+
+        
+    def calcular_numero_viagem_carga(self, codigo_motorista, frame_atual):
+        contador = 0
+
+        for frame in self.view.frames_cargas:
+            if frame is frame_atual:
+                break
+            
+            codigo = frame.entry_cod_motorista.get().strip()
+            if codigo == codigo_motorista:
+                contador += 1
+
+        return contador + 1
+    
+
+    def atualizar_numero_viagem_cargas(self):
+        for frame in self.view.frames_cargas:
+            codigo = frame.entry_cod_motorista.get().strip()
+            if not codigo:
+                continue
+
+            funcionario = self.model.buscar_informacoes_funcionario(codigo)
+            if funcionario:
+                self.exibir_numero_carga(frame)
+
 
 
 
