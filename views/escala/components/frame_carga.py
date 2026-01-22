@@ -51,8 +51,8 @@ class FrameCarga(ctk.CTkFrame):
         self.label_nome_ajudante_1 = ctk.CTkLabel(self, text="", wraplength=158, width=160, anchor="w", justify="left")
         self.label_nome_ajudante_1.grid(row=2, column=3, sticky="w", padx=(0, 5), pady=1)
 
-        self.label_nome_ajdudante_2 = ctk.CTkLabel(self, text="", wraplength=158,  width=160, anchor="w", justify="left")
-        self.label_nome_ajdudante_2.grid(row=3, column=3, sticky="w", padx=(0, 5), pady=2)
+        self.label_nome_ajudante_2 = ctk.CTkLabel(self, text="", wraplength=158,  width=160, anchor="w", justify="left")
+        self.label_nome_ajudante_2.grid(row=3, column=3, sticky="w", padx=(0, 5), pady=2)
 
         # Rota
         nome_rotas = [r[1] for r in ROTAS.values()]
