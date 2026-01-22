@@ -172,40 +172,40 @@ class EditarEscalaView(ctk.CTkFrame):
 
 
         self.icone_seta_cima = ctk.CTkImage(
-            light_image=Image.open(ICONS_DIR / "seta_cima_dark.png"),
-            dark_image=Image.open(ICONS_DIR / "seta_cima_dark.png"),
-            size=(18, 18)
+            light_image=Image.open(ICONS_DIR / "seta_cima_dark_2.png"),
+            dark_image=Image.open(ICONS_DIR / "seta_cima_dark_2.png"),
+            size=(16, 16)
         )
         self.botao_ir_para_o_topo = ctk.CTkButton(
             self,
             image=self.icone_seta_cima,
             text="",
             command=self.controller.scroll_topo,
-            width=20,
+            width=15,
             height=30,
             fg_color=COR_BOTAO,
             hover_color=HOVER_BOTAO,
             cursor="hand2"
         )
-        self.botao_ir_para_o_topo.place(x=962, y=234)
+        self.botao_ir_para_o_topo.place(x=430, y=165)
 
         self.icone_seta_baixo = ctk.CTkImage(
-            light_image=Image.open(ICONS_DIR / "seta_baixo_dark.png"),
-            dark_image=Image.open(ICONS_DIR / "seta_baixo_dark.png"),
-            size=(18, 18)
+            light_image=Image.open(ICONS_DIR / "seta_baixo_dark_2.png"),
+            dark_image=Image.open(ICONS_DIR / "seta_baixo_dark_2.png"),
+            size=(16, 16)
         )
         self.botao_ir_para_o_final = ctk.CTkButton(
             self,
             image=self.icone_seta_baixo,
             text="",
             command=self.controller.scroll_final,
-            width=20,
+            width=15,
             height=30,
             fg_color=COR_BOTAO,
             hover_color=HOVER_BOTAO,
             cursor="hand2"
         )
-        self.botao_ir_para_o_final.place(x=963, y=838)
+        self.botao_ir_para_o_final.place(x=468, y=165)
 
 
         self.label_numero_total_cargas = ctk.CTkLabel(self, text="Total: 0", anchor="w", font=("Segoe UI", 14, "bold"), text_color=COR_TEXTO)
