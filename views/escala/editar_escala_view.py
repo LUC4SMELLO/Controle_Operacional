@@ -24,19 +24,63 @@ class EditarEscalaView(ctk.CTkFrame):
 
         self.controller = controller
 
-        ctk.CTkLabel(self, text="Escala", font=FONTE_TITULO, text_color=COR_TEXTO).place(x=40, y=15)
+        self.grid_rowconfigure(0, weight=1)
+        self.grid_columnconfigure(0, weight=1)
 
-        ctk.CTkLabel(self, text="Editar", font=FONTE_SUBTITULO, text_color=COR_TEXTO).place(x=40, y=65)
+        self.main_frame = ctk.CTkFrame(self, fg_color="pink")
+        self.main_frame.grid_rowconfigure(0, weight=0) # HEADER
+        self.main_frame.grid_rowconfigure(1, weight=0)
+        self.main_frame.grid_rowconfigure(2, weight=0)
+        self.main_frame.grid_rowconfigure(3, weight=0)
+        self.main_frame.grid_rowconfigure(4, weight=1)
+        self.main_frame.grid_rowconfigure(5, weight=0)
+        self.main_frame.grid_columnconfigure(0, weight=1)
+        self.main_frame.grid(row=0, column=0, sticky="nsew")
 
-        ctk.CTkFrame(self, width=950, height=2, fg_color=COR_LINHAS).place(x=40, y=105)
 
-        self.label_data = ctk.CTkLabel(self, text="", font=("Segoe UI", 14, "bold"), text_color=COR_TEXTO)
-        self.label_data.place(x=845, y=65)
+        self.header_frame = ctk.CTkFrame(self.main_frame, fg_color="red")
+        self.header_frame.grid_rowconfigure(0, weight=1)
+        self.header_frame.grid_rowconfigure(1, weight=1)
+        self.header_frame.grid_columnconfigure(0, weight=0)
+        self.header_frame.grid_columnconfigure(1, weight=1)
+        self.header_frame.grid(
+            row=0,
+            column=0,
+            sticky="ew",
+        )
 
-        ctk.CTkLabel(self, text="Dia da Semana:", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=69, y=120)
+        ctk.CTkLabel(self.header_frame, text="Escala", font=FONTE_TITULO, text_color=COR_TEXTO).grid(row=0, column=0, padx=(40, 0), pady=(15, 0), sticky="w")
 
+        ctk.CTkLabel(self.header_frame, text="Editar", font=FONTE_SUBTITULO, text_color=COR_TEXTO).grid(row=1, column=0, padx=(40, 0), pady=(20, 0), sticky="w")
+
+        self.label_data = ctk.CTkLabel(self.header_frame, text="", font=("Segoe UI", 14, "bold"), text_color=COR_TEXTO)
+        self.label_data.grid(row=1, column=1, padx=(0, 290), pady=(20, 0), sticky="e")
+
+        ctk.CTkFrame(self.header_frame, height=2, fg_color=COR_LINHAS).grid(row=2, column=0, padx=(40, 290), pady=(15, 0), sticky="ew", columnspan=2)
+
+        
+
+        self.toolbar_frame_1 = ctk.CTkFrame(self.main_frame, fg_color="blue")
+        self.toolbar_frame_1.grid_rowconfigure(0, weight=1)
+        self.toolbar_frame_1.grid_columnconfigure(0, weight=0)
+        self.toolbar_frame_1.grid_columnconfigure(1, weight=0)
+        self.toolbar_frame_1.grid_columnconfigure(2, weight=0)
+        self.toolbar_frame_1.grid_columnconfigure(3, weight=0)
+        self.toolbar_frame_1.grid_columnconfigure(4, weight=0)
+        self.toolbar_frame_1.grid_columnconfigure(5, weight=1)
+        self.toolbar_frame_1.grid_columnconfigure(6, weight=0)
+        self.toolbar_frame_1.grid_columnconfigure(7, weight=0)
+        self.toolbar_frame_1.grid(
+            row=1,
+            column=0,
+            sticky="ew",
+        )
+
+
+
+        ctk.CTkLabel(self.toolbar_frame_1, text="Dia da Semana:", font=FONTE_LABEL, text_color=COR_TEXTO).grid(row=0, column=0, padx=(69, 0), pady=(15, 0))
         self.botao_segunda_feira = ctk.CTkButton(
-            self,
+            self.toolbar_frame_1,
             text="Segunda",
             command=lambda: self.controller.mostrar_escala_dia_semana("segunda"),
             font=FONTE_BOTAO_SECUNDARIO,
@@ -46,10 +90,10 @@ class EditarEscalaView(ctk.CTkFrame):
             width=70,
             height=30,
         )
-        self.botao_segunda_feira.place(x=200, y=120)
+        self.botao_segunda_feira.grid(row=0, column=1, padx=(15, 5), pady=(15, 0))
 
         self.botao_terca_feira = ctk.CTkButton(
-            self,
+            self.toolbar_frame_1,
             text="Terça",
             command=lambda: self.controller.mostrar_escala_dia_semana("terça"),
             font=FONTE_BOTAO_SECUNDARIO,
@@ -59,10 +103,10 @@ class EditarEscalaView(ctk.CTkFrame):
             width=70,
             height=30,
         )
-        self.botao_terca_feira.place(x=278, y=120)
+        self.botao_terca_feira.grid(row=0, column=2, padx=(0, 5), pady=(15, 0), sticky="w")
 
         self.botao_quarta_feira = ctk.CTkButton(
-            self,
+            self.toolbar_frame_1,
             text="Quarta",
             command=lambda: self.controller.mostrar_escala_dia_semana("quarta"),
             font=FONTE_BOTAO_SECUNDARIO,
@@ -72,10 +116,10 @@ class EditarEscalaView(ctk.CTkFrame):
             width=70,
             height=30,
         )
-        self.botao_quarta_feira.place(x=354, y=120)
+        self.botao_quarta_feira.grid(row=0, column=3, padx=(0, 5), pady=(15, 0), sticky="w")
 
         self.botao_quinta_feira = ctk.CTkButton(
-            self,
+            self.toolbar_frame_1,
             text="Quinta",
             command=lambda: self.controller.mostrar_escala_dia_semana("quinta"),
             font=FONTE_BOTAO_SECUNDARIO,
@@ -85,59 +129,11 @@ class EditarEscalaView(ctk.CTkFrame):
             width=70,
             height=30,
         )
-        self.botao_quinta_feira.place(x=430, y=120)
+        self.botao_quinta_feira.grid(row=0, column=4, padx=(0, 50), pady=(15, 0), sticky="w")
 
-        ctk.CTkLabel(self, text="Número de Cargas:", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=40, y=165)
-        self.entry_numero_cargas = ctk.CTkEntry(self, font=FONTE_TEXTO, width=73, height=30, corner_radius=2)
-        self.entry_numero_cargas.place(x=200, y=165)
-
-        self.botao_utilizar_cargas = ctk.CTkButton(
-            self,
-            text="Utilizar",
-            command=self.controller.criar_cargas,
-            font=FONTE_BOTAO_SECUNDARIO,
-            text_color=COR_TEXTO_BOTAO,
-            fg_color=COR_BOTAO,
-            hover_color=HOVER_BOTAO,
-            width=107,
-            height=30
-        )
-        self.botao_utilizar_cargas.place(x=278, y=165)
-
-        self.icone_mais = ctk.CTkImage(
-            light_image=Image.open(ICONS_DIR / "mais_dark.png"),
-            dark_image=Image.open(ICONS_DIR / "mais_dark.png"),
-            size=(18, 18)
-        )
-        self.botao_adicionar_carga = ctk.CTkButton(
-            self,
-            image=self.icone_mais,
-            text="",
-            command=self.controller.adicionar_carga_separada,
-            width=20,
-            height=30,
-            fg_color=COR_BOTAO,
-            hover_color=HOVER_BOTAO,
-            cursor="hand2"
-        )
-        self.botao_adicionar_carga.place(x=390, y=165)
-
-
-        self.botao_salvar_escala = ctk.CTkButton(
-            self,
-            text="Salvar",
-            command=self.controller.coletar_dados,
-            font=FONTE_BOTAO_SECUNDARIO,
-            text_color=COR_TEXTO_BOTAO,
-            fg_color=COR_BOTAO,
-            hover_color=HOVER_BOTAO,
-            width=110,
-            height=30
-        )
-        self.botao_salvar_escala.place(x=880, y=120)
 
         self.botao_limpar_escala = ctk.CTkButton(
-            self,
+            self.toolbar_frame_1,
             text="Limpar",
             command=self.controller.limpar_cargas,
             font=FONTE_BOTAO_SECUNDARIO,
@@ -147,29 +143,74 @@ class EditarEscalaView(ctk.CTkFrame):
             width=110,
             height=30
         )
-        self.botao_limpar_escala.place(x=760, y=120)
+        self.botao_limpar_escala.grid(row=0, column=6, padx=(0, 10), pady=(15, 0))
 
-        ctk.CTkFrame(self, width=950, height=2, fg_color=COR_LINHAS).place(x=40, y=210)
+        self.botao_salvar_escala = ctk.CTkButton(
+            self.toolbar_frame_1,
+            text="Salvar",
+            command=self.controller.coletar_dados,
+            font=FONTE_BOTAO_SECUNDARIO,
+            text_color=COR_TEXTO_BOTAO,
+            fg_color=COR_BOTAO,
+            hover_color=HOVER_BOTAO,
+            width=110,
+            height=30
+        )
+        self.botao_salvar_escala.grid(row=0, column=7, padx=(0, 290), pady=(15, 0))
 
 
-        ctk.CTkLabel(self, text="Carga", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=75, y=240)
-        ctk.CTkLabel(self, text="Cód", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=157, y=240)
-        ctk.CTkLabel(self, text="Nome", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=270, y=240)
-        ctk.CTkLabel(self, text="Rota", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=490, y=240)
-        ctk.CTkLabel(self, text="Observação", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=750, y=240)
 
 
+        self.toolbar_frame_2 = ctk.CTkFrame(self.main_frame, fg_color="green")
+        self.toolbar_frame_2.grid_rowconfigure(0, weight=1)
+        self.toolbar_frame_2.grid_rowconfigure(1, minsize=2)
+        self.toolbar_frame_2.grid_columnconfigure(0, weight=0)
+        self.toolbar_frame_2.grid_columnconfigure(1, weight=0)
+        self.toolbar_frame_2.grid_columnconfigure(2, weight=0)
+        self.toolbar_frame_2.grid_columnconfigure(3, weight=0)
+        self.toolbar_frame_2.grid_columnconfigure(4, weight=0)
+        self.toolbar_frame_2.grid_columnconfigure(5, weight=0)
+        self.toolbar_frame_2.grid_columnconfigure(6, weight=1)
+        self.toolbar_frame_2.grid(
+            row=2,
+            column=0,
+            sticky="ew",
+        )
 
-        self.container_cargas = ctk.CTkScrollableFrame(
-            self,
-            width=950,
-            height=550
-            )
-        self.container_cargas.place(x=40, y=270)
-        self.container_cargas._scrollbar.grid_remove()
-        
-        self.frames_cargas = []  # GUARDA TODAS AS CARGAS
+        ctk.CTkLabel(self.toolbar_frame_2, text="Número de Cargas:", font=FONTE_LABEL, text_color=COR_TEXTO).grid(row=0, column=0, padx=(40, 0), pady=(5, 0), sticky="w")
+        self.entry_numero_cargas = ctk.CTkEntry(self.toolbar_frame_2, font=FONTE_TEXTO, width=73, height=30, corner_radius=2)
+        self.entry_numero_cargas.grid(row=0, column=1, padx=(15, 5), pady=(5, 0), sticky="w")
 
+        self.botao_utilizar_cargas = ctk.CTkButton(
+            self.toolbar_frame_2,
+            text="Utilizar",
+            command=self.controller.criar_cargas,
+            font=FONTE_BOTAO_SECUNDARIO,
+            text_color=COR_TEXTO_BOTAO,
+            fg_color=COR_BOTAO,
+            hover_color=HOVER_BOTAO,
+            width=105,
+            height=30
+        )
+        self.botao_utilizar_cargas.grid(row=0, column=2, padx=(0, 5), pady=(5, 0), sticky="w")
+
+        self.icone_mais = ctk.CTkImage(
+            light_image=Image.open(ICONS_DIR / "mais_dark.png"),
+            dark_image=Image.open(ICONS_DIR / "mais_dark.png"),
+            size=(18, 18)
+        )
+        self.botao_adicionar_carga = ctk.CTkButton(
+            self.toolbar_frame_2,
+            image=self.icone_mais,
+            text="",
+            command=self.controller.adicionar_carga_separada,
+            width=20,
+            height=30,
+            fg_color=COR_BOTAO,
+            hover_color=HOVER_BOTAO,
+            cursor="hand2"
+        )
+        self.botao_adicionar_carga.grid(row=0, column=3, padx=(0, 5), pady=(5, 0), sticky="w")
 
         self.icone_seta_cima = ctk.CTkImage(
             light_image=Image.open(ICONS_DIR / "seta_cima_dark.png"),
@@ -177,7 +218,7 @@ class EditarEscalaView(ctk.CTkFrame):
             size=(16, 16)
         )
         self.botao_ir_para_o_topo = ctk.CTkButton(
-            self,
+            self.toolbar_frame_2,
             image=self.icone_seta_cima,
             text="",
             command=self.controller.scroll_topo,
@@ -187,7 +228,7 @@ class EditarEscalaView(ctk.CTkFrame):
             hover_color=HOVER_BOTAO,
             cursor="hand2"
         )
-        self.botao_ir_para_o_topo.place(x=430, y=165)
+        self.botao_ir_para_o_topo.grid(row=0, column=4, padx=(0, 5), pady=(5, 0), sticky="w")
 
         self.icone_seta_baixo = ctk.CTkImage(
             light_image=Image.open(ICONS_DIR / "seta_baixo_dark.png"),
@@ -195,7 +236,7 @@ class EditarEscalaView(ctk.CTkFrame):
             size=(16, 16)
         )
         self.botao_ir_para_o_final = ctk.CTkButton(
-            self,
+            self.toolbar_frame_2,
             image=self.icone_seta_baixo,
             text="",
             command=self.controller.scroll_final,
@@ -205,8 +246,86 @@ class EditarEscalaView(ctk.CTkFrame):
             hover_color=HOVER_BOTAO,
             cursor="hand2"
         )
-        self.botao_ir_para_o_final.place(x=468, y=165)
+        self.botao_ir_para_o_final.grid(row=0, column=5, padx=(0, 5), pady=(5, 0), sticky="w")
+
+        ctk.CTkFrame(self.toolbar_frame_2, height=2, fg_color=COR_LINHAS).grid(row=1, column=0, padx=(40, 290), pady=(15, 0), sticky="ew", columnspan=7)
+
+        self.cabecalho_cargas = ctk.CTkFrame(self.main_frame)
+        self.cabecalho_cargas.grid(
+            row=3,
+            column=0,
+            sticky="ew",
+            padx=(40, 290),
+            pady=(10)
+        )
+
+        # colunas do cabeçalho
+        self.cabecalho_cargas.grid_columnconfigure(0, minsize=80)   # Carga
+        self.cabecalho_cargas.grid_columnconfigure(1, minsize=80)   # Cód
+        self.cabecalho_cargas.grid_columnconfigure(2, minsize=220)  # Nome
+        self.cabecalho_cargas.grid_columnconfigure(3, minsize=180)  # Rota
+        self.cabecalho_cargas.grid_columnconfigure(4, weight=1)     # Observação (flexível)
+
+        ctk.CTkLabel(
+            self.cabecalho_cargas, text="Carga",
+            font=FONTE_LABEL, text_color=COR_TEXTO
+        ).grid(row=0, column=0, padx=(35, 33))
+
+        ctk.CTkLabel(
+            self.cabecalho_cargas, text="Cód",
+            font=FONTE_LABEL, text_color=COR_TEXTO
+        ).grid(row=0, column=1, padx=(0, 50))
+
+        ctk.CTkLabel(
+            self.cabecalho_cargas, text="Nome",
+            font=FONTE_LABEL, text_color=COR_TEXTO
+        ).grid(row=0, column=2, padx=(0, 250))
+
+        ctk.CTkLabel(
+            self.cabecalho_cargas, text="Rota",
+            font=FONTE_LABEL, text_color=COR_TEXTO
+        ).grid(row=0, column=3, padx=(0, 230))
+
+        ctk.CTkLabel(
+            self.cabecalho_cargas, text="Observação",
+            font=FONTE_LABEL, text_color=COR_TEXTO
+        ).grid(row=0, column=4, sticky="w")
 
 
-        self.label_numero_total_cargas = ctk.CTkLabel(self, text="Total: 0", anchor="w", font=("Segoe UI", 14, "bold"), text_color=COR_TEXTO)
-        self.label_numero_total_cargas.place(x=43, y=835)
+
+
+        self.container_cargas = ctk.CTkScrollableFrame(
+            self.main_frame,
+            height=550
+        )
+        self.container_cargas.grid(
+            row=4,
+            column=0,
+            sticky="nsew",
+            padx=(40, 290),
+            pady=(5, 0)
+        )
+
+        self.container_cargas._scrollbar.grid_remove()
+        self.frames_cargas = []
+
+
+        self.footer_frame = ctk.CTkFrame(self.main_frame)
+        self.footer_frame.grid(
+            row=5,
+            column=0,
+            sticky="ew",
+            padx=(40, 290),
+            pady=(10, 15)
+        )
+
+        self.footer_frame.grid_columnconfigure(0, weight=1)
+
+        self.label_numero_total_cargas = ctk.CTkLabel(
+            self.footer_frame,
+            text="Total: 0",
+            font=("Segoe UI", 14, "bold"),
+            text_color=COR_TEXTO,
+            anchor="w"
+        )
+        self.label_numero_total_cargas.grid(row=0, column=0, sticky="w")
