@@ -148,7 +148,7 @@ class EditarEscalaView(ctk.CTkFrame):
         self.botao_salvar_escala = ctk.CTkButton(
             self.toolbar_frame_1,
             text="Salvar",
-            command=self.controller.coletar_dados,
+            command=self.controller.confirmar,
             font=FONTE_BOTAO_SECUNDARIO,
             text_color=COR_TEXTO_BOTAO,
             fg_color=COR_BOTAO,

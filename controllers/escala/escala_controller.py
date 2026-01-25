@@ -186,8 +186,8 @@ class EscalaController:
     def exibir_nome_funcionario(self, frame, tipo: Literal["motorista", "ajudante1", "ajudante2"]):
         widgets = {
             "motorista": (frame.entry_cod_motorista, frame.label_nome_motorista),
-            "ajudante1": (frame.entry_cod_ajudante_1, frame.label_nome_ajudante_1),
-            "ajudante2": (frame.entry_cod_ajudante_2, frame.label_nome_ajudante_2)
+            "ajudante_1": (frame.entry_cod_ajudante_1, frame.label_nome_ajudante_1),
+            "ajudante_2": (frame.entry_cod_ajudante_2, frame.label_nome_ajudante_2)
         }
         
         entry, label = widgets[tipo]
@@ -257,38 +257,40 @@ class EscalaController:
     def _configurar_eventos_frame_carga(self, frame):
         """Configura os eventos de digitação para um frame carga recém-criado."""
 
-        fluxo_entrys = [
-            (frame.entry_cod_motorista, frame.entry_cod_ajudante_1),
-            (frame.entry_cod_ajudante_1, frame.entry_cod_ajudante_2)
-        ]
-        for widget_atual, proximo_widget in fluxo_entrys:
-            widget_atual.bind("<Return>", lambda event, nxt=proximo_widget: nxt.focus_set())
-
-
-
         frame.entry_cod_motorista.bind("<Return>",
-            lambda event: self.exibir_nome_funcionario(frame, "motorista"))
-            
+            lambda event: self._on_enter_funcionario(frame, "motorista", frame.entry_cod_ajudante_1))
         frame.entry_cod_ajudante_1.bind("<Return>",
-            lambda event: self.exibir_nome_funcionario(frame, "ajudante1"))
-            
+            lambda event: self._on_enter_funcionario(frame, "ajudante_1", frame.entry_cod_ajudante_2))
         frame.entry_cod_ajudante_2.bind("<Return>",
-            lambda event: self.exibir_nome_funcionario(frame, "ajudante2"))
+            lambda event: self._on_enter_funcionario(frame, "ajudante_2"))
+        
+
         
         frame.entry_cod_motorista.bind("<FocusOut>",
             lambda event: self.exibir_nome_funcionario(frame, "motorista"))
-            
         frame.entry_cod_ajudante_1.bind("<FocusOut>",
-            lambda event: self.exibir_nome_funcionario(frame, "ajudante1"))
-            
+            lambda event: self.exibir_nome_funcionario(frame, "ajudante_1"))
         frame.entry_cod_ajudante_2.bind("<FocusOut>",
-            lambda event: self.exibir_nome_funcionario(frame, "ajudante2"))
-
-
-
+            lambda event: self.exibir_nome_funcionario(frame, "ajudante_2"))
+        
         self._recursive_bind_scroll(frame)
 
+    def _on_enter_funcionario(self, frame, campo, proximo_widget=None):
+        codigo = {
+            "motorista": frame.entry_cod_motorista.get(),
+            "ajudante_1": frame.entry_cod_ajudante_1.get(),
+            "ajudante_2": frame.entry_cod_ajudante_2.get()
+        }[campo]
 
+        self.verificar_repeticao_ao_digitar(
+            codigo,
+            frame.label_cod_carga.cget("text")
+        )
+        
+        self.exibir_nome_funcionario(frame, campo)
+
+        if proximo_widget:
+            proximo_widget.focus_set()
 
 
 
@@ -297,6 +299,7 @@ class EscalaController:
 
         for frame in self.view.frames_cargas:
             dados.append({
+                "cod_carga": frame.label_cod_carga.cget("text"),
                 "numero_carga": frame.label_numero_carga.cget("text"),
                 "motorista": frame.entry_cod_motorista.get(),
                 "ajudante_1": frame.entry_cod_ajudante_1.get(),
@@ -304,5 +307,74 @@ class EscalaController:
                 "rota": frame.entry_rota.get(),
                 "observacao": frame.entry_observacao.get()
             })
+
+        return dados
+    
+
+    def buscar_funcionario_em_cargas(self, codigo):
+        dados = self.coletar_dados()
+
+        ocorrencias = []
+
+        for carga in dados:
+            if codigo in (
+                carga["motorista"],
+                carga["ajudante_1"],
+                carga["ajudante_2"]
+            ):
+                ocorrencias.append(carga["cod_carga"])
+
+        return ocorrencias
+    
+    def verificar_repeticao_ao_digitar(self, codigo, cod_carga_atual):
+        if not codigo.strip():
+            return
+
+        dados = self.coletar_dados()
+
+        # -----------------------------
+        # A) REPETIÇÃO NA MESMA CARGA
+        # -----------------------------
+        carga_atual = next(
+            carga for carga in dados if carga["cod_carga"] == cod_carga_atual
+        )
+
+        campos = [
+            carga_atual["motorista"],
+            carga_atual["ajudante_1"],
+            carga_atual["ajudante_2"]
+        ]
+
+        if campos.count(codigo) > 1:
+            exibir_mensagem(
+                "Funcionário repetido",
+                f"O funcionário {codigo} está repetido "
+                f"na mesma carga ({cod_carga_atual}).",
+                "warning"
+            )
+            return
+
+        # --------------------------------
+        # B) REPETIÇÃO EM OUTRAS CARGAS
+        # --------------------------------
+
+        cargas = self.buscar_funcionario_em_cargas(codigo)
+
+        cargas_anteriores = [
+            c for c in cargas if c != cod_carga_atual
+        ]
+
+        if cargas_anteriores:
+            exibir_mensagem(
+                "Funcionário repetido",
+                f"O funcionário {codigo} já está na(s) carga(s): "
+                f"{', '.join(map(str, cargas_anteriores))}",
+                "warning"
+            )
+
+
+    def confirmar(self):
+
+        dados = self.coletar_dados()
 
         print(dados)
