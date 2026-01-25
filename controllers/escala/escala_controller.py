@@ -262,7 +262,7 @@ class EscalaController:
         frame.entry_cod_ajudante_1.bind("<Return>",
             lambda event: self._on_enter_funcionario(frame, "ajudante_1", frame.entry_cod_ajudante_2))
         frame.entry_cod_ajudante_2.bind("<Return>",
-            lambda event: self._on_enter_funcionario(frame, "ajudante_2"))
+            lambda event: self._on_enter_ajudante_2_ultimo(frame))
         
 
         
@@ -291,6 +291,50 @@ class EscalaController:
 
         if proximo_widget:
             proximo_widget.focus_set()
+
+    def _on_enter_ajudante_2_ultimo(self, frame):
+        codigo = frame.entry_cod_ajudante_2.get()
+
+        self.verificar_repeticao_ao_digitar(
+            codigo,
+            frame.label_cod_carga.cget("text")
+        )
+
+        self.exibir_nome_funcionario(frame, "ajudante_2")
+
+        try:
+            idx = self.view.frames_cargas.index(frame)
+        except ValueError:
+            return
+
+        proximo_idx = idx + 1
+
+        if proximo_idx < len(self.view.frames_cargas):
+            proximo_frame = self.view.frames_cargas[proximo_idx]
+            entry = proximo_frame.entry_cod_motorista
+
+            entry.focus_set()
+            self._scroll_para_widget(entry)
+
+
+    def _scroll_para_widget(self, widget):
+        scrollframe = self.view.container_cargas
+        canvas = scrollframe._parent_canvas
+
+        canvas.update_idletasks()
+
+        widget_y = widget.winfo_rooty()
+        canvas_y = canvas.winfo_rooty()
+
+        delta = widget_y - canvas_y
+
+        altura_canvas = canvas.winfo_height()
+        altura_total = canvas.bbox("all")[3]
+
+        nova_posicao = canvas.canvasy(0) + delta - altura_canvas // 3
+
+        canvas.yview_moveto(nova_posicao / altura_total)
+
 
 
 
