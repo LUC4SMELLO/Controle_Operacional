@@ -260,36 +260,47 @@ class EditarEscalaView(ctk.CTkFrame):
         )
 
         # colunas do cabeçalho
-        self.cabecalho_cargas.grid_columnconfigure(0, minsize=80)   # Carga
-        self.cabecalho_cargas.grid_columnconfigure(1, minsize=80)   # Cód
-        self.cabecalho_cargas.grid_columnconfigure(2, minsize=220)  # Nome
-        self.cabecalho_cargas.grid_columnconfigure(3, minsize=180)  # Rota
-        self.cabecalho_cargas.grid_columnconfigure(4, weight=1)     # Observação (flexível)
+        self.cabecalho_cargas.grid_columnconfigure(0, weight=0)  # Carga
+        self.cabecalho_cargas.grid_columnconfigure(1, weight=0)  # Cód
+        self.cabecalho_cargas.grid_columnconfigure(2, weight=3)  # Nome (mais largo)
+        self.cabecalho_cargas.grid_columnconfigure(3, weight=3)  # Rota
+        self.cabecalho_cargas.grid_columnconfigure(4, weight=3)  # Observação
+
 
         ctk.CTkLabel(
-            self.cabecalho_cargas, text="Carga",
-            font=FONTE_LABEL, text_color=COR_TEXTO
-        ).grid(row=0, column=0, padx=(35, 33))
+            self.cabecalho_cargas,
+            text="Carga",
+            font=FONTE_LABEL,
+            text_color=COR_TEXTO
+        ).grid(row=0, column=0, padx=35, sticky="w")
 
         ctk.CTkLabel(
-            self.cabecalho_cargas, text="Cód",
-            font=FONTE_LABEL, text_color=COR_TEXTO
-        ).grid(row=0, column=1, padx=(0, 50))
+            self.cabecalho_cargas,
+            text="Cód",
+            font=FONTE_LABEL,
+            text_color=COR_TEXTO
+        ).grid(row=0, column=1, padx=(0, 100), sticky="w")
 
         ctk.CTkLabel(
-            self.cabecalho_cargas, text="Nome",
-            font=FONTE_LABEL, text_color=COR_TEXTO
-        ).grid(row=0, column=2, padx=(0, 250))
+            self.cabecalho_cargas,
+            text="Nome",
+            font=FONTE_LABEL,
+            text_color=COR_TEXTO
+        ).grid(row=0, column=2, padx=10, sticky="w")
 
         ctk.CTkLabel(
-            self.cabecalho_cargas, text="Rota",
-            font=FONTE_LABEL, text_color=COR_TEXTO
-        ).grid(row=0, column=3, padx=(0, 230))
+            self.cabecalho_cargas,
+            text="Rota",
+            font=FONTE_LABEL,
+            text_color=COR_TEXTO
+        ).grid(row=0, column=3, padx=10, sticky="w")
 
         ctk.CTkLabel(
-            self.cabecalho_cargas, text="Observação",
-            font=FONTE_LABEL, text_color=COR_TEXTO
-        ).grid(row=0, column=4, sticky="w")
+            self.cabecalho_cargas,
+            text="Observação",
+            font=FONTE_LABEL,
+            text_color=COR_TEXTO
+        ).grid(row=0, column=4, padx=10, sticky="w")
 
 
 
