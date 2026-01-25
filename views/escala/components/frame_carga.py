@@ -4,13 +4,13 @@ from PIL import Image
 from constants.paths import ICONS_DIR
 
 from constants.textos import FONTE_TEXTO, FONTE_LABEL
-from constants.cores import COR_TEXTO, COR_BOTAO, HOVER_BOTAO
+from constants.cores import COR_TEXTO, COR_BOTAO, HOVER_BOTAO, COR_TEXTO_BOTAO
 from constants.rotas import ROTAS
 
 
 class FrameCarga(ctk.CTkFrame):
     def __init__(self, master, controller):
-        super().__init__(master, height=85, border_width=0, border_color="#4a4d50")
+        super().__init__(master, height=85, border_width=0, fg_color="#252728")
 
         self.controller = controller
 
@@ -26,11 +26,11 @@ class FrameCarga(ctk.CTkFrame):
         self.grid_columnconfigure(6, weight=0)
 
 
-        self.label_cod_carga = ctk.CTkLabel(self, text="", width=20, font=("Segoe UI", 14, "bold"))
+        self.label_cod_carga = ctk.CTkLabel(self, text="", width=20, font=("Segoe UI", 14, "bold"), text_color=COR_TEXTO_BOTAO)
         self.label_cod_carga.grid(row=1, column=0, padx=(2, 5), pady=(0, 5))
 
         # Número Carga
-        self.label_numero_carga = ctk.CTkLabel(self, text="       ", font=FONTE_TEXTO, text_color=COR_TEXTO)
+        self.label_numero_carga = ctk.CTkLabel(self, text="       ", font=FONTE_TEXTO, text_color=COR_TEXTO_BOTAO)
         self.label_numero_carga.grid(row=2, column=1, sticky="w")
 
 
@@ -45,13 +45,13 @@ class FrameCarga(ctk.CTkFrame):
         self.entry_cod_ajudante_2.grid(row=3, column=2, pady=3)
 
         # Nomes
-        self.label_nome_motorista = ctk.CTkLabel(self, text="", wraplength=158, width=160, anchor="w", justify="left")
+        self.label_nome_motorista = ctk.CTkLabel(self, text="", font=FONTE_TEXTO, text_color=COR_TEXTO_BOTAO, wraplength=158, width=160, anchor="w", justify="left")
         self.label_nome_motorista.grid(row=1, column=3, sticky="w", padx=(0, 5), pady=2)
 
-        self.label_nome_ajudante_1 = ctk.CTkLabel(self, text="", wraplength=158, width=160, anchor="w", justify="left")
+        self.label_nome_ajudante_1 = ctk.CTkLabel(self, text="", font=FONTE_TEXTO, text_color=COR_TEXTO_BOTAO, wraplength=158, width=160, anchor="w", justify="left")
         self.label_nome_ajudante_1.grid(row=2, column=3, sticky="w", padx=(0, 5), pady=1)
 
-        self.label_nome_ajudante_2 = ctk.CTkLabel(self, text="", wraplength=158,  width=160, anchor="w", justify="left")
+        self.label_nome_ajudante_2 = ctk.CTkLabel(self, text="", font=FONTE_TEXTO, text_color=COR_TEXTO_BOTAO, wraplength=158,  width=160, anchor="w", justify="left")
         self.label_nome_ajudante_2.grid(row=3, column=3, sticky="w", padx=(0, 5), pady=2)
 
         # Rota

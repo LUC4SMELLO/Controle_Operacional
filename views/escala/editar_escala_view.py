@@ -27,18 +27,18 @@ class EditarEscalaView(ctk.CTkFrame):
         self.grid_rowconfigure(0, weight=1)
         self.grid_columnconfigure(0, weight=1)
 
-        self.main_frame = ctk.CTkFrame(self, fg_color="pink")
+        self.main_frame = ctk.CTkFrame(self, fg_color="transparent")
         self.main_frame.grid_rowconfigure(0, weight=0) # HEADER
-        self.main_frame.grid_rowconfigure(1, weight=0)
-        self.main_frame.grid_rowconfigure(2, weight=0)
-        self.main_frame.grid_rowconfigure(3, weight=0)
-        self.main_frame.grid_rowconfigure(4, weight=1)
-        self.main_frame.grid_rowconfigure(5, weight=0)
+        self.main_frame.grid_rowconfigure(1, weight=0) # TOOLBAR 1
+        self.main_frame.grid_rowconfigure(2, weight=0) # TOOLBAR 2
+        self.main_frame.grid_rowconfigure(3, weight=0) # CABEÇALHO CARGAS
+        self.main_frame.grid_rowconfigure(4, weight=1) # CONTAINER CARGAS
+        self.main_frame.grid_rowconfigure(5, weight=0) # FOOTER
         self.main_frame.grid_columnconfigure(0, weight=1)
         self.main_frame.grid(row=0, column=0, sticky="nsew")
 
 
-        self.header_frame = ctk.CTkFrame(self.main_frame, fg_color="red")
+        self.header_frame = ctk.CTkFrame(self.main_frame, fg_color="transparent")
         self.header_frame.grid_rowconfigure(0, weight=1)
         self.header_frame.grid_rowconfigure(1, weight=1)
         self.header_frame.grid_columnconfigure(0, weight=0)
@@ -60,7 +60,7 @@ class EditarEscalaView(ctk.CTkFrame):
 
         
 
-        self.toolbar_frame_1 = ctk.CTkFrame(self.main_frame, fg_color="blue")
+        self.toolbar_frame_1 = ctk.CTkFrame(self.main_frame, fg_color="transparent")
         self.toolbar_frame_1.grid_rowconfigure(0, weight=1)
         self.toolbar_frame_1.grid_columnconfigure(0, weight=0)
         self.toolbar_frame_1.grid_columnconfigure(1, weight=0)
@@ -161,7 +161,7 @@ class EditarEscalaView(ctk.CTkFrame):
 
 
 
-        self.toolbar_frame_2 = ctk.CTkFrame(self.main_frame, fg_color="green")
+        self.toolbar_frame_2 = ctk.CTkFrame(self.main_frame, fg_color="transparent")
         self.toolbar_frame_2.grid_rowconfigure(0, weight=1)
         self.toolbar_frame_2.grid_rowconfigure(1, minsize=2)
         self.toolbar_frame_2.grid_columnconfigure(0, weight=0)
@@ -296,6 +296,7 @@ class EditarEscalaView(ctk.CTkFrame):
 
         self.container_cargas = ctk.CTkScrollableFrame(
             self.main_frame,
+            fg_color="#434548",
             height=550
         )
         self.container_cargas.grid(
