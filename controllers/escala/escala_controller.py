@@ -273,6 +273,8 @@ class EscalaController:
         frame.entry_cod_ajudante_2.bind("<FocusOut>",
             lambda event: self.exibir_nome_funcionario(frame, "ajudante_2"))
         
+        self._configurar_navegacao_tab(frame)
+        
         self._recursive_bind_scroll(frame)
 
     def _on_enter_funcionario(self, frame, campo, proximo_widget=None):
@@ -316,6 +318,30 @@ class EscalaController:
             entry.focus_set()
             self._scroll_para_widget(entry)
 
+    def _on_tab(self, event, frame, reverso=False):
+        ordem = self._get_ordem_navegacao(frame)
+
+        try:
+            idx = ordem.index(event.widget)
+        except ValueError:
+            return "break"
+
+        novo_idx = idx - 1 if reverso else idx + 1
+
+        if novo_idx >= len(ordem):
+            self._ir_para_proxima_carga(frame)
+            return "break"
+
+        if novo_idx < 0:
+            self._ir_para_carga_anterior(frame)
+            return "break"
+
+        destino = ordem[novo_idx]
+        destino.focus_set()
+        self._scroll_para_widget(destino)
+
+        return "break"
+
 
     def _scroll_para_widget(self, widget):
         scrollframe = self.view.container_cargas
@@ -334,6 +360,9 @@ class EscalaController:
         nova_posicao = canvas.canvasy(0) + delta - altura_canvas // 3
 
         canvas.yview_moveto(nova_posicao / altura_total)
+
+
+
 
 
 
@@ -415,6 +444,69 @@ class EscalaController:
                 f"{', '.join(map(str, cargas_anteriores))}",
                 "warning"
             )
+
+    def _get_ordem_navegacao(self, frame):
+        return [
+            frame.entry_cod_motorista._entry,
+            frame.entry_cod_ajudante_1._entry,
+            frame.entry_cod_ajudante_2._entry,
+            frame.entry_rota._entry,
+            frame.entry_observacao._entry,
+        ]
+
+    
+    def _configurar_navegacao_tab(self, frame):
+        for entry in self._get_ordem_navegacao(frame):
+            entry.bind(
+                "<Tab>",
+                lambda e, f=frame: self._on_tab(e, f),
+                add="+"
+            )
+            entry.bind(
+                "<Shift-Tab>",
+                lambda e, f=frame: self._on_tab(e, f, reverso=True),
+                add="+"
+            )
+
+    def _ir_para_proxima_carga(self, frame_atual):
+        try:
+            idx = self.view.frames_cargas.index(frame_atual)
+        except ValueError:
+            return
+
+        proximo_idx = idx + 1
+
+        if proximo_idx >= len(self.view.frames_cargas):
+            proximo_idx = 0 
+            
+        proximo_frame = self.view.frames_cargas[proximo_idx]
+        destino = proximo_frame.entry_cod_motorista._entry
+
+        destino.focus_set()
+        self._scroll_para_widget(destino)
+
+
+    def _ir_para_carga_anterior(self, frame_atual):
+        try:
+            idx = self.view.frames_cargas.index(frame_atual)
+        except ValueError:
+            return
+
+        anterior_idx = idx - 1
+
+        if anterior_idx < 0:
+            anterior_idx = len(self.view.frames_cargas) - 1
+
+        frame_anterior = self.view.frames_cargas[anterior_idx]
+        ordem = self._get_ordem_navegacao(frame_anterior)
+        destino = ordem[-1]
+
+        destino.focus_set()
+        self._scroll_para_widget(destino)
+
+
+
+
 
 
     def confirmar(self):
