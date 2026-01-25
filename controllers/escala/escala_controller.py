@@ -196,7 +196,7 @@ class EscalaController:
         if codigo:
             resultado = self.model.buscar_informacoes_funcionario(codigo)
             if resultado:
-                nome_exibicao = (resultado[0][:23] + "...") if len(resultado[0]) > 25 else resultado[0]
+                nome_exibicao = (resultado[0][:22] + "...") if len(resultado[0]) > 23 else resultado[0]
                 label.configure(text=nome_exibicao)
             else:
                 label.configure(text="Não encontrado.")
@@ -305,4 +305,4 @@ class EscalaController:
                 "observacao": frame.entry_observacao.get()
             })
 
-        return dados
+        print(dados)
