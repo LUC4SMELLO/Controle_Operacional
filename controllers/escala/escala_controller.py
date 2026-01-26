@@ -87,6 +87,7 @@ class EscalaController:
             self._configurar_eventos_frame_carga(frame)
 
         self.atualizar_numero_total_cargas()
+        self.atualizar_numero_total_motoristas()
 
 
 
@@ -116,6 +117,7 @@ class EscalaController:
             self._configurar_eventos_frame_carga(frame)
 
         self.atualizar_numero_total_cargas()
+        self.atualizar_numero_total_motoristas()
 
 
     def limpar_cargas(self):
@@ -132,6 +134,7 @@ class EscalaController:
 
         self.view.container_cargas._parent_canvas.focus_set()
         self.atualizar_numero_total_cargas()
+        self.atualizar_numero_total_motoristas()
         
 
 
@@ -155,6 +158,7 @@ class EscalaController:
 
         self.atualizar_numero_total_cargas()
         self.atualizar_numero_viagem_cargas()
+        self.atualizar_numero_total_motoristas()
 
 
     def remover_carga_especifica(self, frame):
@@ -170,6 +174,7 @@ class EscalaController:
         self.atualizar_indices_cargas()
         self.atualizar_numero_total_cargas()
         self.atualizar_numero_viagem_cargas()
+        self.atualizar_numero_total_motoristas()
 
 
     def atualizar_indices_cargas(self):
@@ -181,6 +186,22 @@ class EscalaController:
         quantidade_total = len(self.view.frames_cargas)
 
         self.view.label_numero_total_cargas.configure(text=f"Total: {quantidade_total}")
+
+
+    def atualizar_numero_total_motoristas(self):
+        dados = self.coletar_dados()
+
+        total_motorista = 0
+
+        for carga in dados:
+            if not carga["motorista"]:
+                continue
+
+            total_motorista += 1
+
+        self.view.label_numero_total_motoristas.configure(text=f"Motoristas: {total_motorista}")
+
+
 
 
     def exibir_nome_funcionario(self, frame, tipo: Literal["motorista", "ajudante1", "ajudante2"]):
@@ -265,13 +286,12 @@ class EscalaController:
             lambda event: self._on_enter_ajudante_2_ultimo(frame))
         
 
-        
         frame.entry_cod_motorista.bind("<FocusOut>",
-            lambda event: self.exibir_nome_funcionario(frame, "motorista"))
+            lambda event: self._on_focus_out_funcionario(frame, "motorista"))
         frame.entry_cod_ajudante_1.bind("<FocusOut>",
-            lambda event: self.exibir_nome_funcionario(frame, "ajudante_1"))
+            lambda event: self._on_focus_out_funcionario(frame, "ajudante_1"))
         frame.entry_cod_ajudante_2.bind("<FocusOut>",
-            lambda event: self.exibir_nome_funcionario(frame, "ajudante_2"))
+            lambda event: self._on_focus_out_funcionario(frame, "ajudante_2"))
         
         self._configurar_navegacao_tab(frame)
         
@@ -291,6 +311,8 @@ class EscalaController:
         
         self.exibir_nome_funcionario(frame, campo)
 
+        self.atualizar_numero_total_motoristas()
+
         if proximo_widget:
             proximo_widget.focus_set()
 
@@ -303,6 +325,7 @@ class EscalaController:
         )
 
         self.exibir_nome_funcionario(frame, "ajudante_2")
+        self.atualizar_numero_total_motoristas()
 
         try:
             idx = self.view.frames_cargas.index(frame)
@@ -317,6 +340,22 @@ class EscalaController:
 
             entry.focus_set()
             self._scroll_para_widget(entry)
+
+    def _on_focus_out_funcionario(self, frame, campo):
+        codigo = {
+            "motorista": frame.entry_cod_motorista.get(),
+            "ajudante_1": frame.entry_cod_ajudante_1.get(),
+            "ajudante_2": frame.entry_cod_ajudante_2.get()
+        }[campo]
+
+        self.verificar_repeticao_ao_digitar(
+            codigo,
+            frame.label_cod_carga.cget("text")
+        )
+        
+        self.exibir_nome_funcionario(frame, campo)
+
+        self.atualizar_numero_total_motoristas()
 
     def _on_tab(self, event, frame, reverso=False):
         ordem = self._get_ordem_navegacao(frame)
