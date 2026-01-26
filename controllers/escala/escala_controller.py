@@ -201,8 +201,10 @@ class EscalaController:
         for carga in dados:
             if not carga["motorista"]:
                 continue
-
-            total_motorista += 1
+            else:
+                resultado = self.model.buscar_informacoes_funcionario(carga["motorista"])
+                if resultado:
+                    total_motorista += 1
 
         self.view.label_numero_total_motoristas.configure(text=f"Motoristas: {total_motorista}")
 
@@ -213,9 +215,13 @@ class EscalaController:
 
         for carga in dados:
             if carga["ajudante_1"]:
-                total_ajudantes += 1
+                resultado = self.model.buscar_informacoes_funcionario(carga["ajudante_1"])
+                if resultado:
+                    total_ajudantes += 1
             if carga["ajudante_2"]:
-                total_ajudantes += 1
+                resultado = self.model.buscar_informacoes_funcionario(carga["ajudante_2"])
+                if resultado:
+                    total_ajudantes += 1
 
         self.view.label_numero_total_ajudantes.configure(text=f"Ajudantes: {total_ajudantes}")
 
