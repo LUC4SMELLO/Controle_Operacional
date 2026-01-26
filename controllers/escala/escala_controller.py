@@ -339,7 +339,7 @@ class EscalaController:
         self._recursive_bind_scroll(frame)
 
 
-    def _on_enter_funcionario(self, frame, campo, proximo_widget=None):
+    def _processar_funcionario(self, frame, campo):
         codigo = {
             "motorista": frame.entry_cod_motorista.get(),
             "ajudante_1": frame.entry_cod_ajudante_1.get(),
@@ -350,30 +350,34 @@ class EscalaController:
             codigo,
             frame.label_cod_carga.cget("text")
         )
-        
+
         self.exibir_nome_funcionario(frame, campo)
 
         self.atualizar_numero_total_motoristas()
         self.atualizar_numero_total_ajudantes()
         self.atualizar_numero_total_repetidos()
 
+
+    def _on_enter_funcionario(self, frame, campo, proximo_widget=None):
+        entry = {
+            "motorista": frame.entry_cod_motorista,
+            "ajudante_1": frame.entry_cod_ajudante_1,
+            "ajudante_2": frame.entry_cod_ajudante_2,
+        }[campo]
+
+        entry._enter_executado = True
+
+        self._processar_funcionario(frame, campo)
+
         if proximo_widget:
             proximo_widget.focus_set()
 
 
     def _on_enter_ajudante_2_ultimo(self, frame):
-        codigo = frame.entry_cod_ajudante_2.get()
+        entry = frame.entry_cod_ajudante_2
+        entry._enter_executado = True
 
-        self.verificar_repeticao_ao_digitar(
-            codigo,
-            frame.label_cod_carga.cget("text")
-        )
-
-        self.exibir_nome_funcionario(frame, "ajudante_2")
-
-        self.atualizar_numero_total_motoristas()
-        self.atualizar_numero_total_ajudantes()
-        self.atualizar_numero_total_repetidos()
+        self._processar_funcionario(frame, "ajudante_2")
 
         try:
             idx = self.view.frames_cargas.index(frame)
@@ -384,6 +388,13 @@ class EscalaController:
 
         if proximo_idx < len(self.view.frames_cargas):
             proximo_frame = self.view.frames_cargas[proximo_idx]
+            proximo_entry = proximo_frame.entry_cod_motorista
+
+            proximo_entry.focus_set()
+            self._scroll_para_widget(proximo_entry)
+
+        if proximo_idx < len(self.view.frames_cargas):
+            proximo_frame = self.view.frames_cargas[proximo_idx]
             entry = proximo_frame.entry_cod_motorista
 
             entry.focus_set()
@@ -391,22 +402,17 @@ class EscalaController:
 
 
     def _on_focus_out_funcionario(self, frame, campo):
-        codigo = {
-            "motorista": frame.entry_cod_motorista.get(),
-            "ajudante_1": frame.entry_cod_ajudante_1.get(),
-            "ajudante_2": frame.entry_cod_ajudante_2.get()
+        entry = {
+            "motorista": frame.entry_cod_motorista,
+            "ajudante_1": frame.entry_cod_ajudante_1,
+            "ajudante_2": frame.entry_cod_ajudante_2,
         }[campo]
 
-        self.verificar_repeticao_ao_digitar(
-            codigo,
-            frame.label_cod_carga.cget("text")
-        )
-        
-        self.exibir_nome_funcionario(frame, campo)
+        if entry._enter_executado:
+            entry._enter_executado = False
+            return
 
-        self.atualizar_numero_total_motoristas()
-        self.atualizar_numero_total_ajudantes()
-        self.atualizar_numero_total_repetidos()
+        self._processar_funcionario(frame, campo)
 
 
     def _on_tab(self, event, frame, reverso=False):

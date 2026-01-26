@@ -15,8 +15,6 @@ class FrameCarga(ctk.CTkFrame):
         self.controller = controller
 
 
-
-
         self.grid_columnconfigure(0, weight=0)
         self.grid_columnconfigure(1, weight=0, minsize=60)
         self.grid_columnconfigure(2, weight=0)
@@ -29,12 +27,12 @@ class FrameCarga(ctk.CTkFrame):
         self.label_cod_carga = ctk.CTkLabel(self, text="", width=20, font=("Segoe UI", 14, "bold"), text_color=COR_TEXTO_BOTAO)
         self.label_cod_carga.grid(row=1, column=0, padx=(2, 5), pady=(0, 5))
 
-        # Número Carga
+        # NÚMERO DA CARGA
         self.label_numero_carga = ctk.CTkLabel(self, text="       ", font=FONTE_TEXTO, text_color=COR_TEXTO_BOTAO)
         self.label_numero_carga.grid(row=2, column=1, sticky="w")
 
 
-        # Códigos
+        # CÓDIGOS
         self.entry_cod_motorista = ctk.CTkEntry(self, width=50, border_width=0, corner_radius=0)
         self.entry_cod_motorista.grid(row=1, column=2, padx=10, pady=3)
 
@@ -44,7 +42,12 @@ class FrameCarga(ctk.CTkFrame):
         self.entry_cod_ajudante_2 = ctk.CTkEntry(self, width=50, border_width=0, corner_radius=0)
         self.entry_cod_ajudante_2.grid(row=3, column=2, pady=3)
 
-        # Nomes
+        # FLAGS DE CONTROLE
+        self.entry_cod_motorista._enter_executado = False
+        self.entry_cod_ajudante_1._enter_executado = False
+        self.entry_cod_ajudante_2._enter_executado = False
+
+        # NOMES
         self.label_nome_motorista = ctk.CTkLabel(self, text="", font=FONTE_TEXTO, text_color=COR_TEXTO_BOTAO, wraplength=158, width=160, anchor="w", justify="left")
         self.label_nome_motorista.grid(row=1, column=3, sticky="w", padx=(0, 5), pady=2)
 
@@ -54,12 +57,12 @@ class FrameCarga(ctk.CTkFrame):
         self.label_nome_ajudante_2 = ctk.CTkLabel(self, text="", font=FONTE_TEXTO, text_color=COR_TEXTO_BOTAO, wraplength=158,  width=160, anchor="w", justify="left")
         self.label_nome_ajudante_2.grid(row=3, column=3, sticky="w", padx=(0, 5), pady=2)
 
-        # Rota
+        # ROTA
         nome_rotas = [r[1] for r in ROTAS.values()]
         self.entry_rota = ctk.CTkComboBox(self, values=nome_rotas, width=250, border_width=0, corner_radius=0)
         self.entry_rota.grid(row=2, column=4, padx=(40, 0))
 
-        # Observação
+        # OBSERVAÇÃO
         self.entry_observacao = ctk.CTkEntry(self, width=240, border_width=0, corner_radius=0)
         self.entry_observacao.grid(row=2, column=5, sticky="w")
 
