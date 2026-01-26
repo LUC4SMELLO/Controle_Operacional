@@ -344,14 +344,14 @@ class EditarEscalaView(ctk.CTkFrame):
         )
         self.label_numero_total_cargas.grid(row=0, column=0, padx=(0, 0), sticky="w")
 
-        self.label_numero_repetidos = ctk.CTkLabel(
+        self.label_numero_total_repetidos = ctk.CTkLabel(
             self.footer_frame,
             text="Repetidos: 0",
             font=("Segoe UI", 14, "bold"),
             text_color=COR_TEXTO,
             anchor="w"
         )
-        self.label_numero_repetidos.grid(row=0, column=1, padx=(0, 45), sticky="w")
+        self.label_numero_total_repetidos.grid(row=0, column=1, padx=(0, 45), sticky="w")
 
         self.label_numero_total_motoristas = ctk.CTkLabel(
             self.footer_frame,

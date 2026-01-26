@@ -138,6 +138,7 @@ class EscalaController:
         self.atualizar_numero_total_cargas()
         self.atualizar_numero_total_motoristas()
         self.atualizar_numero_total_ajudantes()
+        self.atualizar_numero_total_repetidos()
         
 
 
@@ -163,6 +164,7 @@ class EscalaController:
         self.atualizar_numero_viagem_cargas()
         self.atualizar_numero_total_motoristas()
         self.atualizar_numero_total_ajudantes()
+        self.atualizar_numero_total_repetidos()
 
 
     def remover_carga_especifica(self, frame):
@@ -180,6 +182,7 @@ class EscalaController:
         self.atualizar_numero_viagem_cargas()
         self.atualizar_numero_total_motoristas()
         self.atualizar_numero_total_ajudantes()
+        self.atualizar_numero_total_repetidos()
 
 
     def atualizar_indices_cargas(self):
@@ -191,6 +194,17 @@ class EscalaController:
         quantidade_total = len(self.view.frames_cargas)
 
         self.view.label_numero_total_cargas.configure(text=f"Total: {quantidade_total}")
+
+
+    def atualizar_numero_viagem_cargas(self):
+        for frame in self.view.frames_cargas:
+            codigo = frame.entry_cod_motorista.get().strip()
+            if not codigo:
+                continue
+
+            funcionario = self.model.buscar_informacoes_funcionario(codigo)
+            if funcionario:
+                self.exibir_numero_carga(frame)
 
 
     def atualizar_numero_total_motoristas(self):
@@ -224,6 +238,25 @@ class EscalaController:
                     total_ajudantes += 1
 
         self.view.label_numero_total_ajudantes.configure(text=f"Ajudantes: {total_ajudantes}")
+
+
+    def atualizar_numero_total_repetidos(self):
+        dados = self.coletar_dados()
+        contagem_geral = {}
+        total_repetidos = 0
+
+        for carga in dados:
+            funcionarios = [carga.get("motorista"), carga.get("ajudante_1"), carga.get("ajudante_2")]
+            
+            for codigo in funcionarios:
+                if codigo and str(codigo).strip():
+                    contagem_geral[codigo] = contagem_geral.get(codigo, 0) + 1
+                    
+        for codigo, qtd in contagem_geral.items():
+            if qtd > 1:
+                total_repetidos += (qtd - 1)
+
+        self.view.label_numero_total_repetidos.configure(text=f"Repetidos: {total_repetidos}")
 
 
 
@@ -283,21 +316,6 @@ class EscalaController:
         return contador + 1
     
 
-    def atualizar_numero_viagem_cargas(self):
-        for frame in self.view.frames_cargas:
-            codigo = frame.entry_cod_motorista.get().strip()
-            if not codigo:
-                continue
-
-            funcionario = self.model.buscar_informacoes_funcionario(codigo)
-            if funcionario:
-                self.exibir_numero_carga(frame)
-
-
-
-
-
-
     def _configurar_eventos_frame_carga(self, frame):
         """Configura os eventos de digitação para um frame carga recém-criado."""
 
@@ -320,6 +338,7 @@ class EscalaController:
         
         self._recursive_bind_scroll(frame)
 
+
     def _on_enter_funcionario(self, frame, campo, proximo_widget=None):
         codigo = {
             "motorista": frame.entry_cod_motorista.get(),
@@ -336,9 +355,11 @@ class EscalaController:
 
         self.atualizar_numero_total_motoristas()
         self.atualizar_numero_total_ajudantes()
+        self.atualizar_numero_total_repetidos()
 
         if proximo_widget:
             proximo_widget.focus_set()
+
 
     def _on_enter_ajudante_2_ultimo(self, frame):
         codigo = frame.entry_cod_ajudante_2.get()
@@ -352,6 +373,7 @@ class EscalaController:
 
         self.atualizar_numero_total_motoristas()
         self.atualizar_numero_total_ajudantes()
+        self.atualizar_numero_total_repetidos()
 
         try:
             idx = self.view.frames_cargas.index(frame)
@@ -366,6 +388,7 @@ class EscalaController:
 
             entry.focus_set()
             self._scroll_para_widget(entry)
+
 
     def _on_focus_out_funcionario(self, frame, campo):
         codigo = {
@@ -383,6 +406,8 @@ class EscalaController:
 
         self.atualizar_numero_total_motoristas()
         self.atualizar_numero_total_ajudantes()
+        self.atualizar_numero_total_repetidos()
+
 
     def _on_tab(self, event, frame, reverso=False):
         ordem = self._get_ordem_navegacao(frame)
@@ -435,28 +460,6 @@ class EscalaController:
         nova_posicao = max(0, min(nova_posicao, altura_total))
 
         canvas.yview_moveto(nova_posicao / altura_total)
-
-
-
-
-
-
-
-    def coletar_dados(self):
-        dados = []
-
-        for frame in self.view.frames_cargas:
-            dados.append({
-                "cod_carga": frame.label_cod_carga.cget("text"),
-                "numero_carga": frame.label_numero_carga.cget("text"),
-                "motorista": frame.entry_cod_motorista.get(),
-                "ajudante_1": frame.entry_cod_ajudante_1.get(),
-                "ajudante_2": frame.entry_cod_ajudante_2.get(),
-                "rota": frame.entry_rota.get(),
-                "observacao": frame.entry_observacao.get()
-            })
-
-        return dados
     
 
     def buscar_funcionario_em_cargas(self, codigo):
@@ -580,8 +583,21 @@ class EscalaController:
         self._scroll_para_widget(destino)
 
 
+    def coletar_dados(self):
+        dados = []
 
+        for frame in self.view.frames_cargas:
+            dados.append({
+                "cod_carga": frame.label_cod_carga.cget("text"),
+                "numero_carga": frame.label_numero_carga.cget("text"),
+                "motorista": frame.entry_cod_motorista.get(),
+                "ajudante_1": frame.entry_cod_ajudante_1.get(),
+                "ajudante_2": frame.entry_cod_ajudante_2.get(),
+                "rota": frame.entry_rota.get(),
+                "observacao": frame.entry_observacao.get()
+            })
 
+        return dados
 
 
     def confirmar(self):
