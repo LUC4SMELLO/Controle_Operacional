@@ -349,15 +349,24 @@ class EscalaController:
 
         canvas.update_idletasks()
 
+        bbox = canvas.bbox("all")
+        if not bbox:
+            return
+
+        altura_total = bbox[3]
+        altura_canvas = canvas.winfo_height()
+
+        if altura_total <= altura_canvas:
+            return
+
         widget_y = widget.winfo_rooty()
         canvas_y = canvas.winfo_rooty()
 
         delta = widget_y - canvas_y
 
-        altura_canvas = canvas.winfo_height()
-        altura_total = canvas.bbox("all")[3]
-
         nova_posicao = canvas.canvasy(0) + delta - altura_canvas // 3
+
+        nova_posicao = max(0, min(nova_posicao, altura_total))
 
         canvas.yview_moveto(nova_posicao / altura_total)
 
@@ -478,7 +487,7 @@ class EscalaController:
 
         if proximo_idx >= len(self.view.frames_cargas):
             proximo_idx = 0 
-            
+
         proximo_frame = self.view.frames_cargas[proximo_idx]
         destino = proximo_frame.entry_cod_motorista._entry
 
