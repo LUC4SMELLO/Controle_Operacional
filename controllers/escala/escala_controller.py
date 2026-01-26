@@ -88,6 +88,7 @@ class EscalaController:
 
         self.atualizar_numero_total_cargas()
         self.atualizar_numero_total_motoristas()
+        self.atualizar_numero_total_ajudantes()
 
 
 
@@ -118,6 +119,7 @@ class EscalaController:
 
         self.atualizar_numero_total_cargas()
         self.atualizar_numero_total_motoristas()
+        self.atualizar_numero_total_ajudantes()
 
 
     def limpar_cargas(self):
@@ -135,6 +137,7 @@ class EscalaController:
         self.view.container_cargas._parent_canvas.focus_set()
         self.atualizar_numero_total_cargas()
         self.atualizar_numero_total_motoristas()
+        self.atualizar_numero_total_ajudantes()
         
 
 
@@ -159,6 +162,7 @@ class EscalaController:
         self.atualizar_numero_total_cargas()
         self.atualizar_numero_viagem_cargas()
         self.atualizar_numero_total_motoristas()
+        self.atualizar_numero_total_ajudantes()
 
 
     def remover_carga_especifica(self, frame):
@@ -175,6 +179,7 @@ class EscalaController:
         self.atualizar_numero_total_cargas()
         self.atualizar_numero_viagem_cargas()
         self.atualizar_numero_total_motoristas()
+        self.atualizar_numero_total_ajudantes()
 
 
     def atualizar_indices_cargas(self):
@@ -201,6 +206,18 @@ class EscalaController:
 
         self.view.label_numero_total_motoristas.configure(text=f"Motoristas: {total_motorista}")
 
+    def atualizar_numero_total_ajudantes(self):
+        dados = self.coletar_dados()
+
+        total_ajudantes = 0
+
+        for carga in dados:
+            if carga["ajudante_1"]:
+                total_ajudantes += 1
+            if carga["ajudante_2"]:
+                total_ajudantes += 1
+
+        self.view.label_numero_total_ajudantes.configure(text=f"Ajudantes: {total_ajudantes}")
 
 
 
@@ -312,6 +329,7 @@ class EscalaController:
         self.exibir_nome_funcionario(frame, campo)
 
         self.atualizar_numero_total_motoristas()
+        self.atualizar_numero_total_ajudantes()
 
         if proximo_widget:
             proximo_widget.focus_set()
@@ -325,7 +343,9 @@ class EscalaController:
         )
 
         self.exibir_nome_funcionario(frame, "ajudante_2")
+
         self.atualizar_numero_total_motoristas()
+        self.atualizar_numero_total_ajudantes()
 
         try:
             idx = self.view.frames_cargas.index(frame)
@@ -356,6 +376,7 @@ class EscalaController:
         self.exibir_nome_funcionario(frame, campo)
 
         self.atualizar_numero_total_motoristas()
+        self.atualizar_numero_total_ajudantes()
 
     def _on_tab(self, event, frame, reverso=False):
         ordem = self._get_ordem_navegacao(frame)
