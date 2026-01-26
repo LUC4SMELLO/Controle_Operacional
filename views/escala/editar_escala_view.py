@@ -323,6 +323,10 @@ class EditarEscalaView(ctk.CTkFrame):
 
 
         self.footer_frame = ctk.CTkFrame(self.main_frame)
+        self.footer_frame.grid_columnconfigure(0, minsize=100)
+        self.footer_frame.grid_columnconfigure(1, minsize=100)
+        self.footer_frame.grid_columnconfigure(2, minsize=100)
+        self.footer_frame.grid_columnconfigure(3, minsize=100)
         self.footer_frame.grid(
             row=5,
             column=0,
@@ -331,8 +335,6 @@ class EditarEscalaView(ctk.CTkFrame):
             pady=(10, 15)
         )
 
-        self.footer_frame.grid_columnconfigure(0, weight=1)
-
         self.label_numero_total_cargas = ctk.CTkLabel(
             self.footer_frame,
             text="Total: 0",
@@ -340,4 +342,31 @@ class EditarEscalaView(ctk.CTkFrame):
             text_color=COR_TEXTO,
             anchor="w"
         )
-        self.label_numero_total_cargas.grid(row=0, column=0, sticky="w")
+        self.label_numero_total_cargas.grid(row=0, column=0, padx=(0, 0), sticky="w")
+
+        self.label_numero_repetidos = ctk.CTkLabel(
+            self.footer_frame,
+            text="Repetidos: 0",
+            font=("Segoe UI", 14, "bold"),
+            text_color=COR_TEXTO,
+            anchor="w"
+        )
+        self.label_numero_repetidos.grid(row=0, column=1, padx=(0, 45), sticky="w")
+
+        self.label_numero_total_motoristas = ctk.CTkLabel(
+            self.footer_frame,
+            text="Motoristas: 0",
+            font=("Segoe UI", 14, "bold"),
+            text_color=COR_TEXTO,
+            anchor="w"
+        )
+        self.label_numero_total_motoristas.grid(row=0, column=2, padx=(0, 45), sticky="w")
+
+        self.label_numero_total_ajudantes = ctk.CTkLabel(
+            self.footer_frame,
+            text="Ajudantes: 0",
+            font=("Segoe UI", 14, "bold"),
+            text_color=COR_TEXTO,
+            anchor="w"
+        )
+        self.label_numero_total_ajudantes.grid(row=0, column=3, padx=(0, 45), sticky="w")
