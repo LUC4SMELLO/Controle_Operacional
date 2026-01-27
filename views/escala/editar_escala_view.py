@@ -17,6 +17,8 @@ from constants.cores import COR_LINHAS
 
 from constants.cores import COR_BOTAO, HOVER_BOTAO, COR_TEXTO, COR_TEXTO_BOTAO
 
+from views.dialogs.pesquisa_funcionario_view import TelaPesquisarFuncionarioView
+
 
 class EditarEscalaView(ctk.CTkFrame):
     def __init__(self, master, controller):
@@ -67,9 +69,10 @@ class EditarEscalaView(ctk.CTkFrame):
         self.toolbar_frame_1.grid_columnconfigure(2, weight=0)
         self.toolbar_frame_1.grid_columnconfigure(3, weight=0)
         self.toolbar_frame_1.grid_columnconfigure(4, weight=0)
-        self.toolbar_frame_1.grid_columnconfigure(5, weight=1)
-        self.toolbar_frame_1.grid_columnconfigure(6, weight=0)
+        self.toolbar_frame_1.grid_columnconfigure(5, weight=0)
+        self.toolbar_frame_1.grid_columnconfigure(6, weight=1)
         self.toolbar_frame_1.grid_columnconfigure(7, weight=0)
+        self.toolbar_frame_1.grid_columnconfigure(8, weight=0)
         self.toolbar_frame_1.grid(
             row=1,
             column=0,
@@ -129,7 +132,26 @@ class EditarEscalaView(ctk.CTkFrame):
             width=70,
             height=30,
         )
-        self.botao_quinta_feira.grid(row=0, column=4, padx=(0, 50), pady=(15, 0), sticky="w")
+        self.botao_quinta_feira.grid(row=0, column=4, padx=(0, 0), pady=(15, 0), sticky="w")
+
+        self.icone_lupa_pessoa = ctk.CTkImage(
+            light_image=Image.open(ICONS_DIR / "grupo_pessoas_dark.png"),
+            dark_image=Image.open(ICONS_DIR / "grupo_pessoas_dark.png"),
+            size=(24, 24)
+        )
+        self.botao_pesquisar_funcionario = ctk.CTkButton(
+            self.toolbar_frame_1,
+            image=self.icone_lupa_pessoa,
+            text="",
+            command=self.abrir_tela_pesquisa_funcionario,
+            width=20,
+            height=30,
+            fg_color=COR_BOTAO,
+            hover_color=HOVER_BOTAO,
+            cursor="hand2",
+        )
+        self.botao_pesquisar_funcionario.grid(row=0, column=5, padx=(5, 0), pady=(15, 0), sticky="w")
+
 
 
         self.botao_limpar_escala = ctk.CTkButton(
@@ -143,7 +165,7 @@ class EditarEscalaView(ctk.CTkFrame):
             width=110,
             height=30
         )
-        self.botao_limpar_escala.grid(row=0, column=6, padx=(0, 10), pady=(15, 0))
+        self.botao_limpar_escala.grid(row=0, column=7, padx=(0, 10), pady=(15, 0))
 
         self.botao_salvar_escala = ctk.CTkButton(
             self.toolbar_frame_1,
@@ -156,7 +178,7 @@ class EditarEscalaView(ctk.CTkFrame):
             width=110,
             height=30
         )
-        self.botao_salvar_escala.grid(row=0, column=7, padx=(0, 290), pady=(15, 0))
+        self.botao_salvar_escala.grid(row=0, column=8, padx=(0, 290), pady=(15, 0))
 
 
 
@@ -370,3 +392,7 @@ class EditarEscalaView(ctk.CTkFrame):
             anchor="w"
         )
         self.label_numero_total_ajudantes.grid(row=0, column=3, padx=(0, 45), sticky="w")
+
+
+    def abrir_tela_pesquisa_funcionario(self):
+        TelaPesquisarFuncionarioView(self)
