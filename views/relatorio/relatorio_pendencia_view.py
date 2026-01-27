@@ -58,7 +58,7 @@ class RelatorioPendenciaView(ctk.CTkFrame):
         self.grid_rowconfigure(0, weight=1)
         self.grid_columnconfigure(0, weight=1)
 
-        self.main_frame = ctk.CTkFrame(self, fg_color="#555f7c")
+        self.main_frame = ctk.CTkFrame(self, fg_color="transparent")
         self.main_frame.grid_rowconfigure(0, weight=0) # HEADER
         self.main_frame.grid_rowconfigure(1, weight=0) # FILTERBAR 1
         self.main_frame.grid_rowconfigure(2, weight=0) # FILTERBAR 2
@@ -85,7 +85,7 @@ class RelatorioPendenciaView(ctk.CTkFrame):
 
 
 
-        self.filterbar_frame_1 = ctk.CTkFrame(self.main_frame, fg_color="#76436a")
+        self.filterbar_frame_1 = ctk.CTkFrame(self.main_frame, fg_color="transparent")
         self.filterbar_frame_1.grid_rowconfigure(0, weight=1)
         self.filterbar_frame_1.grid_columnconfigure(0, weight=0)
         self.filterbar_frame_1.grid_columnconfigure(1, weight=0)
@@ -185,7 +185,7 @@ class RelatorioPendenciaView(ctk.CTkFrame):
 
 
 
-        self.filterbar_frame_2 = ctk.CTkFrame(self.main_frame, fg_color="#55797c")
+        self.filterbar_frame_2 = ctk.CTkFrame(self.main_frame, fg_color="transparent")
         self.filterbar_frame_2.grid_rowconfigure(0, weight=1)
         self.filterbar_frame_2.grid_columnconfigure(0, weight=0)
         self.filterbar_frame_2.grid_columnconfigure(1, weight=0)
@@ -224,7 +224,8 @@ class RelatorioPendenciaView(ctk.CTkFrame):
         ctk.CTkFrame(self.filterbar_frame_2, height=2, fg_color=COR_LINHAS).grid(row=2, column=0, padx=(40, 290), pady=(15, 0), sticky="ew", columnspan=6)
 
 
-        self.container_treeview = ctk.CTkFrame(self.main_frame, fg_color="#91b299", height=550)
+
+        self.container_treeview = ctk.CTkFrame(self.main_frame, fg_color="transparent", height=550)
         self.container_treeview.grid_rowconfigure(0, weight=1)
         self.container_treeview.grid_columnconfigure(0, weight=0)
         self.container_treeview.grid_columnconfigure(1, weight=1)
@@ -234,8 +235,6 @@ class RelatorioPendenciaView(ctk.CTkFrame):
             column=0,
             sticky="ew"
         )
-
-
 
         style = ttk.Style()
         style.theme_use("default")
@@ -272,19 +271,6 @@ class RelatorioPendenciaView(ctk.CTkFrame):
             )
         self.tree.grid(row=0, column=1, padx=(40, 5), pady=(15, 0))
 
-        scroll_x = ttk.Scrollbar(self.container_treeview, orient="horizontal", command=self.tree.xview)
-        scroll_y = ttk.Scrollbar(self.container_treeview, orient="vertical", command=self.tree.yview)
-
-        scroll_x.grid(row=1, column=0, padx=(40, 305), pady=(5, 0), sticky="we", columnspan=3)
-        scroll_y.grid(row=0, column=2, padx=(0, 290), pady=(15, 0), sticky="ns")
-
-
-        self.tree.configure(
-            xscrollcommand=scroll_x.set,
-            yscrollcommand=scroll_y.set
-        )
-
-
         self.tree.heading("cupom", text="Cupom", anchor="center")
         self.tree.heading("data", text="Data", anchor="center")
         self.tree.heading("carga", text="Carga", anchor="center")
@@ -308,6 +294,18 @@ class RelatorioPendenciaView(ctk.CTkFrame):
         self.tree.column("codigo_produto", width=175, anchor="center")
         self.tree.column("descricao", width=280, anchor="center")
         self.tree.column("quantidade", width=140, anchor="center")
+        
+        scroll_x = ttk.Scrollbar(self.container_treeview, orient="horizontal", command=self.tree.xview)
+        scroll_y = ttk.Scrollbar(self.container_treeview, orient="vertical", command=self.tree.yview)
+
+        scroll_x.grid(row=1, column=0, padx=(40, 305), pady=(5, 0), sticky="we", columnspan=3)
+        scroll_y.grid(row=0, column=2, padx=(0, 290), pady=(15, 0), sticky="ns")
+
+
+        self.tree.configure(
+            xscrollcommand=scroll_x.set,
+            yscrollcommand=scroll_y.set
+        )
 
         self.tree.bind("<MouseWheel>", lambda e: self.tree.yview_scroll(-int(e.delta / 100), "units"))
         self.tree.bind("<Shift-MouseWheel>", lambda e: self.tree.xview_scroll(-int(e.delta / 2.5), "units"))
