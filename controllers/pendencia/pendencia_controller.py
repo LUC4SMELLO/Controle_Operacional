@@ -64,6 +64,9 @@ class PendenciaController:
         self.view.entry_codigo_cliente.bind("<Return>", lambda event: self.exibir_razao_social_cliente(event))
         self.view.entry_codigo_produto.bind("<Return>", lambda event: self.exibir_descricao_produto(event))
 
+        self.view.entry_codigo_cliente.bind("<FocusOut>", lambda event: self.exibir_razao_social_cliente(event))
+        self.view.entry_codigo_produto.bind("<FocusOut>", lambda event: self.exibir_descricao_produto(event))
+
     
     def navegar_combobox(self, event, combobox):
         valores = combobox.cget("values")
