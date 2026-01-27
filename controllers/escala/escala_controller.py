@@ -38,11 +38,6 @@ class EscalaController:
         for child in widget.winfo_children():
             self._recursive_bind_scroll(child)
 
-    def scroll_topo(self):
-        self.view.container_cargas._parent_canvas.yview_moveto(0.0)
-
-    def scroll_final(self):
-        self.view.container_cargas._parent_canvas.yview_moveto(1.0)
 
     def exibir_data_atual(self):
         dias_semana = ("Segunda", "Terça", "Quarta", 
@@ -124,7 +119,7 @@ class EscalaController:
 
     def limpar_cargas(self):
 
-        self.scroll_topo()
+        self._scroll_container_cargas(ir_para_topo=True)
         
         self.view.entry_numero_cargas.delete(0, ctk.END)
 
@@ -158,7 +153,7 @@ class EscalaController:
 
         self._configurar_eventos_frame_carga(frame)
 
-        frame.after(10, self.scroll_final)
+        frame.after(10, self._scroll_container_cargas(ir_para_topo=False))
 
         self.atualizar_numero_total_cargas()
         self.atualizar_numero_viagem_cargas()
@@ -314,6 +309,33 @@ class EscalaController:
                 contador += 1
 
         return contador + 1
+    
+    def configurar_binds(self):
+        janela = self.view.winfo_toplevel()
+
+        janela.bind("<Prior>", self._on_page_up)
+        janela.bind("<Next>", self._on_page_down)
+
+    def _on_page_up(self, event):
+        self._scroll_container_cargas(ir_para_topo=True)
+        return "break"
+
+    def _on_page_down(self, event):
+        self._scroll_container_cargas(ir_para_topo=False)
+        return "break"
+    
+    
+    def _scroll_container_cargas(self, ir_para_topo: bool):
+        container = getattr(self.view, "container_cargas", None)
+        if not container:
+            return
+
+        canvas = getattr(container, "_parent_canvas", None)
+        if not canvas or not canvas.winfo_exists():
+            return
+
+        canvas.yview_moveto(0.0 if ir_para_topo else 1.0)
+
     
 
     def _configurar_eventos_frame_carga(self, frame):
