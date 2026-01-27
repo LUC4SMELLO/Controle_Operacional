@@ -27,6 +27,7 @@ class RelatorioController:
         )
 
         if not resultado:
+            self.atualizar_numero_total_itens()
             return {
                 "sucesso": False,
                 "titulo": "Aviso.",
@@ -37,12 +38,19 @@ class RelatorioController:
         for linha in resultado:
             self.view.tree.insert("", ctk.END, values=linha)
 
+        self.atualizar_numero_total_itens()
+        
         return {
             "sucesso": True,
             "titulo": "Sucesso",
             "mensagem": "Pendência Encontradas!",
             "icone": "check"
             }
+    
+    def atualizar_numero_total_itens(self):
+        total_itens = len(self.view.tree.get_children())
+        self.view.label_numero_total_itens.configure(text=f"Total: {total_itens}")
+
     
 
     def limpar_filtros(self):
@@ -57,5 +65,7 @@ class RelatorioController:
         self.view.entry_codigo_cliente.delete(0, ctk.END)
         self.view.entry_tipo.set("Ambos")
         self.view.entry_codigo_produto.delete(0, ctk.END)
+
+        self.atualizar_numero_total_itens()
 
         

@@ -62,7 +62,8 @@ class RelatorioPendenciaView(ctk.CTkFrame):
         self.main_frame.grid_rowconfigure(0, weight=0) # HEADER
         self.main_frame.grid_rowconfigure(1, weight=0) # FILTERBAR 1
         self.main_frame.grid_rowconfigure(2, weight=0) # FILTERBAR 2
-        self.main_frame.grid_rowconfigure(3, weight=0) # TREEVIEW PENDÊNCIAS
+        self.main_frame.grid_rowconfigure(3, weight=1) # TREEVIEW PENDÊNCIAS
+        self.main_frame.grid_rowconfigure(4, weight=0) # FOOTER
         self.main_frame.grid_columnconfigure(0, weight=1)
         self.main_frame.grid(row=0, column=0, sticky="nsew")
 
@@ -225,15 +226,16 @@ class RelatorioPendenciaView(ctk.CTkFrame):
 
 
 
-        self.container_treeview = ctk.CTkFrame(self.main_frame, fg_color="transparent", height=550)
+        self.container_treeview = ctk.CTkFrame(self.main_frame, fg_color="transparent")
         self.container_treeview.grid_rowconfigure(0, weight=1)
-        self.container_treeview.grid_columnconfigure(0, weight=0)
-        self.container_treeview.grid_columnconfigure(1, weight=1)
-        self.container_treeview.grid_columnconfigure(2, weight=0)
+        self.container_treeview.grid_rowconfigure(1, weight=0)
+        self.container_treeview.grid_columnconfigure(0, weight=1)
+        self.container_treeview.grid_columnconfigure(1, weight=0)
         self.container_treeview.grid(
             row=3,
             column=0,
-            sticky="ew"
+            sticky="nsew",
+            padx=(0, 290)
         )
 
         style = ttk.Style()
@@ -269,7 +271,7 @@ class RelatorioPendenciaView(ctk.CTkFrame):
             show="headings",
             height=12
             )
-        self.tree.grid(row=0, column=1, padx=(40, 5), pady=(15, 0))
+        self.tree.grid(row=0, column=0, padx=(40, 5), pady=(15, 0), sticky="nsew")
 
         self.tree.heading("cupom", text="Cupom", anchor="center")
         self.tree.heading("data", text="Data", anchor="center")
@@ -298,8 +300,8 @@ class RelatorioPendenciaView(ctk.CTkFrame):
         scroll_x = ttk.Scrollbar(self.container_treeview, orient="horizontal", command=self.tree.xview)
         scroll_y = ttk.Scrollbar(self.container_treeview, orient="vertical", command=self.tree.yview)
 
-        scroll_x.grid(row=1, column=0, padx=(40, 305), pady=(5, 0), sticky="we", columnspan=3)
-        scroll_y.grid(row=0, column=2, padx=(0, 290), pady=(15, 0), sticky="ns")
+        scroll_x.grid(row=1, column=0, padx=(40, 5), pady=(5, 0), sticky="we")
+        scroll_y.grid(row=0, column=1, padx=(0, 0), pady=(15, 0), sticky="ns")
 
 
         self.tree.configure(
@@ -309,6 +311,27 @@ class RelatorioPendenciaView(ctk.CTkFrame):
 
         self.tree.bind("<MouseWheel>", lambda e: self.tree.yview_scroll(-int(e.delta / 100), "units"))
         self.tree.bind("<Shift-MouseWheel>", lambda e: self.tree.xview_scroll(-int(e.delta / 2.5), "units"))
+
+
+        self.footer_frame = ctk.CTkFrame(self.main_frame, fg_color="transparent")
+        self.footer_frame.grid_columnconfigure(0, minsize=100)
+        self.footer_frame.grid(
+            row=4,
+            column=0,
+            sticky="ew",
+            padx=(40, 290),
+            pady=(10, 15)
+        )
+
+        self.label_numero_total_itens = ctk.CTkLabel(
+            self.footer_frame,
+            text="Total: 0",
+            font=("Segoe UI", 14, "bold"),
+            text_color=COR_TEXTO,
+            anchor="w"
+        )
+        self.label_numero_total_itens.grid(row=0, column=0, padx=(0, 0), sticky="w")
+
 
     def buscar(self):
         resultado = self.controller.mostrar_pendencias()
