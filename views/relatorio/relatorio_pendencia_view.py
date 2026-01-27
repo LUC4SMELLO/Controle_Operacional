@@ -55,19 +55,60 @@ class RelatorioPendenciaView(ctk.CTkFrame):
 
         self.controller = controller
 
-        ctk.CTkLabel(self, text="Relatórios", font=FONTE_TITULO, text_color=COR_TEXTO).place(x=40, y=15)
+        self.grid_rowconfigure(0, weight=1)
+        self.grid_columnconfigure(0, weight=1)
 
-        ctk.CTkLabel(self, text="Pendência", font=FONTE_SUBTITULO, text_color=COR_TEXTO).place(x=40, y=65)
+        self.main_frame = ctk.CTkFrame(self, fg_color="#555f7c")
+        self.main_frame.grid_rowconfigure(0, weight=0) # HEADER
+        self.main_frame.grid_rowconfigure(1, weight=0) # FILTERBAR 1
+        self.main_frame.grid_rowconfigure(2, weight=0) # FILTERBAR 2
+        self.main_frame.grid_rowconfigure(3, weight=0) # TREEVIEW PENDÊNCIAS
+        self.main_frame.grid_columnconfigure(0, weight=1)
+        self.main_frame.grid(row=0, column=0, sticky="nsew")
 
-        ctk.CTkFrame(self, width=950, height=2, fg_color=COR_LINHAS).place(x=40, y=105)
+        self.header_frame = ctk.CTkFrame(self.main_frame, fg_color="transparent")
+        self.header_frame.grid_rowconfigure(0, weight=1)
+        self.header_frame.grid_rowconfigure(1, weight=1)
+        self.header_frame.grid_columnconfigure(0, weight=0)
+        self.header_frame.grid_columnconfigure(1, weight=1)
+        self.header_frame.grid(
+            row=0,
+            column=0,
+            sticky="ew",
+        )
+
+        ctk.CTkLabel(self.header_frame, text="Relatórios", font=FONTE_TITULO, text_color=COR_TEXTO).grid(row=0, column=0, padx=(40, 0), pady=(15, 0), sticky="w")
+
+        ctk.CTkLabel(self.header_frame, text="Pendência", font=FONTE_SUBTITULO, text_color=COR_TEXTO).grid(row=1, column=0, padx=(40, 0), pady=(20, 0), sticky="w")
+
+        ctk.CTkFrame(self.header_frame, height=2, fg_color=COR_LINHAS).grid(row=2, column=0, padx=(40, 290), pady=(15, 0), sticky="ew", columnspan=2)
 
 
 
+        self.filterbar_frame_1 = ctk.CTkFrame(self.main_frame, fg_color="#76436a")
+        self.filterbar_frame_1.grid_rowconfigure(0, weight=1)
+        self.filterbar_frame_1.grid_columnconfigure(0, weight=0)
+        self.filterbar_frame_1.grid_columnconfigure(1, weight=0)
+        self.filterbar_frame_1.grid_columnconfigure(2, weight=0)
+        self.filterbar_frame_1.grid_columnconfigure(3, weight=0)
+        self.filterbar_frame_1.grid_columnconfigure(4, weight=0)
+        self.filterbar_frame_1.grid_columnconfigure(5, weight=0)
+        self.filterbar_frame_1.grid_columnconfigure(6, weight=0)
+        self.filterbar_frame_1.grid_columnconfigure(7, weight=0)
+        self.filterbar_frame_1.grid_columnconfigure(8, weight=0)
+        self.filterbar_frame_1.grid_columnconfigure(9, weight=0)
+        self.filterbar_frame_1.grid_columnconfigure(10, weight=1)
+        self.filterbar_frame_1.grid_columnconfigure(11, weight=0)
+        self.filterbar_frame_1.grid(
+            row=1,
+            column=0,
+            sticky="ew",
+        )
 
-        ctk.CTkLabel(self, text="Período:", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=40, y=130)
+        ctk.CTkLabel(self.filterbar_frame_1, text="Período:", font=FONTE_LABEL, text_color=COR_TEXTO).grid(row=0, column=0, padx=(40, 5), pady=(15, 0))
 
         self.entry_data_inicio = DateEntry(
-            self,
+            self.filterbar_frame_1,
             justify = "center", 
             font = FONTE_PEQUENA,
             background = BACKGROUND,
@@ -87,12 +128,12 @@ class RelatorioPendenciaView(ctk.CTkFrame):
             width=11
             )
         self.entry_data_inicio.delete(0, ctk.END)
-        self.entry_data_inicio.place(x=115, y=130)
+        self.entry_data_inicio.grid(row=0, column=1, padx=(10, 10), pady=(15, 0))
 
-        ctk.CTkLabel(self, text="a", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=230, y=130)
-
+        ctk.CTkLabel(self.filterbar_frame_1, text="a", font=FONTE_LABEL, text_color=COR_TEXTO).grid(row=0, column=2, padx=(0, 0), pady=(15, 0))
+        
         self.entry_data_fim = DateEntry(
-            self,
+            self.filterbar_frame_1,
             justify = "center", 
             font = FONTE_PEQUENA,
             background = BACKGROUND,
@@ -112,32 +153,24 @@ class RelatorioPendenciaView(ctk.CTkFrame):
             width=11
             )
         self.entry_data_fim.delete(0, ctk.END)
-        self.entry_data_fim.place(x=250, y=130)
+        self.entry_data_fim.grid(row=0, column=3, padx=(10, 0), pady=(15, 0))
 
-        ctk.CTkLabel(self, text="Cupom:", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=370, y=130)
-        self.entry_cupom = ctk.CTkEntry(self, font=FONTE_TEXTO, width=62, height=30, corner_radius=2)
-        self.entry_cupom.place(x=437, y=130)
+        ctk.CTkLabel(self.filterbar_frame_1, text="Cupom:", font=FONTE_LABEL, text_color=COR_TEXTO).grid(row=0, column=4, padx=(20, 0), pady=(15, 0))
+        self.entry_cupom = ctk.CTkEntry(self.filterbar_frame_1, font=FONTE_TEXTO, width=62, height=30, corner_radius=2)
+        self.entry_cupom.grid(row=0, column=5, padx=(10, 0), pady=(15, 0))
 
-        ctk.CTkLabel(self, text="Carga:", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=510, y=130)
-        self.entry_carga = ctk.CTkEntry(self, font=FONTE_TEXTO, width=70, height=30, corner_radius=2)
-        self.entry_carga.place(x=565, y=130)
+        ctk.CTkLabel(self.filterbar_frame_1, text="Carga:", font=FONTE_LABEL, text_color=COR_TEXTO).grid(row=0, column=6, padx=(10, 0), pady=(15, 0))
+        self.entry_carga = ctk.CTkEntry(self.filterbar_frame_1, font=FONTE_TEXTO, width=70, height=30, corner_radius=2)
+        self.entry_carga.grid(row=0, column=7, padx=(10, 0), pady=(15, 0))
 
-        ctk.CTkLabel(self, text="Tipo:", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=650, y=130)
-        self.entry_tipo = ctk.CTkComboBox(self, font=FONTE_TEXTO, justify="center", values=["Ambos", "Pendência", "Troca"], width=110, height=30, corner_radius=2)
+        ctk.CTkLabel(self.filterbar_frame_1, text="Tipo:", font=FONTE_LABEL, text_color=COR_TEXTO).grid(row=0, column=8, padx=(10, 0), pady=(15, 0))
+        self.entry_tipo = ctk.CTkComboBox(self.filterbar_frame_1, font=FONTE_TEXTO, justify="center", values=["Ambos", "Pendência", "Troca"], width=110, height=30, corner_radius=2)
         self.entry_tipo.set("Ambos")
-        self.entry_tipo.place(x=696, y=130)
-
-        ctk.CTkLabel(self, text="Código Cliente:", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=40, y=190)
-        self.entry_codigo_cliente = ctk.CTkEntry(self, font=FONTE_TEXTO, width=65, height=30, corner_radius=2)
-        self.entry_codigo_cliente.place(x=170, y=190)
-
-        ctk.CTkLabel(self, text="Código Produto:", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=250, y=190)
-        self.entry_codigo_produto = ctk.CTkEntry(self, font=FONTE_TEXTO, width=62, height=30, corner_radius=2)
-        self.entry_codigo_produto.place(x=390, y=190)
+        self.entry_tipo.grid(row=0, column=9, padx=(10, 0), pady=(15, 0))
 
 
         self.botao_buscar_pendencia = ctk.CTkButton(
-            self,
+            self.filterbar_frame_1,
             text="Buscar",
             command=self.buscar,
             width=110,
@@ -147,11 +180,37 @@ class RelatorioPendenciaView(ctk.CTkFrame):
             hover_color=HOVER_BOTAO,
             text_color=COR_TEXTO_BOTAO
         )
-        self.botao_buscar_pendencia.place(x=880, y=130)
+        self.botao_buscar_pendencia.grid(row=0, column=11, padx=(10, 290), pady=(15, 0))
+
+
+
+
+        self.filterbar_frame_2 = ctk.CTkFrame(self.main_frame, fg_color="#55797c")
+        self.filterbar_frame_2.grid_rowconfigure(0, weight=1)
+        self.filterbar_frame_2.grid_columnconfigure(0, weight=0)
+        self.filterbar_frame_2.grid_columnconfigure(1, weight=0)
+        self.filterbar_frame_2.grid_columnconfigure(2, weight=0)
+        self.filterbar_frame_2.grid_columnconfigure(3, weight=0)
+        self.filterbar_frame_2.grid_columnconfigure(4, weight=1)
+        self.filterbar_frame_2.grid_columnconfigure(5, weight=0)
+        self.filterbar_frame_2.grid(
+            row=2,
+            column=0,
+            sticky="ew",
+        )
+
+        ctk.CTkLabel(self.filterbar_frame_2, text="Código Cliente:", font=FONTE_LABEL, text_color=COR_TEXTO).grid(row=0, column=0, padx=(40, 0), pady=(15, 0))
+        self.entry_codigo_cliente = ctk.CTkEntry(self.filterbar_frame_2, font=FONTE_TEXTO, width=65, height=30, corner_radius=2)
+        self.entry_codigo_cliente.grid(row=0, column=1, padx=(10, 0), pady=(15, 0))
+
+        ctk.CTkLabel(self.filterbar_frame_2, text="Código Produto:", font=FONTE_LABEL, text_color=COR_TEXTO).grid(row=0, column=2, padx=(10, 0), pady=(15, 0))
+        self.entry_codigo_produto = ctk.CTkEntry(self.filterbar_frame_2, font=FONTE_TEXTO, width=62, height=30, corner_radius=2)
+        self.entry_codigo_produto.grid(row=0, column=3, padx=(10, 0), pady=(15, 0))
+
 
         self.botao_limpar_filtros = ctk.CTkButton(
-            self,
-            text="Limpar \nFiltros",
+            self.filterbar_frame_2,
+            text="Limpar\nFiltros",
             command=self.controller.limpar_filtros,
             width=110,
             height=35,
@@ -160,12 +219,21 @@ class RelatorioPendenciaView(ctk.CTkFrame):
             hover_color=HOVER_BOTAO,
             text_color=COR_TEXTO_BOTAO
         )
-        self.botao_limpar_filtros.place(x=880, y=180)
+        self.botao_limpar_filtros.grid(row=0, column=5, padx=(10, 290), pady=(15, 0))
 
-        ctk.CTkFrame(self, width=950, height=2, fg_color=COR_LINHAS).place(x=40, y=245)
+        ctk.CTkFrame(self.filterbar_frame_2, height=2, fg_color=COR_LINHAS).grid(row=2, column=0, padx=(40, 290), pady=(15, 0), sticky="ew", columnspan=6)
 
 
-
+        self.container_treeview = ctk.CTkFrame(self.main_frame, fg_color="#91b299", height=550)
+        self.container_treeview.grid_rowconfigure(0, weight=1)
+        self.container_treeview.grid_columnconfigure(0, weight=0)
+        self.container_treeview.grid_columnconfigure(1, weight=1)
+        self.container_treeview.grid_columnconfigure(2, weight=0)
+        self.container_treeview.grid(
+            row=3,
+            column=0,
+            sticky="ew"
+        )
 
 
 
@@ -197,18 +265,19 @@ class RelatorioPendenciaView(ctk.CTkFrame):
 
         colunas = ("cupom", "data", "carga", "vendedor", "codigo_cliente", "razao_social", "tipo", "responsavel", "codigo_produto", "descricao", "quantidade")
         self.tree = ttk.Treeview(
-            self,
+            self.container_treeview,
             columns=colunas,
             show="headings",
             height=12
             )
-        self.tree.place(x=40, y=310, width=935, height=350)
+        self.tree.grid(row=0, column=1, padx=(40, 5), pady=(15, 0))
 
-        scroll_x = ttk.Scrollbar(self, orient="horizontal", command=self.tree.xview)
-        scroll_y = ttk.Scrollbar(self, orient="vertical", command=self.tree.yview)
+        scroll_x = ttk.Scrollbar(self.container_treeview, orient="horizontal", command=self.tree.xview)
+        scroll_y = ttk.Scrollbar(self.container_treeview, orient="vertical", command=self.tree.yview)
 
-        scroll_x.place(x=40, y=660, width=935)
-        scroll_y.place(x=975, y=310, height=350)
+        scroll_x.grid(row=1, column=0, padx=(40, 305), pady=(5, 0), sticky="we", columnspan=3)
+        scroll_y.grid(row=0, column=2, padx=(0, 290), pady=(15, 0), sticky="ns")
+
 
         self.tree.configure(
             xscrollcommand=scroll_x.set,
