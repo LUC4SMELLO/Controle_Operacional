@@ -3,7 +3,7 @@ import tkinter as tk
 
 import re
 
-from constants.textos import FONTE_TEXTO
+from constants.textos import FONTE_TEXTO, FONTE_LISTBOX
 
 from services.produtos_service import listar_produtos_banco_dados
 
@@ -13,8 +13,8 @@ class TelaPesquisaProdutoView(ctk.CTkToplevel):
     def __init__(self, master, campo_destino, campo_apos_pesquisa, label_descricao_produto):
         super().__init__(master)
 
-        self.title("Buscar Produto")
-        self.geometry("300x400+850+100")
+        self.title("Pesquisar Produto")
+        self.geometry("455x540+850+100")
         self.resizable(False, False)
         self.grab_set()
 
@@ -38,7 +38,7 @@ class TelaPesquisaProdutoView(ctk.CTkToplevel):
 
 
         # LISTBOX (TKINTER)
-        self.listbox = tk.Listbox(self, height=15)
+        self.listbox = tk.Listbox(self, height=15, font=FONTE_TEXTO)
         self.listbox.pack(fill="both", expand=True, padx=10, pady=5)
 
         self.listbox.bind("<Double-Button-1>", self.selecionar_produto)
