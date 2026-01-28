@@ -1,8 +1,6 @@
 import customtkinter as ctk
 import tkinter as tk
 
-import re
-
 from constants.textos import FONTE_TEXTO, FONTE_LISTBOX
 
 from services.funcionarios_service import listar_funcionarios_banco_dados
@@ -10,8 +8,10 @@ from services.funcionarios_service import listar_funcionarios_banco_dados
 
 class TelaPesquisarFuncionarioView(ctk.CTkToplevel):
 
-    def __init__(self, master):
+    def __init__(self, master, controller):
         super().__init__(master)
+
+        self.controller = controller
 
         self.title("Pesquisar Funcionário")
         self.geometry("455x540+850+100")
@@ -47,6 +47,11 @@ class TelaPesquisarFuncionarioView(ctk.CTkToplevel):
 
         self.atualizar_lista(self.funcionarios)
 
+
+    def funcionario_em_uso(self, codigo):
+        return bool(self.controller.buscar_funcionario_em_cargas(codigo))
+    
+
     def filtrar_funcionarios(self, event=None):
         texto = self.entry_pesquisa.get().lower()
 
@@ -75,12 +80,17 @@ class TelaPesquisarFuncionarioView(ctk.CTkToplevel):
 
             ultimo_indice = self.listbox.size() - 1
 
-            if funcao.lower() == "motorista":
-                self.listbox.itemconfig(ultimo_indice, bg="#d9d9d9", fg="black")
-            elif funcao.lower() == "ajudante":
-                self.listbox.itemconfig(ultimo_indice, bg="#ffffff", fg="black")
+            em_uso = self.funcionario_em_uso(str(codigo))
+
+            if em_uso:
+                self.listbox.itemconfig(ultimo_indice, bg="#89cf5a", fg="black")
             else:
-                self.listbox.itemconfig(ultimo_indice, bg="#2b2b2b", fg="white")
+                if funcao.lower() == "motorista":
+                    self.listbox.itemconfig(ultimo_indice, bg="#d9d9d9", fg="black")
+                elif funcao.lower() == "ajudante":
+                    self.listbox.itemconfig(ultimo_indice, bg="#ffffff", fg="black")
+                else:
+                    self.listbox.itemconfig(ultimo_indice, bg="#2b2b2b", fg="white")
 
 
     def selecionar_funcionario(self, event=None):

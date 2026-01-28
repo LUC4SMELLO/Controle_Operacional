@@ -395,4 +395,4 @@ class EditarEscalaView(ctk.CTkFrame):
 
 
     def abrir_tela_pesquisa_funcionario(self):
-        TelaPesquisarFuncionarioView(self)
+        TelaPesquisarFuncionarioView(self, self.controller)
