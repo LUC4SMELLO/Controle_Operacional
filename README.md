@@ -1,19 +1,19 @@
-<table>
+<!-- <table>
   <tr>
     <td><img src="assets/images/computer_light_icon.png" width="60"></td>
     <td><h1>&nbsp;Controle Operacional &nbsp;</h1 hspace="10"></td>
     <td><img src="assets/images/computer_black_icon.png" width="60"></td>
   </tr>
-</table>
+</table> -->
 
-
+# Controle Operacional
 
 Este software foi desenvolvido para ajudar a ter o controle da operação de uma empresa de forma mais simples, centralizada e eficaz. <br>
 
 ## Funcionalidades Principais:
 
 * **`Escala`**: Permite o usuário montar a escala dos funcionários que iram trabalhar no próximo dia.
-* **`Pendência & Troca`**: Permite cadastrar uma pendência ou troca de um produto para algum cliente.
+* **`Pendência & Troca`**: Permite cadastrar, editar ou excluir uma pendência ou troca de um produto para algum cliente.
 * **`Relatórios`**: Contém informações da pendências e trocas feitas
 * **`Relatório Entrega`**: Possibilita o usuário saber as entregas de cada caminhão e cliente.
 
@@ -64,6 +64,11 @@ Este software foi desenvolvido para ajudar a ter o controle da operação de uma
     * CPF
     * RG
 
+- **`veiculos.db`** - Armazena as informações dos caminhões com os campos a seguir:
+    * Código
+    * Placa
+    * Código Motorista
+
 <br><br>
 
 
@@ -81,14 +86,22 @@ Este software foi desenvolvido para ajudar a ter o controle da operação de uma
 |
 ├── assets/
 |   ├── icons/
-|        ├── settings_dark.png
-|        ├── settings_light.png
+|        ├── grupo_pessoas_dark.png
+|        ├── grupo_pessoas_light.png
+|        ├── lixeira_dark.png
+|        ├── lixeira_light.png
 |        ├── lupa_dark.png
 |        ├── lupa_light.png
 |        ├── mais_dark.png
 |        ├── mais_light.png
 |        ├── menos_dark.png
 |        ├── menos_light.png
+|        ├── seta_baixo_dark.png
+|        ├── seta_baixo_light.png
+|        ├── seta_cima_dark.png
+|        ├── seta_cima_light.png
+|        ├── settings_dark.png
+|        ├── settings_light.png
 |
 ├── constants/
 |   ├── __init__.py
@@ -123,11 +136,15 @@ Este software foi desenvolvido para ajudar a ter o controle da operação de uma
 ├── database/
 |   ├── __init__.py
 |   ├── banco_dados_clientes.py
+|   ├── banco_dados_funcionarios.py
 |   ├── banco_dados_pendencias.py
 |   ├── banco_dados_produtos.py
+|   ├── banco_dados_veiculos.py
 |   ├── clientes.db
+|   ├── funcionarios.db
 |   ├── pendencias.db
 |   ├── produtos.db
+|   ├── veiculos.db
 |
 ├── models/
 |   ├── __init__.py
@@ -151,10 +168,12 @@ Este software foi desenvolvido para ajudar a ter o controle da operação de uma
 |   ├── formatar_arquivo_clientes.py
 |   ├── formatar_arquivo_produtos.py
 |
+|
 ├── services/
 |   ├── __init__.py
 |   |
 |   ├── clientes_service.py
+|   ├── funcionarios_service.py
 |   ├── produtos_service.py
 |
 |
@@ -165,6 +184,7 @@ Este software foi desenvolvido para ajudar a ter o controle da operação de uma
 |   |    ├── __init__.py
 |   |    ├── exibir_mensagem.py
 |   |    ├── pesquisa_cliente_view.py
+|   |    ├── pesquisa_funcionario_view.py
 |   |    ├── pesquisa_produto_view.py
 |   |
 |   ├── escala/
@@ -189,8 +209,8 @@ Este software foi desenvolvido para ajudar a ter o controle da operação de uma
 |
 ├── .gitignore
 ├── README.md
+├── DOCS.md
 ```
 
 ## Autoria
 - Lucas Pereira Silva Mello
-
