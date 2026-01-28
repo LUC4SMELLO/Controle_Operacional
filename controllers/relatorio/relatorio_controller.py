@@ -1,5 +1,5 @@
 import customtkinter as ctk
-from datetime import date
+from datetime import datetime
 
 
 class RelatorioController:
@@ -36,7 +36,16 @@ class RelatorioController:
                 }
         
         for linha in resultado:
-            self.view.tree.insert("", ctk.END, values=linha)
+            
+            lista_linha = list(linha)
+            
+            try:
+                objeto_data = datetime.strptime(str(lista_linha[1]), "%Y-%m-%d")
+                lista_linha[1] = objeto_data.strftime("%d/%m/%Y")
+            except Exception:
+                lista_linha[1] = ""
+
+            self.view.tree.insert("", ctk.END, values=lista_linha)
 
         self.atualizar_numero_total_itens()
         
@@ -46,6 +55,7 @@ class RelatorioController:
             "mensagem": "Pendência Encontradas!",
             "icone": "check"
             }
+    
     
     def atualizar_numero_total_itens(self):
         total_itens = len(self.view.tree.get_children())

@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from database.banco_dados_pendencias import conectar_banco_de_dados_pendencias
 
 from constants.banco_dados import (
@@ -7,6 +9,7 @@ from constants.banco_dados import (
     TABELA_PRODUTOS,
     TABELA_PENDENCIAS
 )
+
 
 class RelatorioModel:
     def __init__(self):
@@ -63,14 +66,15 @@ class RelatorioModel:
             
             if data_inicio and data_fim:
         
-                formato_iso = "substr(pen.data, 7, 4) || '-' || substr(pen.data, 4, 2) || '-' || substr(pen.data, 1, 2)"
+                objeto_data_inicio = datetime.strptime(data_inicio, "%d/%m/%Y")
+                objeto_data_fim = datetime.strptime(data_fim, "%d/%m/%Y")
+
+                data_inicio_formatada = objeto_data_inicio.strftime("%Y-%m-%d")
+                data_fim_formatada = objeto_data_fim.strftime("%Y-%m-%d")
                 
-                consulta_sql += f" AND {formato_iso} BETWEEN ? AND ?"
+                consulta_sql += f" AND pen.data BETWEEN ? AND ?"
                 
-                inicio_iso = f"{data_inicio[6:10]}-{data_inicio[3:5]}-{data_inicio[0:2]}"
-                fim_iso = f"{data_fim[6:10]}-{data_fim[3:5]}-{data_fim[0:2]}"
-                
-                parametros.extend([inicio_iso, fim_iso])
+                parametros.extend([data_inicio_formatada, data_fim_formatada])
 
 
             if carga:

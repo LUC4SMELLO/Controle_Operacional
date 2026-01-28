@@ -1,5 +1,5 @@
 import customtkinter as ctk
-from datetime import date
+from datetime import datetime
 
 
 class PendenciaController:
@@ -121,6 +121,14 @@ class PendenciaController:
             "quantidade": self.view.entry_quantidade.get()
         }
 
+        try:
+            objeto_data = datetime.strptime(dados["data"], "%d/%m/%Y")
+            data_formatada = objeto_data.strftime("%Y-%m-%d")
+
+            dados["data"] = data_formatada
+        except Exception:
+            dados["data"] = ""
+
     
         for campo, valor in dados.items():
             if not valor or valor.strip() == "":
@@ -180,6 +188,15 @@ class PendenciaController:
             "codigo_produto": self.view.entry_codigo_produto.get(),
             "quantidade": self.view.entry_quantidade.get()
         }
+
+        try:
+            objeto_data = datetime.strptime(dados["data"], "%d/%m/%Y")
+            data_formatada = objeto_data.strftime("%Y-%m-%d")
+
+            dados["data"] = data_formatada
+        except Exception:
+            dados["data"] = ""
+
 
     
         for campo, valor in dados.items():
@@ -332,8 +349,11 @@ class PendenciaController:
 
         self.limpar_formulario()
 
+        objeto_data = datetime.strptime(resultado[1], "%Y-%m-%d")
+        data_formatada = datetime.strftime(objeto_data, "%d/%m/%Y")
+
         self.view.entry_cupom.insert(0, resultado[0])
-        self.view.entry_data.set_date(resultado[1])
+        self.view.entry_data.set_date(data_formatada)
         self.view.entry_carga.insert(0, resultado[2])
         self.view.entry_codigo_cliente.insert(0, resultado[3])
 
@@ -381,7 +401,7 @@ class PendenciaController:
         for campo in campos_bloqueáveis:
             campo.configure(state="normal")
 
-        data_atual = date.today()
+        data_atual = datetime.today()
         data_formatada = data_atual.strftime('%d/%m/%Y')
 
         try:
