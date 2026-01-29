@@ -16,7 +16,7 @@ class TelaPesquisarFuncionarioView(ctk.CTkToplevel):
         self.title("Pesquisar Funcionário")
         self.geometry("455x540+850+100")
         self.resizable(False, False)
-        self.grab_set()
+        #self.grab_set()
 
         self.funcionarios = listar_funcionarios_banco_dados() or []
 
@@ -31,6 +31,8 @@ class TelaPesquisarFuncionarioView(ctk.CTkToplevel):
         self.entry_pesquisa.bind("<KeyRelease>", self.filtrar_funcionarios)
         self.entry_pesquisa.bind("<Return>", self.selecionar_funcionario)
         self.entry_pesquisa.bind("<Down>", self.ir_para_lista)
+
+        self.bind("<FocusIn>", lambda event: self.atualizar_lista(self.funcionarios))
 
         self.bind("<Escape>", lambda event: self.destroy())
 
@@ -66,7 +68,7 @@ class TelaPesquisarFuncionarioView(ctk.CTkToplevel):
 
         self.atualizar_lista(filtrados)
 
-    def atualizar_lista(self, lista):
+    def atualizar_lista(self, lista, event=None):
         self.listbox.delete(0, tk.END)
 
         for codigo, nome, funcao, codigo_caminhhao in lista:
