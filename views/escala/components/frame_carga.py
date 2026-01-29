@@ -32,8 +32,8 @@ class FrameCarga(ctk.CTkFrame):
         self.label_numero_carga.grid(row=2, column=1, sticky="w")
 
         # HORÁRIO SAÍDA
-        self.horario_saida = ctk.CTkLabel(self, text="", font=FONTE_TEXTO, text_color=COR_TEXTO_BOTAO)
-        self.horario_saida.grid(row=3, column=1)
+        self.label_horario_saida = ctk.CTkLabel(self, text="", font=FONTE_TEXTO, text_color=COR_TEXTO_BOTAO)
+        self.label_horario_saida.grid(row=3, column=1)
 
 
         # CÓDIGOS
@@ -63,7 +63,7 @@ class FrameCarga(ctk.CTkFrame):
 
         # ROTA
         nome_rotas = [r[1] for r in ROTAS.values()]
-        self.entry_rota = ctk.CTkComboBox(self, values=nome_rotas, width=250, border_width=0, corner_radius=0)
+        self.entry_rota = ctk.CTkComboBox(self, values=nome_rotas, width=250, border_width=0, corner_radius=0, command=lambda valor: self.controller.atualizar_horario_saida(valor, self))
         self.entry_rota.grid(row=2, column=4, padx=(40, 0))
 
         # OBSERVAÇÃO

@@ -69,6 +69,7 @@ class EscalaController:
             frame.label_cod_carga.configure(text= index + 1)
 
             frame.entry_rota.set(dados[1])
+            self.atualizar_horario_saida(dados[1], frame)
             frame.entry_observacao.insert(0, dados[2])
 
             frame.pack(fill="x", pady=5, padx=(5))
@@ -183,12 +184,13 @@ class EscalaController:
             frame.label_cod_carga.configure(text=i + 1)
 
 
-    def buscar_horario_por_nome(self, nome_busca, frame):
+    def atualizar_horario_saida(self, nome_busca, frame):
         for chave, dados in ROTAS.items():
             if nome_busca.upper() in dados[1].upper():
-                frame.horario_saida.configure(text=dados[2])
-            else:
-                frame.horario_saida.configure(text="erro")
+                frame.label_horario_saida.configure(text=dados[2])
+                return
+            
+        frame.label_horario_saida.configure(text="erro")
 
 
     def atualizar_numero_total_cargas(self):
@@ -303,7 +305,7 @@ class EscalaController:
         except Exception:
             frame.label_numero_carga.configure(text="")
 
-        self.buscar_horario_por_nome(frame.entry_rota.get(), frame)
+        self.atualizar_horario_saida(frame.entry_rota.get(), frame)
 
         
     def calcular_numero_viagem_carga(self, codigo_motorista, frame_atual):
