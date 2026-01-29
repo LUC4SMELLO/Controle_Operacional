@@ -31,6 +31,10 @@ class FrameCarga(ctk.CTkFrame):
         self.label_numero_carga = ctk.CTkLabel(self, text="       ", font=FONTE_TEXTO, text_color=COR_TEXTO_BOTAO)
         self.label_numero_carga.grid(row=2, column=1, sticky="w")
 
+        # HORÁRIO SAÍDA
+        self.horario_saida = ctk.CTkLabel(self, text="", font=FONTE_TEXTO, text_color=COR_TEXTO_BOTAO)
+        self.horario_saida.grid(row=3, column=1)
+
 
         # CÓDIGOS
         self.entry_cod_motorista = ctk.CTkEntry(self, width=50, border_width=0, corner_radius=0)

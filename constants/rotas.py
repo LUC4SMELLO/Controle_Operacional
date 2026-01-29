@@ -1,5 +1,5 @@
 ROTAS = {
-    "1": ["10", "BALCÃO", "07:30"],
+    "1": ["10", "BALCÃO", ""],
     "150": ["13", "BOM REPOUSO I (SEG)", "07:30"],
     "151": ["48", "BOM REPOUSO II (SEG)", "07:30"],
     "203": ["47", "BORDA DA MATA A.S. (QUA)", "06:00"],

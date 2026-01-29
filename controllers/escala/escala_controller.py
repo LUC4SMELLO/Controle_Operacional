@@ -10,6 +10,7 @@ from views.escala.components.frame_carga import FrameCarga
 from views.dialogs.exibir_mensagem import exibir_mensagem
 
 from constants.rotas import (
+    ROTAS,
     ROTAS_SEGUNDA,
     ROTAS_TERCA,
     ROTAS_QUARTA,
@@ -182,6 +183,14 @@ class EscalaController:
             frame.label_cod_carga.configure(text=i + 1)
 
 
+    def buscar_horario_por_nome(self, nome_busca, frame):
+        for chave, dados in ROTAS.items():
+            if nome_busca.upper() in dados[1].upper():
+                frame.horario_saida.configure(text=dados[2])
+            else:
+                frame.horario_saida.configure(text="erro")
+
+
     def atualizar_numero_total_cargas(self):
         quantidade_total = len(self.view.frames_cargas)
 
@@ -293,6 +302,8 @@ class EscalaController:
                 frame.label_numero_carga.configure(text="")
         except Exception:
             frame.label_numero_carga.configure(text="")
+
+        self.buscar_horario_por_nome(frame.entry_rota.get(), frame)
 
         
     def calcular_numero_viagem_carga(self, codigo_motorista, frame_atual):
