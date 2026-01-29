@@ -14,7 +14,6 @@ class PendenciaController:
     
     def configurar_binds(self, view):
 
-
         if view == "cadastrar":
             self.view.entry_carga.focus_set()
 
@@ -109,9 +108,7 @@ class PendenciaController:
 
         self.view.label_descricao_produto.configure(text=resultado[0])
 
-
-    def confirmar_cadastro_pendencia(self):
-
+    def coletar_dados(self):
         dados = {
             "data": self.view.entry_data.get(),
             "carga": self.view.entry_carga.get(),
@@ -121,6 +118,16 @@ class PendenciaController:
             "codigo_produto": self.view.entry_codigo_produto.get(),
             "quantidade": self.view.entry_quantidade.get()
         }
+
+        if hasattr(self.view, "entry_cupom"):
+            dados["cupom"] = self.view.entry_cupom.get().strip()
+    
+        return dados
+
+
+    def confirmar_cadastro_pendencia(self):
+
+        dados = self.coletar_dados()
 
         try:
             objeto_data = datetime.strptime(dados["data"], "%d/%m/%Y")
@@ -154,16 +161,7 @@ class PendenciaController:
 
     def confirmar_edicao_pendencia(self):
 
-        dados = {
-            "cupom": self.view.entry_cupom.get(),
-            "data": self.view.entry_data.get(),
-            "carga": self.view.entry_carga.get(),
-            "codigo_cliente": self.view.entry_codigo_cliente.get(),
-            "tipo": self.view.entry_tipo.get(),
-            "responsavel": self.view.entry_responsavel.get(),
-            "codigo_produto": self.view.entry_codigo_produto.get(),
-            "quantidade": self.view.entry_quantidade.get()
-        }
+        dados = self.coletar_dados()
 
         try:
             objeto_data = datetime.strptime(dados["data"], "%d/%m/%Y")
@@ -196,16 +194,8 @@ class PendenciaController:
 
 
     def confirmar_exclusao_pendencia(self):
-        dados = {
-            "cupom": self.view.entry_cupom.get(),
-            "data": self.view.entry_data.get(),
-            "carga": self.view.entry_carga.get(),
-            "codigo_cliente": self.view.entry_codigo_cliente.get(),
-            "tipo": self.view.entry_tipo.get(),
-            "responsavel": self.view.entry_responsavel.get(),
-            "codigo_produto": self.view.entry_codigo_produto.get(),
-            "quantidade": self.view.entry_quantidade.get()
-        }
+
+        dados = self.coletar_dados()
 
         try:
             objeto_data = datetime.strptime(dados["data"], "%d/%m/%Y")
