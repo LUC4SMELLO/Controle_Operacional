@@ -2,6 +2,9 @@ from typing import Literal
 import customtkinter as ctk
 from datetime import datetime
 
+from controllers.escala.escala_scroll_controller import EscalaScrollController
+from controllers.escala.escala_bind_controller import EscalaBindController
+
 from views.escala.components.frame_carga import FrameCarga
 
 from views.dialogs.exibir_mensagem import exibir_mensagem
@@ -20,24 +23,15 @@ class EscalaController:
         self.model = model
         self.view = None
 
+        self.scroll = EscalaScrollController(self)
+        self.binds = EscalaBindController(self)
+
     def set_view(self, view):
         self.view = view
 
-
-
-    def _on_mousewheel(self, event):
-        # USE O CANVAS INTERNO PARA ROLAR
-        self.view.container_cargas._parent_canvas.yview_scroll(int(-1 * (event.delta / 250)), "units")
-
-    def _recursive_bind_scroll(self, widget):
-        # O 'add="+"' PERMITE QUE O SCROLL FUNCIONE SEM QUEBRAR O CLIQUE/HOVER DO WIDGET
-        widget.bind("<MouseWheel>", self._on_mousewheel, add="+")
-        
-        # IMPORTANTE: ACESSAR COMPONENTES INTERNOS SE FOR UM WIDGET DO CUSTOMTKINTER
-        
-        for child in widget.winfo_children():
-            self._recursive_bind_scroll(child)
-
+        self.binds.set_view(self.view)
+        self.scroll.set_view(self.view)
+        self.scroll.configurar_scroll_janela()
 
     def exibir_data_atual(self):
         dias_semana = ("Segunda", "Terça", "Quarta", 
@@ -79,7 +73,8 @@ class EscalaController:
             frame.pack(fill="x", pady=5, padx=(5))
             self.view.frames_cargas.append(frame)
         
-            self._configurar_eventos_frame_carga(frame)
+            self.binds.configurar_frame(frame)
+            self.scroll.recursive_bind_scroll(frame)
 
         self.atualizar_numero_total_cargas()
         self.atualizar_numero_total_motoristas()
@@ -110,7 +105,8 @@ class EscalaController:
             frame.pack(fill="x", pady=5, padx=(5))
             self.view.frames_cargas.append(frame)
         
-            self._configurar_eventos_frame_carga(frame)
+            self.binds.configurar_frame(frame)
+            self.scroll.recursive_bind_scroll(frame)
 
         self.atualizar_numero_total_cargas()
         self.atualizar_numero_total_motoristas()
@@ -119,7 +115,7 @@ class EscalaController:
 
     def limpar_cargas(self):
 
-        self._scroll_container_cargas(ir_para_topo=True)
+        self.scroll.scroll_container(ir_para_topo=True)
         
         self.view.entry_numero_cargas.delete(0, ctk.END)
 
@@ -151,9 +147,10 @@ class EscalaController:
         frame.pack(fill="x", pady=5, padx=(5, 10))
         self.view.frames_cargas.append(frame)
 
-        self._configurar_eventos_frame_carga(frame)
+        self.binds.configurar_frame(frame)
+        self.scroll.recursive_bind_scroll(frame)
 
-        frame.after(10, self._scroll_container_cargas(ir_para_topo=False))
+        frame.after(10, self.scroll.scroll_container(ir_para_topo=False))
 
         self.atualizar_numero_total_cargas()
         self.atualizar_numero_viagem_cargas()
@@ -216,6 +213,7 @@ class EscalaController:
                     total_motorista += 1
 
         self.view.label_numero_total_motoristas.configure(text=f"Motoristas: {total_motorista}")
+
 
     def atualizar_numero_total_ajudantes(self):
         dados = self.coletar_dados()
@@ -309,186 +307,7 @@ class EscalaController:
                 contador += 1
 
         return contador + 1
-    
-    def configurar_binds(self):
-        janela = self.view.winfo_toplevel()
 
-        janela.bind("<Prior>", self._on_page_up)
-        janela.bind("<Next>", self._on_page_down)
-
-    def _on_page_up(self, event):
-        self._scroll_container_cargas(ir_para_topo=True)
-        return "break"
-
-    def _on_page_down(self, event):
-        self._scroll_container_cargas(ir_para_topo=False)
-        return "break"
-    
-    
-    def _scroll_container_cargas(self, ir_para_topo: bool):
-        container = getattr(self.view, "container_cargas", None)
-        if not container:
-            return
-
-        canvas = getattr(container, "_parent_canvas", None)
-        if not canvas or not canvas.winfo_exists():
-            return
-
-        canvas.yview_moveto(0.0 if ir_para_topo else 1.0)
-
-    
-
-    def _configurar_eventos_frame_carga(self, frame):
-        """Configura os eventos de digitação para um frame carga recém-criado."""
-
-        frame.entry_cod_motorista.bind("<Return>",
-            lambda event: self._on_enter_funcionario(frame, "motorista", frame.entry_cod_ajudante_1))
-        frame.entry_cod_ajudante_1.bind("<Return>",
-            lambda event: self._on_enter_funcionario(frame, "ajudante_1", frame.entry_cod_ajudante_2))
-        frame.entry_cod_ajudante_2.bind("<Return>",
-            lambda event: self._on_enter_ajudante_2_ultimo(frame))
-        
-
-        frame.entry_cod_motorista.bind("<FocusOut>",
-            lambda event: self._on_focus_out_funcionario(frame, "motorista"))
-        frame.entry_cod_ajudante_1.bind("<FocusOut>",
-            lambda event: self._on_focus_out_funcionario(frame, "ajudante_1"))
-        frame.entry_cod_ajudante_2.bind("<FocusOut>",
-            lambda event: self._on_focus_out_funcionario(frame, "ajudante_2"))
-        
-        self._configurar_navegacao_tab(frame)
-        
-        self._recursive_bind_scroll(frame)
-
-
-    def _processar_funcionario(self, frame, campo):
-        codigo = {
-            "motorista": frame.entry_cod_motorista.get(),
-            "ajudante_1": frame.entry_cod_ajudante_1.get(),
-            "ajudante_2": frame.entry_cod_ajudante_2.get()
-        }[campo]
-
-        self.verificar_repeticao_ao_digitar(
-            codigo,
-            frame.label_cod_carga.cget("text")
-        )
-
-        self.exibir_nome_funcionario(frame, campo)
-
-        self.atualizar_numero_total_motoristas()
-        self.atualizar_numero_total_ajudantes()
-        self.atualizar_numero_total_repetidos()
-
-
-    def _on_enter_funcionario(self, frame, campo, proximo_widget=None):
-        entry = {
-            "motorista": frame.entry_cod_motorista,
-            "ajudante_1": frame.entry_cod_ajudante_1,
-            "ajudante_2": frame.entry_cod_ajudante_2,
-        }[campo]
-
-        entry._enter_executado = True
-
-        self._processar_funcionario(frame, campo)
-
-        if proximo_widget:
-            proximo_widget.focus_set()
-
-
-    def _on_enter_ajudante_2_ultimo(self, frame):
-        entry = frame.entry_cod_ajudante_2
-        entry._enter_executado = True
-
-        self._processar_funcionario(frame, "ajudante_2")
-
-        try:
-            idx = self.view.frames_cargas.index(frame)
-        except ValueError:
-            return
-
-        proximo_idx = idx + 1
-
-        if proximo_idx < len(self.view.frames_cargas):
-            proximo_frame = self.view.frames_cargas[proximo_idx]
-            proximo_entry = proximo_frame.entry_cod_motorista
-
-            proximo_entry.focus_set()
-            self._scroll_para_widget(proximo_entry)
-
-        if proximo_idx < len(self.view.frames_cargas):
-            proximo_frame = self.view.frames_cargas[proximo_idx]
-            entry = proximo_frame.entry_cod_motorista
-
-            entry.focus_set()
-            self._scroll_para_widget(entry)
-
-
-    def _on_focus_out_funcionario(self, frame, campo):
-        entry = {
-            "motorista": frame.entry_cod_motorista,
-            "ajudante_1": frame.entry_cod_ajudante_1,
-            "ajudante_2": frame.entry_cod_ajudante_2,
-        }[campo]
-
-        if entry._enter_executado:
-            entry._enter_executado = False
-            return
-
-        self._processar_funcionario(frame, campo)
-
-
-    def _on_tab(self, event, frame, reverso=False):
-        ordem = self._get_ordem_navegacao(frame)
-
-        try:
-            idx = ordem.index(event.widget)
-        except ValueError:
-            return "break"
-
-        novo_idx = idx - 1 if reverso else idx + 1
-
-        if novo_idx >= len(ordem):
-            self._ir_para_proxima_carga(frame)
-            return "break"
-
-        if novo_idx < 0:
-            self._ir_para_carga_anterior(frame)
-            return "break"
-
-        destino = ordem[novo_idx]
-        destino.focus_set()
-        self._scroll_para_widget(destino)
-
-        return "break"
-
-
-    def _scroll_para_widget(self, widget):
-        scrollframe = self.view.container_cargas
-        canvas = scrollframe._parent_canvas
-
-        canvas.update_idletasks()
-
-        bbox = canvas.bbox("all")
-        if not bbox:
-            return
-
-        altura_total = bbox[3]
-        altura_canvas = canvas.winfo_height()
-
-        if altura_total <= altura_canvas:
-            return
-
-        widget_y = widget.winfo_rooty()
-        canvas_y = canvas.winfo_rooty()
-
-        delta = widget_y - canvas_y
-
-        nova_posicao = canvas.canvasy(0) + delta - altura_canvas // 3
-
-        nova_posicao = max(0, min(nova_posicao, altura_total))
-
-        canvas.yview_moveto(nova_posicao / altura_total)
-    
 
     def buscar_funcionario_em_cargas(self, codigo):
         dados = self.coletar_dados()
@@ -504,6 +323,7 @@ class EscalaController:
                 ocorrencias.append(carga["cod_carga"])
 
         return ocorrencias
+    
     
     def verificar_repeticao_ao_digitar(self, codigo, cod_carga_atual):
         if not codigo.strip():
@@ -551,64 +371,24 @@ class EscalaController:
                 "warning"
             )
 
-    def _get_ordem_navegacao(self, frame):
-        return [
-            frame.entry_cod_motorista._entry,
-            frame.entry_cod_ajudante_1._entry,
-            frame.entry_cod_ajudante_2._entry,
-            frame.entry_rota._entry,
-            frame.entry_observacao._entry,
-        ]
 
-    
-    def _configurar_navegacao_tab(self, frame):
-        for entry in self._get_ordem_navegacao(frame):
-            entry.bind(
-                "<Tab>",
-                lambda e, f=frame: self._on_tab(e, f),
-                add="+"
-            )
-            entry.bind(
-                "<Shift-Tab>",
-                lambda e, f=frame: self._on_tab(e, f, reverso=True),
-                add="+"
-            )
+    def _processar_funcionario(self, frame, campo):
+        codigo = {
+            "motorista": frame.entry_cod_motorista.get(),
+            "ajudante_1": frame.entry_cod_ajudante_1.get(),
+            "ajudante_2": frame.entry_cod_ajudante_2.get()
+        }[campo]
 
-    def _ir_para_proxima_carga(self, frame_atual):
-        try:
-            idx = self.view.frames_cargas.index(frame_atual)
-        except ValueError:
-            return
+        self.verificar_repeticao_ao_digitar(
+            codigo,
+            frame.label_cod_carga.cget("text")
+        )
 
-        proximo_idx = idx + 1
+        self.exibir_nome_funcionario(frame, campo)
 
-        if proximo_idx >= len(self.view.frames_cargas):
-            proximo_idx = 0 
-
-        proximo_frame = self.view.frames_cargas[proximo_idx]
-        destino = proximo_frame.entry_cod_motorista._entry
-
-        destino.focus_set()
-        self._scroll_para_widget(destino)
-
-
-    def _ir_para_carga_anterior(self, frame_atual):
-        try:
-            idx = self.view.frames_cargas.index(frame_atual)
-        except ValueError:
-            return
-
-        anterior_idx = idx - 1
-
-        if anterior_idx < 0:
-            anterior_idx = len(self.view.frames_cargas) - 1
-
-        frame_anterior = self.view.frames_cargas[anterior_idx]
-        ordem = self._get_ordem_navegacao(frame_anterior)
-        destino = ordem[-1]
-
-        destino.focus_set()
-        self._scroll_para_widget(destino)
+        self.atualizar_numero_total_motoristas()
+        self.atualizar_numero_total_ajudantes()
+        self.atualizar_numero_total_repetidos()
 
 
     def coletar_dados(self):

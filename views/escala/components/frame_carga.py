@@ -86,4 +86,4 @@ class FrameCarga(ctk.CTkFrame):
         )
         self.botao_remover_carga.grid(row=2, column=6, padx=(0, 20))
 
-        controller._recursive_bind_scroll(self)
+        controller.scroll.recursive_bind_scroll(self)
