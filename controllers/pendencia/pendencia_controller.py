@@ -1,6 +1,8 @@
 import customtkinter as ctk
 from datetime import datetime
 
+from validators.pendencia_validator import validar_pendencia
+
 
 class PendenciaController:
     def __init__(self, model):
@@ -107,7 +109,6 @@ class PendenciaController:
 
         self.view.label_descricao_produto.configure(text=resultado[0])
 
-    
 
     def confirmar_cadastro_pendencia(self):
 
@@ -127,36 +128,11 @@ class PendenciaController:
 
             dados["data"] = data_formatada
         except Exception:
-            dados["data"] = ""
+            dados["data"] = "."
 
-    
-        for campo, valor in dados.items():
-            if not valor or valor.strip() == "":
-                self.view.entry_carga.focus_set()
-                return {
-                    "sucesso": False,
-                    "titulo": "Erro",
-                    "mensagem": f"O campo '{campo.replace('_', ' ').replace('co', 'có').replace('sa', 'sá').title()}' é obrigatório!",
-                    "icone": "cancel"
-                    }
-            
-        if dados["tipo"] not in ["Pendência", "Troca"]:
-            self.view.entry_tipo.focus_set()
-            return {
-                "sucesso": False,
-                "titulo": "Erro",
-                "mensagem": "O valor do campo 'Tipo' está incorreto.",
-                "icone": "cancel"
-                }
-
-        if int(dados["quantidade"]) <= 0:
-            self.view.entry_quantidade.focus_set()
-            return {
-                "sucesso": False,
-                "titulo": "Erro",
-                "mensagem": "A quantidade deve ser maior que zero.",
-                "icone": "cancel"
-                }
+        resultado = validar_pendencia(dados, False)
+        if not resultado["sucesso"]:
+            return resultado
 
         try:
             self.model.cadastrar_pendencia(dados)
@@ -195,47 +171,11 @@ class PendenciaController:
 
             dados["data"] = data_formatada
         except Exception:
-            dados["data"] = ""
+            dados["data"] = "."
 
-
-    
-        for campo, valor in dados.items():
-            if not valor or valor.strip() == "":
-                self.view.entry_cupom.focus_set()
-                return {
-                    "sucesso": False,
-                    "titulo": "Erro",
-                    "mensagem": f"O campo '{campo.replace('_', ' ').replace('co', 'có').replace('sa', 'sá').title()}' é obrigatório!",
-                    "icone": "cancel"
-                    }
-            
-        if dados["tipo"] not in ["Pendência", "Troca"]:
-            self.view.entry_tipo.focus_set()
-            return {
-                "sucesso": False,
-                "titulo": "Erro",
-                "mensagem": "O valor do campo 'Tipo' está incorreto.",
-                "icone": "cancel"
-                }
-
-        if int(dados["quantidade"]) <= 0:
-            self.view.entry_quantidade.focus_set()            
-            return {
-                "sucesso": False,
-                "titulo": "Erro",
-                "mensagem": "A quantidade deve ser maior que zero.",
-                "icone": "cancel"
-                }
-        
-        pendencia_existe = self.model.buscar_pendencia(dados["cupom"])
-        if not pendencia_existe:
-            self.limpar_formulario()
-            return {
-                "sucesso": False,
-                "titulo": "Erro",
-                "mensagem": "Pendência Não Encontrada.",
-                "icone": "cancel"
-                }
+        resultado = validar_pendencia(dados, True)
+        if not resultado["sucesso"]:
+            return resultado
 
         try:
             self.model.editar_pendencia(dados)
@@ -254,6 +194,7 @@ class PendenciaController:
                 "icone": "cancel"
                 }
 
+
     def confirmar_exclusao_pendencia(self):
         dados = {
             "cupom": self.view.entry_cupom.get(),
@@ -266,33 +207,19 @@ class PendenciaController:
             "quantidade": self.view.entry_quantidade.get()
         }
 
-        for campo, valor in dados.items():
-            if not valor or valor.strip() == "":
-                self.view.entry_cupom.focus_set()
-                return {
-                    "sucesso": False,
-                    "titulo": "Erro",
-                    "mensagem": f"O campo '{campo.replace('_', ' ').replace('co', 'có').replace('sa', 'sá').title()}' é obrigatório!",
-                    "icone": "cancel"
-                    }
-            
-        if dados["tipo"] not in ["Pendência", "Troca"]:
-            self.view.entry_tipo.focus_set()
-            return {
-                "sucesso": False,
-                "titulo": "Erro",
-                "mensagem": "O valor do campo 'Tipo' está incorreto.",
-                "icone": "cancel"
-                }
+        try:
+            objeto_data = datetime.strptime(dados["data"], "%d/%m/%Y")
+            data_formatada = objeto_data.strftime("%Y-%m-%d")
 
-        if int(dados["quantidade"]) <= 0:
-            self.view.entry_quantidade.focus_set()
-            return {
-                "sucesso": False,
-                "titulo": "Erro",
-                "mensagem": "A quantidade deve ser maior que zero.",
-                "icone": "cancel"
-                }
+            dados["data"] = data_formatada
+        except Exception:
+            dados["data"] = "."
+
+
+        resultado = validar_pendencia(dados, True)
+        if not resultado["sucesso"]:
+            return resultado
+
 
         pendencia_existe = self.model.buscar_pendencia(dados["cupom"])
         if not pendencia_existe:
@@ -389,8 +316,6 @@ class PendenciaController:
                 }
 
 
-
-
     def limpar_formulario(self):
         campos_bloqueáveis = [
             self.view.entry_carga, self.view.entry_codigo_cliente,
@@ -421,4 +346,3 @@ class PendenciaController:
             self.view.entry_codigo_produto.delete(0, ctk.END)
             self.view.label_descricao_produto.configure(text="")
             self.view.entry_quantidade.delete(0, ctk.END)
-
