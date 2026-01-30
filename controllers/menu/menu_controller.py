@@ -7,6 +7,7 @@ from views.pendencia.editar_pendencia_view import EditarPendenciaView
 from views.pendencia.excluir_pendencia_view import ExcluirPendenciaView
 from views.relatorio.relatorio_pendencia_view import RelatorioPendenciaView
 from views.funcionario.cadastrar_funcionario_view import CadastrarFuncionarioView
+from views.funcionario.editar_funcionario_view import EditarFuncionarioView
 
 from controllers.escala.escala_controller import EscalaController
 from controllers.pendencia.pendencia_controller import PendenciaController
@@ -160,3 +161,16 @@ class MenuController:
         controller.configurar_binds("cadastrar")
 
         self.definir_tela_atual(tela_cadastrar_funcionario)
+
+    def mostrar_tela_editar_funcionario(self):
+
+        model = FuncionarioModel()
+
+        controller = FuncionarioController(model)
+
+        tela_editar_funcionario = EditarFuncionarioView(self.janela, controller)
+
+        controller.set_view(tela_editar_funcionario)
+        #controller.configurar_binds("editar")
+
+        self.definir_tela_atual(tela_editar_funcionario)
