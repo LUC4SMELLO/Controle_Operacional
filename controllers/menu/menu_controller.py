@@ -157,5 +157,6 @@ class MenuController:
         tela_cadastrar_funcionario = CadastrarFuncionarioView(self.janela, controller)
 
         controller.set_view(tela_cadastrar_funcionario)
+        controller.configurar_binds("cadastrar")
 
         self.definir_tela_atual(tela_cadastrar_funcionario)
