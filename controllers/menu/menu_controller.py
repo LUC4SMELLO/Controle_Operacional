@@ -80,6 +80,10 @@ class MenuController:
         self.definir_tela_atual(None)
         self.view.mostrar_opcoes_relatorios()
 
+    def mostrar_opcoes_funcionarios(self):
+        self.definir_tela_atual(None)
+        self.view.mostrar_opcoes_funcionarios()
+
     def mostrar_tela_editar_escala(self):
 
         model = EscalaModel()

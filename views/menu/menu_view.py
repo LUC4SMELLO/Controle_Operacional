@@ -79,7 +79,7 @@ class MenuView(ctk.CTkFrame):
         self.botao_funcionarios = ctk.CTkButton(
             self,
             text="Funcionários",
-            command=self.mostrar_opcoes_funcionarios,
+            command=self.controller.mostrar_opcoes_funcionarios,
             font=FONTE_BOTAO_PRINCIPAL,
             width=160,
             height=38,
