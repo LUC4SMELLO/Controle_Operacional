@@ -76,6 +76,19 @@ class MenuView(ctk.CTkFrame):
         )
         self.botao_relatorios.place(x=10, y=180)
 
+        self.botao_funcionarios = ctk.CTkButton(
+            self,
+            text="Funcionários",
+            command=self.mostrar_opcoes_funcionarios,
+            font=FONTE_BOTAO_PRINCIPAL,
+            width=160,
+            height=38,
+            fg_color=COR_BOTAO,
+            hover_color=HOVER_BOTAO,
+            text_color=COR_TEXTO_BOTAO
+        )
+        self.botao_funcionarios.place(x=10, y=220)
+
         # BOTÕES SECUNDARIOS
 
         self.botao_editar_escala = ctk.CTkButton(
@@ -134,16 +147,49 @@ class MenuView(ctk.CTkFrame):
             text_color=COR_TEXTO_BOTAO
         )
 
+        self.botao_cadastrar_funcionario = ctk.CTkButton(
+            self,
+            text="Cadastrar",
+            command=self.controller.mostrar_tela_cadastrar_funcionario,
+            font=FONTE_BOTAO_SECUNDARIO,
+            fg_color=COR_BOTAO,
+            hover_color=HOVER_BOTAO,
+            text_color=COR_TEXTO_BOTAO
+        )
+
+        self.botao_editar_funcionario = ctk.CTkButton(
+            self,
+            text="Editar",
+            font=FONTE_BOTAO_SECUNDARIO,
+            fg_color=COR_BOTAO,
+            hover_color=HOVER_BOTAO,
+            text_color=COR_TEXTO_BOTAO
+        )
+
+        self.botao_excluir_funcionario = ctk.CTkButton(
+            self,
+            text="Excluir",
+            font=FONTE_BOTAO_SECUNDARIO,
+            fg_color=COR_BOTAO,
+            hover_color=HOVER_BOTAO,
+            text_color=COR_TEXTO_BOTAO
+        )
+
     def mostrar_opcoes_escala(self):
         self.botao_escala.place(x=10, y=100)
         self.botao_pendencia_troca.place(x=10, y=210)
         self.botao_relatorios.place(x=10, y=250)
+        self.botao_funcionarios.place(x=10, y=290)
 
         self.botao_cadastrar_pendencia_troca.place_forget()
         self.botao_editar_pendencia_troca.place_forget()
         self.botao_excluir_pendencia_troca.place_forget()
 
         self.botao_relatorio_pendencia.place_forget()
+
+        self.botao_cadastrar_funcionario.place_forget()
+        self.botao_editar_funcionario.place_forget()
+        self.botao_excluir_funcionario.place_forget()
 
         self.botao_editar_escala.place(x=50, y=140)
         self.botao_visualizar_escala.place(x=50, y=170)
@@ -152,20 +198,29 @@ class MenuView(ctk.CTkFrame):
         self.botao_escala.place(x=10, y=100)
         self.botao_pendencia_troca.place(x=10, y=140)
         self.botao_relatorios.place(x=10, y=280)
+        self.botao_funcionarios.place(x=10, y=320)
 
         self.botao_editar_escala.place_forget()
         self.botao_visualizar_escala.place_forget()
 
         self.botao_relatorio_pendencia.place_forget()
 
+        self.botao_cadastrar_funcionario.place_forget()
+        self.botao_editar_funcionario.place_forget()
+        self.botao_excluir_funcionario.place_forget()
+
         self.botao_cadastrar_pendencia_troca.place(x=50, y=180)
         self.botao_editar_pendencia_troca.place(x=50, y=210)
         self.botao_excluir_pendencia_troca.place(x=50, y=240)
+
+
 
     def mostrar_opcoes_relatorios(self):
         self.botao_escala.place(x=10, y=100)
         self.botao_pendencia_troca.place(x=10, y=140)
         self.botao_relatorios.place(x=10, y=180)
+        self.botao_funcionarios.place(x=10, y=260)
+
 
         self.botao_editar_escala.place_forget()
         self.botao_visualizar_escala.place_forget()
@@ -174,4 +229,27 @@ class MenuView(ctk.CTkFrame):
         self.botao_editar_pendencia_troca.place_forget()
         self.botao_excluir_pendencia_troca.place_forget()
 
+        self.botao_cadastrar_funcionario.place_forget()
+        self.botao_editar_funcionario.place_forget()
+        self.botao_excluir_funcionario.place_forget()
+
         self.botao_relatorio_pendencia.place(x=50, y=220)
+
+    def mostrar_opcoes_funcionarios(self):
+        self.botao_escala.place(x=10, y=100)
+        self.botao_pendencia_troca.place(x=10, y=140)
+        self.botao_relatorios.place(x=10, y=180)
+        self.botao_funcionarios.place(x=10, y=220)
+
+        self.botao_editar_escala.place_forget()
+        self.botao_visualizar_escala.place_forget()
+
+        self.botao_cadastrar_pendencia_troca.place_forget()
+        self.botao_editar_pendencia_troca.place_forget()
+        self.botao_excluir_pendencia_troca.place_forget()
+
+        self.botao_relatorio_pendencia.place_forget()
+
+        self.botao_cadastrar_funcionario.place(x=50, y=260)
+        self.botao_editar_funcionario.place(x=50, y=290)
+        self.botao_excluir_funcionario.place(x=50, y=320)

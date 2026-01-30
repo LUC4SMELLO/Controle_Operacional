@@ -6,14 +6,17 @@ from views.pendencia.cadastrar_pendencia_view import CadastrarPendenciaView
 from views.pendencia.editar_pendencia_view import EditarPendenciaView
 from views.pendencia.excluir_pendencia_view import ExcluirPendenciaView
 from views.relatorio.relatorio_pendencia_view import RelatorioPendenciaView
+from views.funcionario.cadastrar_funcionario_view import CadastrarFuncionarioView
 
 from controllers.escala.escala_controller import EscalaController
 from controllers.pendencia.pendencia_controller import PendenciaController
 from controllers.relatorio.relatorio_controller import RelatorioController
+from controllers.funcionario.funcionario_controller import FuncionarioController
 
 from models.escala.escala_model import EscalaModel
 from models.pendencia.pendencia_model import PendenciaModel
 from models.relatorio.relatorio_model import RelatorioModel
+from models.funcionario.funcionario_model import FuncionarioModel
 
 
 from constants.paths import ARCHIVES_DIR
@@ -140,3 +143,15 @@ class MenuController:
         controller.set_view(tela_relatorio_pendencia)
 
         self.definir_tela_atual(tela_relatorio_pendencia)
+
+    def mostrar_tela_cadastrar_funcionario(self):
+
+        model = FuncionarioModel()
+
+        controller = FuncionarioController(model)
+
+        tela_cadastrar_funcionario = CadastrarFuncionarioView(self.janela, controller)
+
+        controller.set_view(tela_cadastrar_funcionario)
+
+        self.definir_tela_atual(tela_cadastrar_funcionario)
