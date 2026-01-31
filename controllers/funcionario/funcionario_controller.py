@@ -132,3 +132,30 @@ class FuncionarioController:
         self.view.entry_cpf.delete(0, ctk.END)
         self.view.entry_rg.delete(0, ctk.END)
         self.view.entry_funcao.set("")
+
+    def confirmar_edicao_funcionario(self):
+
+        dados = self.coletar_dados()
+
+        resultado = validar_funcionario(dados)
+        if not resultado["sucesso"]:
+            return resultado
+
+        try:
+            self.model.editar_funcionario(dados)
+            self.limpar_formulario()
+            return {
+                "sucesso": True,
+                "titulo": "Sucesso",
+                "mensagem": "Funcionário Editado.",
+                "icone": "check"
+            }
+        except Exception as e:
+            return {
+                "sucesso": False,
+                "titulo": "Erro",
+                "mensagem": f"Falha no banco: {e}",
+                "icone": "cancel"
+            }
+
+
