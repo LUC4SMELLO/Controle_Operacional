@@ -66,11 +66,11 @@ class CadastrarFuncionarioView(ctk.CTkFrame):
         self.cadastro_frame.grid_columnconfigure(1, weight=0)
         self.cadastro_frame.grid_columnconfigure(2, weight=1)
         self.cadastro_frame.grid_columnconfigure(3, weight=0)
-        self.cadastro_frame.grid(row=1, column=0, pady=(20, 0), sticky="ew")
+        self.cadastro_frame.grid(row=1, column=0, sticky="ew")
 
-        ctk.CTkLabel(self.cadastro_frame, text="Código:", font=FONTE_LABEL, text_color=COR_TEXTO).grid(row=0, column=0, padx=(40, 0), pady=(5, 0), sticky="e")
+        ctk.CTkLabel(self.cadastro_frame, text="Código:", font=FONTE_LABEL, text_color=COR_TEXTO).grid(row=0, column=0, padx=(40, 0), pady=(20, 0), sticky="e")
         self.entry_codigo = ctk.CTkEntry(self.cadastro_frame, font=FONTE_TEXTO, width=120, height=30, corner_radius=2)
-        self.entry_codigo.grid(row=0, column=1, padx=(10, 0), pady=(5, 0), sticky="w")
+        self.entry_codigo.grid(row=0, column=1, padx=(10, 0), pady=(20, 0), sticky="w")
 
         ctk.CTkLabel(self.cadastro_frame, text="Nome Completo:", font=FONTE_LABEL, text_color=COR_TEXTO).grid(row=1, column=0, padx=(40, 0), pady=(5, 0), sticky="e")
         self.entry_nome_completo = ctk.CTkEntry(self.cadastro_frame, font=FONTE_TEXTO, width=350, height=30, corner_radius=2)
@@ -104,7 +104,6 @@ class CadastrarFuncionarioView(ctk.CTkFrame):
             column=0,
             sticky="ew",
             padx=(40, 290),
-            pady=(0, 0)
         )
 
         self.botao_confirmar = ctk.CTkButton(
