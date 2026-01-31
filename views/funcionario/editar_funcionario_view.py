@@ -134,6 +134,7 @@ class EditarFuncionarioView(ctk.CTkFrame):
         self.botao_confirmar = ctk.CTkButton(
             self.footer_frame,
             text="Cadastrar",
+            command=self.confirmar,
             font=FONTE_BOTAO_PRINCIPAL,
             width=160,
             height=38,
@@ -146,6 +147,7 @@ class EditarFuncionarioView(ctk.CTkFrame):
         self.botao_cancelar= ctk.CTkButton(
             self.footer_frame,
             text="Cancelar",
+            command=self.controller.limpar_formulario,
             font=FONTE_BOTAO_PRINCIPAL,
             width=160,
             height=38,
@@ -154,3 +156,10 @@ class EditarFuncionarioView(ctk.CTkFrame):
             text_color=COR_TEXTO_BOTAO,
         )
         self.botao_cancelar.grid(row=0, column=3, padx=(10, 0), pady=(25, 0))
+
+    def confirmar(self):
+        resultado = self.controller.confirmar_edicao_funcionario()
+
+        exibir_mensagem(resultado["titulo"], resultado["mensagem"], resultado["icone"])
+        return
+

@@ -43,5 +43,37 @@ class FuncionarioModel:
             if conexao:
                 conexao.close()
 
+    def editar_funcionario(self, dados):
 
+        conexao = None
 
+        try:
+            conexao = conectar_banco_de_dados_funcionarios()
+            cursor = conexao.cursor()
+
+            cursor.execute(
+                f"""
+                UPDATE {TABELA_FUNCIONARIOS} 
+                SET nome = ?,
+                cpf = ?,
+                rg = ?,
+                funcao = ?
+                WHERE codigo = ?
+                )
+                VALUES (?, ?, ?, ?, ?)
+                """,
+                    (
+                        dados["nome_completo"],
+                        dados["cpf"],
+                        dados["rg"],
+                        dados["funcao"],
+                        dados["codigo"],
+                    )
+                )
+            
+        except Exception:
+            return []
+        
+        finally:
+            if conexao:
+                conexao.close()

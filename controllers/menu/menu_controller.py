@@ -171,6 +171,6 @@ class MenuController:
         tela_editar_funcionario = EditarFuncionarioView(self.janela, controller)
 
         controller.set_view(tela_editar_funcionario)
-        #controller.configurar_binds("editar")
+        controller.configurar_binds("editar")
 
         self.definir_tela_atual(tela_editar_funcionario)
