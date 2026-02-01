@@ -158,6 +158,31 @@ class FuncionarioController:
                 "mensagem": f"Falha no banco: {e}",
                 "icone": "cancel"
             }
+        
+    def confirmar_exclusao_funcionario(self):
+        dados = self.coletar_dados()
+
+        resultado = validar_funcionario(dados)
+        if not resultado["sucesso"]:
+            return resultado
+
+        try:
+            self.model.excluir_funcionario(dados["codigo"])
+            self.limpar_formulario()
+            return {
+                "sucesso": True,
+                "titulo": "Sucesso",
+                "mensagem": "Funcionário Excluído.",
+                "icone": "check"
+            }
+        except Exception as e:
+            return {
+                "sucesso": False,
+                "titulo": "Erro",
+                "mensagem": f"Falha no banco: {e}",
+                "icone": "cancel"
+            }
+
 
     def exibir_informacoes_funcionario(self, tipo_view="editar"):
 
@@ -201,7 +226,7 @@ class FuncionarioController:
         return {
             "sucesso": True,
             "titulo": "Sucesso",
-            "mensagem": "Funcionário Encontrado",
+            "mensagem": "Funcionário Encontrado.",
             "icone": "warning"
         }
         

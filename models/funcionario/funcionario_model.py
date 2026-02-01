@@ -78,6 +78,30 @@ class FuncionarioModel:
             if conexao:
                 conexao.close()
 
+    def excluir_funcionario(self, codigo):
+        
+        conexao = None
+
+        try:
+            conexao = conectar_banco_de_dados_funcionarios()
+            cursor = conexao.cursor()
+
+            cursor.execute(
+            f"""
+            DELETE FROM {TABELA_FUNCIONARIOS}
+            WHERE codigo = ?
+            """, (codigo,)
+            )
+
+            conexao.commit()
+
+        except Exception:
+            return []
+
+        finally:
+            if conexao:
+                conexao.close()
+    
     def buscar_funcionario(self, codigo):
 
         conexao = None

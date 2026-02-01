@@ -48,7 +48,7 @@ class ExcluirFuncionarioView(ctk.CTkFrame):
 
         ctk.CTkLabel(self.header_frame, text="Funcionários", font=FONTE_TITULO, text_color=COR_TEXTO).grid(row=0, column=0, padx=(40, 0), pady=(15, 0), sticky="w")
 
-        ctk.CTkLabel(self.header_frame, text="Editar", font=FONTE_SUBTITULO, text_color=COR_TEXTO).grid(row=1, column=0, padx=(40, 0), pady=(20, 0), sticky="w")
+        ctk.CTkLabel(self.header_frame, text="Excluir", font=FONTE_SUBTITULO, text_color=COR_TEXTO).grid(row=1, column=0, padx=(40, 0), pady=(20, 0), sticky="w")
 
 
         ctk.CTkFrame(self.header_frame, height=2, fg_color=COR_LINHAS).grid(row=2, column=0, padx=(40, 290), pady=(15, 0), sticky="ew", columnspan=1)
@@ -165,7 +165,7 @@ class ExcluirFuncionarioView(ctk.CTkFrame):
         return "break"
     
     def buscar_funcionario(self):
-        resultado = self.controller.exibir_informacoes_funcionario()
+        resultado = self.controller.exibir_informacoes_funcionario(tipo_view="excluir")
         
         if resultado["sucesso"]:
             return 
