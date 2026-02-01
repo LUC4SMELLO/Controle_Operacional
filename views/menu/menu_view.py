@@ -170,6 +170,7 @@ class MenuView(ctk.CTkFrame):
         self.botao_excluir_funcionario = ctk.CTkButton(
             self,
             text="Excluir",
+            command=self.controller.mostrar_tela_excluir_funcionario,
             font=FONTE_BOTAO_SECUNDARIO,
             fg_color=COR_BOTAO,
             hover_color=HOVER_BOTAO,
