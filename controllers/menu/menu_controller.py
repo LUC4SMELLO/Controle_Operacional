@@ -206,6 +206,6 @@ class MenuController:
         tela_cadastrar_veiculo = CadastrarVeiculoView(self.janela, controller)
 
         controller.set_view(tela_cadastrar_veiculo)
-        # controller.configurar_binds("cadastrar")
+        controller.configurar_binds("cadastrar")
 
         self.definir_tela_atual(tela_cadastrar_veiculo)

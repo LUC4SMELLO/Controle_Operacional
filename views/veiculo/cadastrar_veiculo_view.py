@@ -107,7 +107,7 @@ class CadastrarVeiculoView(ctk.CTkFrame):
         self.botao_cancelar= ctk.CTkButton(
             self.footer_frame,
             text="Cancelar",
-            # command=self.controller.limpar_formulario,
+            command=self.controller.limpar_formulario,
             font=FONTE_BOTAO_PRINCIPAL,
             width=160,
             height=38,
