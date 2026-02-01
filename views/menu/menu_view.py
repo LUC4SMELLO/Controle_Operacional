@@ -203,6 +203,7 @@ class MenuView(ctk.CTkFrame):
         self.botao_editar_veiculo = ctk.CTkButton(
             self,
             text="Editar",
+            command=self.controller.mostrar_tela_editar_veiculo,
             font=FONTE_BOTAO_SECUNDARIO,
             fg_color=COR_BOTAO,
             hover_color=HOVER_BOTAO,
