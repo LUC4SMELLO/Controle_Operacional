@@ -9,17 +9,20 @@ from views.relatorio.relatorio_pendencia_view import RelatorioPendenciaView
 from views.funcionario.cadastrar_funcionario_view import CadastrarFuncionarioView
 from views.funcionario.editar_funcionario_view import EditarFuncionarioView
 from views.funcionario.excluir_funcionario_view import ExcluirFuncionarioView
+from views.veiculo.cadastrar_veiculo_view import CadastrarVeiculoView
 
 
 from controllers.escala.escala_controller import EscalaController
 from controllers.pendencia.pendencia_controller import PendenciaController
 from controllers.relatorio.relatorio_controller import RelatorioController
 from controllers.funcionario.funcionario_controller import FuncionarioController
+from controllers.veiculo.veiculo_controller import VeiculoController
 
 from models.escala.escala_model import EscalaModel
 from models.pendencia.pendencia_model import PendenciaModel
 from models.relatorio.relatorio_model import RelatorioModel
 from models.funcionario.funcionario_model import FuncionarioModel
+from models.veiculo.veiculo_model import VeiculoModel
 
 
 from constants.paths import ARCHIVES_DIR
@@ -193,3 +196,16 @@ class MenuController:
         controller.configurar_binds("excluir")
 
         self.definir_tela_atual(tela_excluir_funcionario)
+
+    def mostrar_tela_cadastrar_veiculo(self):
+
+        model = VeiculoModel()
+
+        controller = VeiculoController(model)
+
+        tela_cadastrar_veiculo = CadastrarVeiculoView(self.janela, controller)
+
+        controller.set_view(tela_cadastrar_veiculo)
+        # controller.configurar_binds("cadastrar")
+
+        self.definir_tela_atual(tela_cadastrar_veiculo)

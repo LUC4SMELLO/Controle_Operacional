@@ -193,6 +193,7 @@ class MenuView(ctk.CTkFrame):
         self.botao_cadastrar_veiculo = ctk.CTkButton(
             self,
             text="Cadastrar",
+            command=self.controller.mostrar_tela_cadastrar_veiculo,
             font=FONTE_BOTAO_SECUNDARIO,
             fg_color=COR_BOTAO,
             hover_color=HOVER_BOTAO,
@@ -264,8 +265,6 @@ class MenuView(ctk.CTkFrame):
         self.botao_cadastrar_pendencia_troca.place(x=50, y=180)
         self.botao_editar_pendencia_troca.place(x=50, y=210)
         self.botao_excluir_pendencia_troca.place(x=50, y=240)
-
-
 
     def mostrar_opcoes_relatorios(self):
         self.botao_escala.place(x=10, y=100)
