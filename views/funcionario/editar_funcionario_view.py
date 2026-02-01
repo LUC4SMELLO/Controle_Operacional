@@ -72,6 +72,7 @@ class EditarFuncionarioView(ctk.CTkFrame):
         self.botao_buscar_funcionario = ctk.CTkButton(
             self.edicao_frame_1,
             text="Buscar",
+            command=self.buscar_funcionario,
             width=50,
             height=30,
             font=FONTE_BOTAO_SECUNDARIO,
@@ -133,7 +134,7 @@ class EditarFuncionarioView(ctk.CTkFrame):
 
         self.botao_confirmar = ctk.CTkButton(
             self.footer_frame,
-            text="Cadastrar",
+            text="Editar",
             command=self.confirmar,
             font=FONTE_BOTAO_PRINCIPAL,
             width=160,
@@ -162,4 +163,12 @@ class EditarFuncionarioView(ctk.CTkFrame):
 
         exibir_mensagem(resultado["titulo"], resultado["mensagem"], resultado["icone"])
         return
-
+    
+    def buscar_funcionario(self):
+        resultado = self.controller.exibir_informacoes_funcionario()
+        
+        if resultado["sucesso"]:
+            return 
+        
+        exibir_mensagem(resultado["titulo"], resultado["mensagem"], resultado["icone"])
+        return "break"

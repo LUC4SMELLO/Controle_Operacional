@@ -25,20 +25,20 @@ class FuncionarioModel:
                 )
                 VALUES (?, ?, ?, ?, ?)
                 """,
-                    (
-                        dados["codigo"],
-                        dados["nome_completo"],
-                        dados["funcao"],
-                        dados["cpf"],
-                        dados["rg"]
-                    )
-                )
-            
+                (
+                    dados["codigo"],
+                    dados["nome_completo"],
+                    dados["funcao"],
+                    dados["cpf"],
+                    dados["rg"],
+                ),
+            )
+
             conexao.commit()
 
         except Exception:
             return []
-        
+
         finally:
             if conexao:
                 conexao.close()
@@ -59,21 +59,54 @@ class FuncionarioModel:
                 rg = ?,
                 funcao = ?
                 WHERE codigo = ?
-                )
-                VALUES (?, ?, ?, ?, ?)
                 """,
-                    (
-                        dados["nome_completo"],
-                        dados["cpf"],
-                        dados["rg"],
-                        dados["funcao"],
-                        dados["codigo"],
-                    )
+                (
+                    dados["nome_completo"],
+                    dados["cpf"],
+                    dados["rg"],
+                    dados["funcao"],
+                    dados["codigo"]
                 )
-            
+            )
+
+            conexao.commit()
+
         except Exception:
             return []
+
+        finally:
+            if conexao:
+                conexao.close()
+
+    def buscar_funcionario(self, codigo):
+
+        conexao = None
+
+        try:
+            conexao = conectar_banco_de_dados_funcionarios()
+            cursor = conexao.cursor()
+
+            cursor.execute(
+                f"""
+                SELECT
+                codigo,
+                nome,
+                cpf,
+                rg,
+                funcao
+                FROM {TABELA_FUNCIONARIOS}
+                WHERE codigo = ?
+                """,
+                (codigo,),
+            )
+
+            resultado = cursor.fetchone()
+
+            return resultado
         
+        except Exception:
+            return []
+
         finally:
             if conexao:
                 conexao.close()

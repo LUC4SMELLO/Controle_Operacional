@@ -27,7 +27,8 @@ class FuncionarioController:
             self.view.entry_codigo.focus_set()
 
             fluxo_entrys = [
-                (self.view.entry_codigo, self.view.entry_nome_completo),
+                (self.view.entry_codigo, self.view.botao_buscar_funcionario),
+                (self.view.botao_buscar_funcionario, self.view.entry_nome_completo),
                 (self.view.entry_nome_completo, self.view.entry_cpf),
                 (self.view.entry_cpf, self.view.entry_rg),
                 (self.view.entry_rg, self.view.entry_funcao),
@@ -158,4 +159,49 @@ class FuncionarioController:
                 "icone": "cancel"
             }
 
+    def exibir_informacoes_funcionario(self, tipo_view="editar"):
 
+        codigo = self.view.entry_codigo.get().strip()
+
+        if not codigo:
+            return {
+                "sucesso": False,
+                "titulo": "Erro",
+                "mensagem": "O campo 'Código' deve estar preenchido.",
+                "icone": "cancel"
+            }
+        
+        resultado = self.model.buscar_funcionario(codigo)
+
+        if not resultado:
+
+            self.limpar_formulario()
+
+            return {
+                "sucesso": False,
+                "titulo": "Aviso",
+                "mensagem": "Funcionário não encontrado.",
+                "icone": "warning"
+            }
+        
+        self.limpar_formulario()
+
+        self.view.entry_codigo.insert(0, resultado[0])
+        self.view.entry_nome_completo.insert(0, resultado[1])
+        self.view.entry_cpf.insert(0, resultado[2])
+        self.view.entry_rg.insert(0, resultado[3])
+        self.view.entry_funcao.set(resultado[4])
+
+        if tipo_view == "excluir":
+            self.view.entry_nome_completo.configure(state="readonly")
+            self.view.entry_cpf.configure(state="readonly")
+            self.view.entry_rg.configure(state="readonly")
+            self.view.entry_funcao.configure(state="readonly")
+
+        return {
+            "sucesso": True,
+            "titulo": "Sucesso",
+            "mensagem": "Funcionário Encontrado",
+            "icone": "warning"
+        }
+        
