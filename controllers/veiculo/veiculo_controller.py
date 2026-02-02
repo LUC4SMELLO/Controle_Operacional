@@ -84,6 +84,76 @@ class VeiculoController:
                 "icone": "cancel"
             }
         
+    def confirmar_edicao_veiculo(self):
+
+        dados = self.coletar_dados()
+
+        resultado = validar_veiculo(dados)
+        if not resultado["sucesso"]:
+            self.view.entry_codigo.focus_set()
+            return resultado
+        
+        try:
+            self.model.editar_veiculo(dados)
+            self.limpar_formulario()
+            return {
+                "sucesso": True,
+                "titulo": "Sucesso",
+                "mensagem": "Veículo Editado!",
+                "icone": "check"
+            }
+        except Exception as e:
+            return {
+                "sucesso": False,
+                "titulo": "Erro",
+                "mensagem": f"Falha no banco: {e}",
+                "icone": "cancel"
+            }
+        
+    def exibir_informacoes_veiculo(self, tipo_view="editar"):
+
+        codigo = self.view.entry_codigo.get().strip()
+
+        if not codigo:
+            return {
+                "sucesso": False,
+                "titulo": "Erro",
+                "mensagem": "O campo 'Código' deve estar preenchido.",
+                "icone": "cancel"
+            }
+        
+        resultado = self.model.buscar_veiculo(codigo)
+
+        if not resultado:
+
+            self.limpar_formulario()
+
+            return {
+                "sucesso": False,
+                "titulo": "Aviso",
+                "mensagem": "Veículo não encontrado.",
+                "icone": "warning"
+            }
+        
+        self.limpar_formulario()
+
+        self.view.entry_codigo.insert(0, resultado[0])
+        self.view.entry_placa.insert(0, resultado[1])
+        self.view.entry_codigo_motorista.insert(0, resultado[2])
+
+        if tipo_view == "excluir":
+            self.view.entry_codigo.configure(state="readonly")
+            self.view.entry_placa.configure(state="readonly")
+            self.view.entry_codigo_motorista.configure(state="readonly")
+
+        return {
+            "sucesso": True,
+            "titulo": "Sucesso",
+            "mensagem": "Veículo Encontrado.",
+            "icone": "warning"
+        }
+
+        
     def limpar_formulario(self):
 
         campo_bloqueaveis = [

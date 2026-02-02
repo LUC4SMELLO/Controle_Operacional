@@ -70,7 +70,7 @@ class EditarVeiculoView(ctk.CTkFrame):
         self.entry_codigo = ctk.CTkEntry(self.edicao_frame_1, font=FONTE_TEXTO, width=120, height=30, corner_radius=2)
         self.entry_codigo.grid(row=0, column=1, padx=(10, 0), pady=(20, 0), sticky="w")
 
-        self.botao_buscar_funcionario = ctk.CTkButton(
+        self.botao_buscar_veiculo = ctk.CTkButton(
             self.edicao_frame_1,
             text="Buscar",
             command=self.buscar_veiculo,
@@ -81,7 +81,7 @@ class EditarVeiculoView(ctk.CTkFrame):
             fg_color=COR_BOTAO,
             hover_color=HOVER_BOTAO,
             )
-        self.botao_buscar_funcionario.grid(row=0, column=2, padx=(10, 0), pady=(20, 0), sticky="w")
+        self.botao_buscar_veiculo.grid(row=0, column=2, padx=(10, 0), pady=(20, 0), sticky="w")
 
         ctk.CTkFrame(self.edicao_frame_1, height=2, fg_color=COR_LINHAS).grid(row=1, column=0, padx=(40, 290), pady=(15, 0), sticky="ew", columnspan=5)
 
