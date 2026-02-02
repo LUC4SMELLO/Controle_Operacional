@@ -120,7 +120,7 @@ class EditarVeiculoView(ctk.CTkFrame):
 
         self.botao_confirmar = ctk.CTkButton(
             self.footer_frame,
-            text="Cadastrar",
+            text="Editar",
             command=self.confirmar,
             font=FONTE_BOTAO_PRINCIPAL,
             width=160,
