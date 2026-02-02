@@ -69,6 +69,30 @@ class VeiculoModel:
             if conexao:
                 conexao.close()
 
+    def excluir_veiculo(self, codigo):
+        
+        conexao = None
+
+        try:
+            conexao = conectar_banco_de_dados_veiculos()
+            cursor = conexao.cursor()
+
+            cursor.execute(
+            f"""
+            DELETE FROM {TABELA_VEICULOS}
+            WHERE codigo = ?
+            """, (codigo,)
+            )
+
+            conexao.commit()
+
+        except Exception:
+            return []
+
+        finally:
+            if conexao:
+                conexao.close()
+
     def buscar_veiculo(self, codigo):
 
         conexao = None

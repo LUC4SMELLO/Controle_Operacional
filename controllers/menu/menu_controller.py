@@ -11,6 +11,7 @@ from views.funcionario.editar_funcionario_view import EditarFuncionarioView
 from views.funcionario.excluir_funcionario_view import ExcluirFuncionarioView
 from views.veiculo.cadastrar_veiculo_view import CadastrarVeiculoView
 from views.veiculo.editar_veiculo_view import EditarVeiculoView
+from views.veiculo.excluir_veiculo_view import ExcluirVeiculoView
 
 
 from controllers.escala.escala_controller import EscalaController
@@ -223,3 +224,16 @@ class MenuController:
         controller.configurar_binds("editar")
 
         self.definir_tela_atual(tela_editar_veiculo)
+
+    def mostrar_tela_excluir_veiculo(self):
+
+        model = VeiculoModel()
+
+        controller = VeiculoController(model)
+
+        tela_excluir_veiculo = ExcluirVeiculoView(self.janela, controller)
+
+        controller.set_view(tela_excluir_veiculo)
+        controller.configurar_binds("excluir")
+
+        self.definir_tela_atual(tela_excluir_veiculo)

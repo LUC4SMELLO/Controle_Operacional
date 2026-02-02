@@ -1,0 +1,160 @@
+import customtkinter as ctk
+
+from views.dialogs.exibir_mensagem import exibir_mensagem
+
+from constants.textos import (
+    FONTE_TITULO,
+    FONTE_SUBTITULO,
+    FONTE_LABEL,
+    FONTE_TEXTO,
+    FONTE_PEQUENA,
+    FONTE_BOTAO_PRINCIPAL,
+    FONTE_BOTAO_SECUNDARIO
+)
+
+from constants.cores import COR_LINHAS
+
+from constants.cores import (
+    COR_BOTAO,
+    HOVER_BOTAO,
+    COR_TEXTO,
+    COR_TEXTO_BOTAO
+)
+
+
+class ExcluirVeiculoView(ctk.CTkFrame):
+    def __init__(self, master, controller):
+        super().__init__(master)
+
+        self.controller = controller
+
+        self.grid_rowconfigure(0, weight=1)
+        self.grid_columnconfigure(0, weight=1)
+
+        self.main_frame = ctk.CTkFrame(self, fg_color="transparent")
+        self.main_frame.grid_rowconfigure(0, weight=0) # HEADER
+        self.main_frame.grid_rowconfigure(1, weight=0) # EXCLUSAO 1
+        self.main_frame.grid_rowconfigure(2, weight=0) # EXCLUSAO 2
+        self.main_frame.grid_rowconfigure(3, weight=0) # FOOTER
+        self.main_frame.grid_columnconfigure(0, weight=1)
+        self.main_frame.grid(row=0, column=0, sticky="nsew")
+
+        self.header_frame = ctk.CTkFrame(self.main_frame, fg_color="transparent")
+        self.header_frame.grid_rowconfigure(0, weight=1)
+        self.header_frame.grid_rowconfigure(1, weight=1)
+        self.header_frame.grid_rowconfigure(2, weight=1)
+        self.header_frame.grid_columnconfigure(0, weight=1)
+        self.header_frame.grid_columnconfigure(1, weight=0)
+        self.header_frame.grid_columnconfigure(2, weight=1)
+        self.header_frame.grid_columnconfigure(3, weight=0)
+        self.header_frame.grid(row=0, column=0, sticky="ew")
+
+        ctk.CTkLabel(self.header_frame, text="Veículos", font=FONTE_TITULO, text_color=COR_TEXTO).grid(row=0, column=0, padx=(40, 0), pady=(15, 0), sticky="w")
+
+        ctk.CTkLabel(self.header_frame, text="Excluir", font=FONTE_SUBTITULO, text_color=COR_TEXTO).grid(row=1, column=0, padx=(40, 0), pady=(20, 0), sticky="w")
+
+        ctk.CTkFrame(self.header_frame, height=2, fg_color=COR_LINHAS).grid(row=2, column=0, padx=(40, 290), pady=(15, 0), sticky="ew", columnspan=4)
+
+        self.exclusao_frame_1 = ctk.CTkFrame(self.main_frame, fg_color="transparent")
+        self.exclusao_frame_1.grid_rowconfigure(0, weight=0)
+        self.exclusao_frame_1.grid_rowconfigure(1, weight=1)
+        self.exclusao_frame_1.grid_columnconfigure(0, weight=0)
+        self.exclusao_frame_1.grid_columnconfigure(1, weight=0)
+        self.exclusao_frame_1.grid_columnconfigure(2, weight=0)
+        self.exclusao_frame_1.grid_columnconfigure(3, weight=0)
+        self.exclusao_frame_1.grid_columnconfigure(4, weight=1)
+        self.exclusao_frame_1.grid(row=1, column=0, pady=(0, 0), sticky="ew")
+        
+
+        ctk.CTkLabel(self.exclusao_frame_1, text="Código:", font=FONTE_LABEL, text_color=COR_TEXTO).grid(row=0, column=0, padx=(122, 0), pady=(20, 0), sticky="e")
+        self.entry_codigo = ctk.CTkEntry(self.exclusao_frame_1, font=FONTE_TEXTO, width=120, height=30, corner_radius=2)
+        self.entry_codigo.grid(row=0, column=1, padx=(10, 0), pady=(20, 0), sticky="w")
+
+        self.botao_buscar_veiculo = ctk.CTkButton(
+            self.exclusao_frame_1,
+            text="Buscar",
+            command=self.buscar_veiculo,
+            width=50,
+            height=30,
+            font=FONTE_BOTAO_SECUNDARIO,
+            text_color=COR_TEXTO_BOTAO,
+            fg_color=COR_BOTAO,
+            hover_color=HOVER_BOTAO,
+            )
+        self.botao_buscar_veiculo.grid(row=0, column=2, padx=(10, 0), pady=(20, 0), sticky="w")
+
+        ctk.CTkFrame(self.exclusao_frame_1, height=2, fg_color=COR_LINHAS).grid(row=1, column=0, padx=(40, 290), pady=(15, 0), sticky="ew", columnspan=5)
+
+
+        self.exclusao_frame_2 = ctk.CTkFrame(self.main_frame, fg_color="transparent")
+        self.exclusao_frame_2.grid_rowconfigure(0, weight=0)
+        self.exclusao_frame_2.grid_rowconfigure(1, weight=0)
+        self.exclusao_frame_2.grid_rowconfigure(2, weight=0)
+        self.exclusao_frame_2.grid_columnconfigure(0, weight=0)
+        self.exclusao_frame_2.grid_columnconfigure(1, weight=0)
+        self.exclusao_frame_2.grid_columnconfigure(2, weight=1)
+        self.exclusao_frame_2.grid_columnconfigure(3, weight=0)
+        self.exclusao_frame_2.grid(row=2, column=0, sticky="ew")
+
+        ctk.CTkLabel(self.exclusao_frame_2, text="Placa:", font=FONTE_LABEL, text_color=COR_TEXTO).grid(row=0, column=0, padx=(40, 0), pady=(20, 0), sticky="e")
+        self.entry_placa = ctk.CTkEntry(self.exclusao_frame_2, font=FONTE_TEXTO, text_color=COR_TEXTO, width=120, height=30, corner_radius=2)
+        self.entry_placa.grid(row=0, column=1, padx=(10, 0), pady=(20, 0), sticky="w")
+
+        ctk.CTkLabel(self.exclusao_frame_2, text="Código Motorista:", font=FONTE_LABEL, text_color=COR_TEXTO).grid(row=1, column=0, padx=(40, 0), pady=(5, 0), sticky="e")
+        self.entry_codigo_motorista = ctk.CTkEntry(self.exclusao_frame_2, font=FONTE_TEXTO, text_color=COR_TEXTO, width=120, height=30, corner_radius=2)
+        self.entry_codigo_motorista.grid(row=1, column=1, padx=(10, 0), pady=(5, 0), sticky="w")
+
+        ctk.CTkFrame(self.exclusao_frame_2, height=2, fg_color=COR_LINHAS).grid(row=6, column=0, padx=(40, 290), pady=(25, 0), sticky="ew", columnspan=4)
+
+        self.footer_frame = ctk.CTkFrame(self.main_frame, fg_color="transparent")
+        self.footer_frame.grid_columnconfigure(0, minsize=100)
+        self.footer_frame.grid_columnconfigure(1, minsize=100)
+        self.footer_frame.grid_columnconfigure(2, minsize=100)
+        self.footer_frame.grid_columnconfigure(3, minsize=100)
+        self.footer_frame.grid(
+            row=3,
+            column=0,
+            sticky="ew",
+            padx=(40, 290),
+        )
+
+        self.botao_confirmar = ctk.CTkButton(
+            self.footer_frame,
+            text="Excluir",
+            command=self.confirmar,
+            font=FONTE_BOTAO_PRINCIPAL,
+            width=160,
+            height=38,
+            fg_color=COR_BOTAO,
+            hover_color=HOVER_BOTAO,
+            text_color= COR_TEXTO_BOTAO,
+        )
+        self.botao_confirmar.grid(row=0, column=2, padx=(10, 0), pady=(25, 0))
+
+        self.botao_cancelar= ctk.CTkButton(
+            self.footer_frame,
+            text="Cancelar",
+            command=self.controller.limpar_formulario,
+            font=FONTE_BOTAO_PRINCIPAL,
+            width=160,
+            height=38,
+            fg_color=COR_BOTAO,
+            hover_color=HOVER_BOTAO,
+            text_color=COR_TEXTO_BOTAO,
+        )
+        self.botao_cancelar.grid(row=0, column=3, padx=(10, 0), pady=(25, 0))
+
+    def confirmar(self):
+        resultado = self.controller.confirmar_exclusao_veiculo()
+
+        exibir_mensagem(resultado["titulo"], resultado["mensagem"], resultado["icone"])
+        return "break"
+        
+    def buscar_veiculo(self):
+        resultado = self.controller.exibir_informacoes_veiculo()
+        
+        if resultado["sucesso"]:
+            return 
+        
+        exibir_mensagem(resultado["titulo"], resultado["mensagem"], resultado["icone"])
+        return "break"

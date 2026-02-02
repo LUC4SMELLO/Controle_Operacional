@@ -110,6 +110,33 @@ class VeiculoController:
                 "icone": "cancel"
             }
         
+    def confirmar_exclusao_veiculo(self):
+
+        dados = self.coletar_dados()
+
+        resultado = validar_veiculo(dados)
+        if not resultado["sucesso"]:
+            self.view.entry_codigo.focus_set()
+            return resultado
+        
+        try:
+            self.model.excluir_veiculo(dados["codigo"])
+            self.limpar_formulario()
+            return {
+                "sucesso": True,
+                "titulo": "Sucesso",
+                "mensagem": "Veículo Excluído!",
+                "icone": "check"
+            }
+        except Exception as e:
+            return {
+                "sucesso": False,
+                "titulo": "Erro",
+                "mensagem": f"Falha no banco: {e}",
+                "icone": "cancel"
+            }
+
+        
     def exibir_informacoes_veiculo(self, tipo_view="editar"):
 
         codigo = self.view.entry_codigo.get().strip()
