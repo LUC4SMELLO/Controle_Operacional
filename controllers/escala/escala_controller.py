@@ -410,7 +410,9 @@ class EscalaController:
         for frame in self.view.frames_cargas:
             dados.append({
                 "cod_carga": frame.label_cod_carga.cget("text"),
+                "km_caminhao": frame.label_km_caminhao.cget("text"),
                 "numero_carga": frame.label_numero_carga.cget("text"),
+                "horario_saida": frame.label_horario_saida.cget("text"),
                 "motorista": frame.entry_cod_motorista.get(),
                 "ajudante_1": frame.entry_cod_ajudante_1.get(),
                 "ajudante_2": frame.entry_cod_ajudante_2.get(),
