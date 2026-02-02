@@ -15,3 +15,6 @@ TABELA_FUNCIONARIOS = "funcionarios"
 
 BANCO_DADOS_VEICULOS = DATABASE_DIR / "veiculos.db"
 TABELA_VEICULOS = "veiculos"
+
+BANCO_DADOS_ESCALA_TEMPORARIAS = DATABASE_DIR / "escala_temporarias.db"
+TABELA_ESCALA_TEMPORARIAS = "escala_temporarias"
