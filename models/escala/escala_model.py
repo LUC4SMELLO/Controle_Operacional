@@ -4,6 +4,9 @@ from constants.banco_dados import TABELA_FUNCIONARIOS
 from database.banco_dados_veiculos import conectar_banco_de_dados_veiculos
 from constants.banco_dados import BANCO_DADOS_VEICULOS, TABELA_VEICULOS
 
+from database.banco_dados_escala_temporaria import conectar_banco_de_dados_escala_temporaria
+from constants.banco_dados import BANCO_DADOS_ESCALA_TEMPORARIAS, TABELA_ESCALA_TEMPORARIAS
+
 
 class EscalaModel:
     def __init__(self):
@@ -39,3 +42,49 @@ class EscalaModel:
         finally:
             conexao.close()
 
+    def salvar_escala_temporaria(self, dados):
+        
+        conexao = None
+        
+        try:
+            conexao = conectar_banco_de_dados_escala_temporaria()
+            cursor = conexao.cursor()
+
+            cursor.execute(
+                f"""
+                INSERT INTO {TABELA_ESCALA_TEMPORARIAS} (
+                numero_carga,
+                data,
+                data_saida,
+                horario,
+                motorista,
+                ajudante_1,
+                ajudante_2,
+                numero_rota,
+                observacao,
+                numero_caminhao
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                )
+                """,
+                    (
+                        dados["numero_carga"],
+                        dados["data"],
+                        dados["data_saida"],
+                        dados["horario_saida"],
+                        dados["motorista"],
+                        dados["ajudante_1"],
+                        dados["ajudante_2"],
+                        dados["rota"],
+                        dados["observacao"],
+                        dados["numero_caminhao"]
+                    )
+                )
+            
+            conexao.commit()
+
+        except Exception:
+            return []
+        
+        finally:
+            if conexao:
+                conexao.close()

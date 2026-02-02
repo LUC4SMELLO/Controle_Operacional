@@ -404,6 +404,14 @@ class EscalaController:
         self.atualizar_numero_total_repetidos()
 
 
+    def salvar_escala_temporaria(self):
+
+        dados = self.coletar_dados()
+
+        for carga in dados:
+            self.model.salvar_escala_temporaria(dados)
+
+
     def coletar_dados(self):
         dados = []
 
