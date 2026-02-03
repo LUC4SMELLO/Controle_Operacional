@@ -138,6 +138,8 @@ class EscalaController:
         self.atualizar_numero_total_motoristas()
         self.atualizar_numero_total_ajudantes()
         self.atualizar_numero_total_repetidos()
+
+        self.excluir_escala_temporaria(individual=False)
         
 
 
@@ -173,6 +175,8 @@ class EscalaController:
             return
         
         if frame in self.view.frames_cargas:
+            self.excluir_escala_temporaria(frame, individual=True)
+
             self.view.frames_cargas.remove(frame)
 
         frame.destroy()
@@ -494,14 +498,18 @@ class EscalaController:
         self._carregando = False
 
 
-
-
     def salvar_escala_temporaria(self):
 
         dados = self.coletar_dados()
 
         for carga in dados:
             self.model.salvar_escala_temporaria(carga)
+
+    def excluir_escala_temporaria(self, frame=None, individual: Literal[True, False] = True):
+        if individual:
+            self.model.excluir_escala_temporaria(frame.label_numero_carga.cget("text"))
+        else:
+            self.model.limpar_banco_dados_escala_temporaria()
 
 
     def coletar_dados(self):
