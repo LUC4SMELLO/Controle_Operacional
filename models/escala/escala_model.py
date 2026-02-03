@@ -53,37 +53,88 @@ class EscalaModel:
             cursor.execute(
                 f"""
                 INSERT INTO {TABELA_ESCALA_TEMPORARIAS} (
-                numero_carga,
-                data,
-                data_saida,
-                horario,
-                motorista,
-                ajudante_1,
-                ajudante_2,
-                numero_rota,
-                observacao,
-                numero_caminhao
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    numero_carga,
+                    horario,
+                    codigo_motorista,
+                    nome_motorista,
+                    codigo_ajudante_1,
+                    nome_ajudante_1,
+                    codigo_ajudante_2,
+                    nome_ajudante_2,
+                    rota,
+                    observacao
                 )
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ON CONFLICT(numero_carga)
+                DO UPDATE SET
+                    horario     = excluded.horario,
+                    codigo_motorista   = excluded.codigo_motorista,
+                    nome_motorista     = excluded.nome_motorista,
+                    codigo_ajudante_1  = excluded.codigo_ajudante_1,
+                    nome_ajudante_1    = excluded.nome_ajudante_1,
+                    codigo_ajudante_2  = excluded.codigo_ajudante_2,
+                    nome_ajudante_2    = excluded.nome_ajudante_2,
+                    rota        = excluded.rota,
+                    observacao  = excluded.observacao
                 """,
                     (
                         dados["numero_carga"],
-                        dados["data"],
-                        dados["data_saida"],
-                        dados["horario_saida"],
-                        dados["motorista"],
-                        dados["ajudante_1"],
-                        dados["ajudante_2"],
+                        dados["horario"],
+                        dados["codigo_motorista"],
+                        dados["nome_motorista"],
+                        dados["codigo_ajudante_1"],
+                        dados["nome_ajudante_1"],
+                        dados["codigo_ajudante_2"],
+                        dados["nome_ajudante_2"],
                         dados["rota"],
-                        dados["observacao"],
-                        dados["numero_caminhao"]
+                        dados["observacao"]
                     )
                 )
             
             conexao.commit()
 
-        except Exception:
-            return []
+            print(f"Salvo: {dados}")
+
+        except Exception as e:
+            print("Erro ao salvar escala temporária:", e)
+            return False
+        
+        finally:
+            if conexao:
+                conexao.close()
+
+    def carregar_escala_temporaria(self):
+        try:
+            conexao = conectar_banco_de_dados_escala_temporaria()
+            cursor = conexao.cursor()
+
+            cursor.execute(
+                f"""
+                SELECT
+                    numero_carga,
+                    horario,
+                    codigo_motorista,
+                    nome_motorista,
+                    codigo_ajudante_1,
+                    nome_ajudante_1,
+                    codigo_ajudante_2,
+                    nome_ajudante_2,
+                    rota,
+                    observacao
+                FROM {TABELA_ESCALA_TEMPORARIAS}
+                """
+            )
+
+            colunas = [desc[0] for desc in cursor.description]
+            registros = [dict(zip(colunas, row)) for row in cursor.fetchall()]
+
+            conexao.close()
+
+            return registros
+        
+        except Exception as e:
+            print("Erro ao carregar escala temporária:", e)
+            return False
         
         finally:
             if conexao:

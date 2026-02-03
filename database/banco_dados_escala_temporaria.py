@@ -15,16 +15,16 @@ def criar_tabela_escala_temporaria():
     cursor.execute(
     f"""
     CREATE TABLE IF NOT EXISTS {TABELA_ESCALA_TEMPORARIAS} (
-    numero_carga VARCHAR(8),
-    data VARCHAR(10),
-    data_saida VARCHAR(10),
+    numero_carga VARCHAR(8) PRIMARY KEY,
     horario VARCHAR(6),
-    motorista VARCHAR(6),
-    ajudante_1 VARCHAR(6),
-    ajudante_2 VARCHAR(6),
-    numero_rota VARCHAR(10),
-    observacao VARCHAR(250),
-    numero_caminhao VARCHAR(6)
+    codigo_motorista VARCHAR(6),
+    nome_motorista VARCHAR(100),
+    codigo_ajudante_1 VARCHAR(6),
+    nome_ajudante_1 VARCHAR(100),
+    codigo_ajudante_2 VARCHAR(6),
+    nome_ajudante_2 VARCHAR(100),
+    rota VARCHAR(10),
+    observacao VARCHAR(250)
     )
     """
     )
