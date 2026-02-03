@@ -95,13 +95,6 @@ class EscalaTemporariaController:
         self._carregando = False
 
 
-    def salvar_escala_temporaria(self):
-
-        dados = self.coletar_dados()
-
-        for carga in dados:
-            self.controller.model.salvar_escala_temporaria(carga)
-
     def excluir_escala_temporaria(self, frame=None, individual: Literal[True, False] = True):
         if individual:
             self.controller.model.excluir_escala_temporaria(frame.label_numero_carga.cget("text"))
