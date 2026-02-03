@@ -17,6 +17,8 @@ from constants.cores import COR_LINHAS
 
 from constants.cores import COR_BOTAO, HOVER_BOTAO, COR_TEXTO, COR_TEXTO_BOTAO
 
+from views.escala.components.frame_carga import FrameCarga
+
 from views.dialogs.pesquisa_funcionario_view import TelaPesquisarFuncionarioView
 
 
@@ -392,6 +394,17 @@ class EditarEscalaView(ctk.CTkFrame):
             anchor="w"
         )
         self.label_numero_total_ajudantes.grid(row=0, column=3, padx=(0, 45), sticky="w")
+
+    def criar_frame_carga(self):
+
+        frame = FrameCarga(self.container_cargas, self.controller)
+        frame.pack(fill="x", pady=5, padx=(5))
+
+        self.frames_cargas.append(frame)
+
+        self.controller.binds.configurar_frame(frame)
+
+        return frame
 
 
     def abrir_tela_pesquisa_funcionario(self):
