@@ -30,14 +30,15 @@ class EscalaController:
         self.scroll = EscalaScrollController(self)
         self.binds = EscalaBindController(self)
 
-    def set_view(self, view):
+    def set_view(self, view, inicializar_escala: Literal[True, False] = True):
         self.view = view
 
         self.binds.set_view(self.view)
         self.scroll.set_view(self.view)
         self.scroll.configurar_scroll_janela()
 
-        self.inicializar_escala()
+        if inicializar_escala:
+            self.inicializar_escala()
 
 
     def exibir_data_atual(self):

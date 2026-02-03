@@ -115,7 +115,7 @@ class MenuView(ctk.CTkFrame):
         self.submenus = {
             "escala": [
                 ("Editar", self.controller.mostrar_tela_editar_escala),
-                ("Visualizar", None),
+                ("Visualizar", self.controller.mostrar_tela_visualizar_escala),
             ],
             "carga": [
                 ("Mapa de Troca", None),

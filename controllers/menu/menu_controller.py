@@ -2,6 +2,7 @@ import customtkinter as ctk
 import os
 
 from views.escala.editar_escala_view import EditarEscalaView
+from views.escala.visualizar_escala_view import VisualizarEscalaView
 from views.pendencia.cadastrar_pendencia_view import CadastrarPendenciaView
 from views.pendencia.editar_pendencia_view import EditarPendenciaView
 from views.pendencia.excluir_pendencia_view import ExcluirPendenciaView
@@ -85,10 +86,22 @@ class MenuController:
 
         tela_editar_escala = EditarEscalaView(self.janela, controller)
 
-        controller.set_view(tela_editar_escala)
+        controller.set_view(tela_editar_escala, inicializar_escala=True)
         controller.exibir_data_atual()
 
         self.definir_tela_atual(tela_editar_escala)
+
+    def mostrar_tela_visualizar_escala(self):
+
+        model = EscalaModel()
+
+        controller = EscalaController(model)
+
+        tela_visualizar_escala = VisualizarEscalaView(self.janela, controller)
+
+        controller.set_view(tela_visualizar_escala, inicializar_escala=False)
+
+        self.definir_tela_atual(tela_visualizar_escala)
 
     def mostrar_tela_cadastrar_pendencia(self):
 
