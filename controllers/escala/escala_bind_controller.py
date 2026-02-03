@@ -169,7 +169,7 @@ class EscalaBindController:
 
         self.controller._after_id = self.view.after(
             500,
-            lambda: self.controller.salvar_frame_temporario(frame)
+            lambda: self.controller.escala_temporaria.salvar_frame_temporario(frame)
         )
 
     def _bind_autosave_entry(self, entry, frame):

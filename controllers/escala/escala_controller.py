@@ -4,6 +4,7 @@ from datetime import datetime
 
 from controllers.escala.escala_scroll_controller import EscalaScrollController
 from controllers.escala.escala_bind_controller import EscalaBindController
+from controllers.escala.escala_temporaria_controller import EscalaTemporariaController
 
 from views.escala.components.frame_carga import FrameCarga
 
@@ -29,6 +30,7 @@ class EscalaController:
 
         self.scroll = EscalaScrollController(self)
         self.binds = EscalaBindController(self)
+        self.escala_temporaria = EscalaTemporariaController(self)
 
     def set_view(self, view, inicializar_escala: Literal[True, False] = True):
         self.view = view
@@ -36,9 +38,10 @@ class EscalaController:
         self.binds.set_view(self.view)
         self.scroll.set_view(self.view)
         self.scroll.configurar_scroll_janela()
+        self.escala_temporaria.set_view(self.view)
 
         if inicializar_escala:
-            self.inicializar_escala()
+            self.escala_temporaria.inicializar_escala()
 
 
     def exibir_data_atual(self):
@@ -140,7 +143,7 @@ class EscalaController:
         self.atualizar_numero_total_ajudantes()
         self.atualizar_numero_total_repetidos()
 
-        self.excluir_escala_temporaria(individual=False)
+        self.escala_temporaria.excluir_escala_temporaria(individual=False)
         
 
 
@@ -176,7 +179,7 @@ class EscalaController:
             return
         
         if frame in self.view.frames_cargas:
-            self.excluir_escala_temporaria(frame, individual=True)
+            self.escala_temporaria.excluir_escala_temporaria(frame, individual=True)
 
             self.view.frames_cargas.remove(frame)
 
@@ -414,103 +417,6 @@ class EscalaController:
         self.atualizar_numero_total_ajudantes()
         self.atualizar_numero_total_repetidos()
 
-    def salvar_frame_temporario(self, frame):
-        if not frame.label_numero_carga.cget("text").strip():
-            return
-
-        dados = {
-            "numero_carga": frame.label_numero_carga.cget("text"),
-            "horario": frame.label_horario_saida.cget("text"),
-            "codigo_motorista": frame.entry_cod_motorista.get(),
-            "nome_motorista": frame.label_nome_motorista.cget("text"),
-            "codigo_ajudante_1": frame.entry_cod_ajudante_1.get(),
-            "nome_ajudante_1": frame.label_nome_ajudante_1.cget("text"),
-            "codigo_ajudante_2": frame.entry_cod_ajudante_2.get(),
-            "nome_ajudante_2": frame.label_nome_ajudante_2.cget("text"),
-            "rota": frame.entry_rota.get(),
-            "observacao": frame.entry_observacao.get(),
-        }
-
-        self.model.salvar_escala_temporaria(dados)
-
-    def inicializar_escala(self):
-
-        registros = self.model.carregar_escala_temporaria()
-
-        if registros:
-            for dados in registros:
-                frame = self.view.criar_frame_carga()
-                self._preencher_frame(frame, dados)
-    
-    def carregar_escala_temporaria(self):
-
-        registros = self.model.carregar_escala_temporaria()
-
-        for dados in registros:
-            frame = self._buscar_frame_por_numero_carga(dados["numero_carga"])
-
-            if frame:
-                self._preencher_frame(frame, dados)
-            
-    def _buscar_frame_por_numero_carga(self, numero_carga):
-
-        for frame in self.view.frames_cargas:
-            if frame.label_numero_carga.cget("text") == numero_carga:
-                return frame
-
-        return None
-    
-    def _preencher_frame(self, frame, dados):
-
-        self._carregando = True
-
-        frame.label_numero_carga.configure(text=dados["numero_carga"])
-        frame.label_horario_saida.configure(text=dados["horario"])
-
-
-        frame.entry_cod_motorista.delete(0, "end")
-        frame.entry_cod_motorista.insert(0, dados["codigo_motorista"])
-
-        frame.entry_cod_ajudante_1.delete(0, "end")
-        frame.entry_cod_ajudante_1.insert(0, dados["codigo_ajudante_1"])
-
-        frame.entry_cod_ajudante_2.delete(0, "end")
-        frame.entry_cod_ajudante_2.insert(0, dados["codigo_ajudante_2"])
-
-
-        frame.label_nome_motorista.configure(text=dados["nome_motorista"])
-
-        frame.label_nome_ajudante_1.configure(text=dados["nome_ajudante_1"])
-
-        frame.label_nome_ajudante_2.configure(text=dados["nome_ajudante_2"])
-
-
-        frame.entry_rota.set(dados["rota"])
-
-        frame.entry_observacao.delete(0, "end")
-        frame.entry_observacao.insert(0, dados["observacao"])
-
-        self.atualizar_indices_cargas()
-        self.atualizar_numero_total_cargas()
-        self.atualizar_numero_total_repetidos()
-        self.atualizar_numero_total_motoristas()
-        self.atualizar_numero_total_ajudantes()
-
-        self._carregando = False
-
-
-    def salvar_escala_temporaria(self):
-
-        dados = self.coletar_dados()
-
-        for carga in dados:
-            self.model.salvar_escala_temporaria(carga)
-
-    def excluir_escala_temporaria(self, frame=None, individual: Literal[True, False] = True):
-        if individual:
-            self.model.excluir_escala_temporaria(frame.label_numero_carga.cget("text"))
-        else:
-            self.model.limpar_banco_dados_escala_temporaria()
 
 
     def coletar_dados(self):
