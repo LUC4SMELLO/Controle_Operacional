@@ -4,13 +4,13 @@ from PIL import Image
 from constants.paths import ICONS_DIR
 
 from constants.textos import FONTE_TEXTO, FONTE_LABEL
-from constants.cores import COR_TEXTO, COR_BOTAO, HOVER_BOTAO, COR_TEXTO_BOTAO
+from constants.cores import COR_TEXTO, COR_BOTAO, HOVER_BOTAO, COR_TEXTO_BOTAO, COR_FUNDO_FRAME_CARGAS
 from constants.rotas import ROTAS
 
 
 class FrameCarga(ctk.CTkFrame):
     def __init__(self, master, controller):
-        super().__init__(master, height=85, border_width=0, fg_color="#252728")
+        super().__init__(master, height=85, border_width=0, corner_radius=0, fg_color=COR_FUNDO_FRAME_CARGAS)
 
         self.controller = controller
 
@@ -41,13 +41,13 @@ class FrameCarga(ctk.CTkFrame):
 
 
         # CÓDIGOS
-        self.entry_cod_motorista = ctk.CTkEntry(self, width=50, border_width=0, corner_radius=0)
+        self.entry_cod_motorista = ctk.CTkEntry(self, font=FONTE_TEXTO, text_color=COR_TEXTO, width=50, border_width=0, corner_radius=0)
         self.entry_cod_motorista.grid(row=1, column=2, padx=10, pady=3)
 
-        self.entry_cod_ajudante_1 = ctk.CTkEntry(self, width=50, border_width=0, corner_radius=0)
+        self.entry_cod_ajudante_1 = ctk.CTkEntry(self, font=FONTE_TEXTO, text_color=COR_TEXTO, width=50, border_width=0, corner_radius=0)
         self.entry_cod_ajudante_1.grid(row=2, column=2)
 
-        self.entry_cod_ajudante_2 = ctk.CTkEntry(self, width=50, border_width=0, corner_radius=0)
+        self.entry_cod_ajudante_2 = ctk.CTkEntry(self, font=FONTE_TEXTO, text_color=COR_TEXTO, width=50, border_width=0, corner_radius=0)
         self.entry_cod_ajudante_2.grid(row=3, column=2, pady=3)
 
         # FLAGS DE CONTROLE
@@ -67,11 +67,11 @@ class FrameCarga(ctk.CTkFrame):
 
         # ROTA
         nome_rotas = [r[1] for r in ROTAS.values()]
-        self.entry_rota = ctk.CTkComboBox(self, values=nome_rotas, width=250, border_width=0, corner_radius=0, command=lambda valor: self.controller.atualizar_horario_saida(valor, self))
+        self.entry_rota = ctk.CTkComboBox(self, values=nome_rotas, font=FONTE_TEXTO, text_color=COR_TEXTO, width=250, border_width=0, corner_radius=0, command=lambda valor: self.controller.atualizar_horario_saida(valor, self))
         self.entry_rota.grid(row=2, column=4, padx=(40, 0))
 
         # OBSERVAÇÃO
-        self.entry_observacao = ctk.CTkEntry(self, width=240, border_width=0, corner_radius=0)
+        self.entry_observacao = ctk.CTkEntry(self, font=FONTE_TEXTO, text_color=COR_TEXTO, width=240, border_width=0, corner_radius=0)
         self.entry_observacao.grid(row=2, column=5, sticky="w")
 
 

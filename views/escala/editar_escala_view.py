@@ -13,7 +13,7 @@ from constants.textos import (
     FONTE_BOTAO_SECUNDARIO,
 )
 
-from constants.cores import COR_LINHAS
+from constants.cores import COR_FUNDO_CONTAINER_CARGAS, COR_LINHAS
 
 from constants.cores import COR_BOTAO, HOVER_BOTAO, COR_TEXTO, COR_TEXTO_BOTAO
 
@@ -331,7 +331,7 @@ class EditarEscalaView(ctk.CTkFrame):
 
         self.container_cargas = ctk.CTkScrollableFrame(
             self.main_frame,
-            fg_color="#434548",
+            fg_color=COR_FUNDO_CONTAINER_CARGAS,
             height=550
         )
         self.container_cargas.grid(
