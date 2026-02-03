@@ -139,3 +139,48 @@ class EscalaModel:
         finally:
             if conexao:
                 conexao.close()
+
+    def excluir_escala_temporaria(self, numero_carga):
+
+        conexao = None
+
+        try:
+            conexao = conectar_banco_de_dados_escala_temporaria()
+            cursor = conexao.cursor()
+
+            cursor.execute(
+                f"""
+                DELETE FROM {TABELA_ESCALA_TEMPORARIAS}
+                WHERE numero_carga = ?
+                """, (numero_carga,)
+                )
+            
+            conexao.commit()
+
+        except Exception as e:
+            print("Erro ao excluir escala temporária:", e)
+            return False
+        
+        finally:
+            if conexao:
+                conexao.close()
+
+    def limpar_banco_dados_escala_temporaria(self):
+
+        conexao = None
+
+        try:
+            conexao = conectar_banco_de_dados_escala_temporaria()
+            cursor = conexao.cursor()
+
+            cursor.execute(f"DELETE FROM {TABELA_ESCALA_TEMPORARIAS}")
+
+            conexao.commit()
+
+        except Exception as e:
+            print("Erro ao limpar banco dados escala temporária:", e)
+            return False
+        
+        finally:
+            if conexao:
+                conexao.close()
