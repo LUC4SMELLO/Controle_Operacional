@@ -5,9 +5,9 @@ from constants.textos import FONTE_SUBTITULO
 from constants.textos import FONTE_BOTAO_PRINCIPAL
 from constants.textos import FONTE_BOTAO_SECUNDARIO
 
-from constants.cores import COR_LINHAS
+from constants.cores import COR_LINHAS, COR_FUNDO_MENU_LATERAL
 
-from constants.cores import (COR_BOTAO, HOVER_BOTAO, COR_TEXTO, COR_TEXTO_BOTAO)
+from constants.cores import COR_BOTAO, HOVER_BOTAO, COR_TEXTO, COR_TEXTO_BOTAO
 
 
 class MenuView(ctk.CTkFrame):
@@ -18,325 +18,176 @@ class MenuView(ctk.CTkFrame):
 
         self.controller.atualizar_todos_os_bancos_dados()
 
+        # MENU
+        self.menu_frame = ctk.CTkFrame(self, width=240, fg_color=COR_FUNDO_MENU_LATERAL, corner_radius=0)
+        self.menu_frame.pack(side="left", fill="both")
 
-        ctk.CTkLabel(self, text="Menu", font=FONTE_TITULO, text_color=COR_TEXTO).place(x=15, y=15)
+        # HEADER
+        self.header_frame = ctk.CTkFrame(self.menu_frame, fg_color="transparent")
+        self.header_frame.pack(side="top", fill="x")
 
-        ctk.CTkFrame(self, width=5, height=1280, fg_color=COR_LINHAS).place(
-            x=250, relx=0, relheight=1
-        )
+        ctk.CTkLabel(
+            self.header_frame, text="Menu", font=FONTE_TITULO, text_color=COR_TEXTO
+        ).pack(side="left", padx=(15, 0), pady=(15, 0), anchor="w")
 
         self.switch_alternar_modo = ctk.CTkSwitch(
-            self,
+            self.header_frame,
             text="Tema",
             font=FONTE_SUBTITULO,
             text_color=COR_TEXTO,
             progress_color="#979DA2",
             command=self.controller.alternar_modo_aparencia,
         )
-        self.switch_alternar_modo.place(x=120, y=20)
+        self.switch_alternar_modo.pack(side="right", padx=(50, 12), pady=(20, 0))
 
-        # BOTÕES PRINCIPAIS
 
-        self.botao_escala = ctk.CTkButton(
-            self,
+        # ----------------------------
+        #      BOTÕES PRINCIPAIS
+        # ----------------------------
+
+
+        self.botao_escala = self.criar_botao(
+            master=self.menu_frame,
             text="Escala",
             font=FONTE_BOTAO_PRINCIPAL,
             width=160,
             height=38,
-            command=self.controller.mostrar_opcoes_escala,
-            fg_color=COR_BOTAO,
-            hover_color=HOVER_BOTAO,
-            text_color=COR_TEXTO_BOTAO
+            command=lambda: self.mostrar_submenu("escala"),
         )
-        self.botao_escala.place(x=10, y=100)
+        self.botao_escala.pack(side="top", padx=10, pady=(20, 1), anchor="w")
 
-        self.botao_pendencia_troca = ctk.CTkButton(
-            self,
-            text="Pendência & Troca",
+        self.botao_carga = self.criar_botao(
+            master=self.menu_frame,
+            text="Carga",
             font=FONTE_BOTAO_PRINCIPAL,
-            command=self.controller.mostrar_opcoes_pendencia_troca,
             width=160,
             height=38,
-            fg_color= COR_BOTAO,
-            hover_color=HOVER_BOTAO,
-            text_color=COR_TEXTO_BOTAO
+            command=lambda: self.mostrar_submenu("carga"),
         )
-        self.botao_pendencia_troca.place(x=10, y=140)
+        self.botao_carga.pack(side="top", padx=10, pady=1, anchor="w")
 
-        self.botao_relatorios = ctk.CTkButton(
-            self,
+        self.botao_pendencia_troca = self.criar_botao(
+            master=self.menu_frame,
+            text="Pendência & Troca",
+            font=FONTE_BOTAO_PRINCIPAL,
+            width=160,
+            height=38,
+            command=lambda: self.mostrar_submenu("pendencia"),
+        )
+        self.botao_pendencia_troca.pack(side="top", padx=10, pady=1, anchor="w")
+
+        self.botao_relatorios = self.criar_botao(
+            master=self.menu_frame,
             text="Relatórios",
             font=FONTE_BOTAO_PRINCIPAL,
-            command=self.controller.mostrar_opcoes_relatorios,
             width=160,
             height=38,
-            fg_color=COR_BOTAO,
-            hover_color=HOVER_BOTAO,
-            text_color=COR_TEXTO_BOTAO
+            command=lambda: self.mostrar_submenu("relatorios"),
         )
-        self.botao_relatorios.place(x=10, y=180)
+        self.botao_relatorios.pack(side="top", padx=10, pady=1, anchor="w")
 
-        self.botao_funcionarios = ctk.CTkButton(
-            self,
+        self.botao_funcionarios = self.criar_botao(
+            master=self.menu_frame,
             text="Funcionários",
-            command=self.controller.mostrar_opcoes_funcionarios,
             font=FONTE_BOTAO_PRINCIPAL,
             width=160,
             height=38,
-            fg_color=COR_BOTAO,
-            hover_color=HOVER_BOTAO,
-            text_color=COR_TEXTO_BOTAO
+            command=lambda: self.mostrar_submenu("funcionarios"),
         )
-        self.botao_funcionarios.place(x=10, y=220)
+        self.botao_funcionarios.pack(side="top", padx=10, pady=1, anchor="w")
 
-        self.botao_veiculos = ctk.CTkButton(
-            self,
+        self.botao_veiculos = self.criar_botao(
+            master=self.menu_frame,
             text="Veículos",
-            command=self.controller.mostrar_opcoes_veiculos,
             font=FONTE_BOTAO_PRINCIPAL,
             width=160,
             height=38,
+            command=lambda: self.mostrar_submenu("veiculos"),
+        )
+        self.botao_veiculos.pack(side="top", padx=10, pady=1, anchor="w")
+
+
+        # ----------------------------
+        #           SUBMENUS
+        # ----------------------------
+
+
+        self.submenus = {
+            "escala": [
+                ("Editar", self.controller.mostrar_tela_editar_escala),
+                ("Visualizar", None),
+            ],
+            "carga": [
+                ("Mapa de Troca", None),
+                ("Carregamento Troca", None),
+                ("Km Caminhões", None),
+            ],
+            "pendencia": [
+                ("Cadastrar", self.controller.mostrar_tela_cadastrar_pendencia),
+                ("Editar", self.controller.mostrar_tela_editar_pendencia),
+                ("Excluir", self.controller.mostrar_tela_excluir_pendencia),
+            ],
+            "relatorios": [
+                ("Pendência & Troca", self.controller.mostrar_tela_relatorio_pendencia)
+            ],
+            "funcionarios": [
+                ("Cadastrar", self.controller.mostrar_tela_cadastrar_funcionario),
+                ("Editar", self.controller.mostrar_tela_editar_funcionario),
+                ("Excluir", self.controller.mostrar_tela_excluir_funcionario),
+            ],
+            "veiculos": [
+                ("Cadastrar", self.controller.mostrar_tela_cadastrar_veiculo),
+                ("Editar", self.controller.mostrar_tela_editar_veiculo),
+                ("Excluir", self.controller.mostrar_tela_excluir_veiculo),
+            ],
+        }
+
+    def mostrar_submenu(self, nome):
+        self.controller.definir_tela_atual(None)
+
+        # SE O FRAME JÁ EXISTE, DESTRUÍ-LO PARA FECHAR/LIMPAR
+        if hasattr(self, "submenu_frame"):
+            # SE CLICOU NO MESMO BOTÃO QUE JÁ ESTÁ ABERTO, FECHA E RETORNA
+            if self.submenu_frame.master_button == nome:
+                self.submenu_frame.destroy()
+                del self.submenu_frame
+                return
+            self.submenu_frame.destroy()
+
+        self.submenu_frame = ctk.CTkFrame(self.menu_frame, fg_color="transparent")
+        self.submenu_frame.master_button = nome # MARCA DE QUEM É ESSE SUBMENU
+
+        # MAPEAR QUAL BOTÃO FOI CLICADO PARA INSERIR O FRAME ABAIXO DELE
+        botoes = {
+            "escala": self.botao_escala,
+            "carga": self.botao_carga,
+            "pendencia": self.botao_pendencia_troca,
+            "relatorios": self.botao_relatorios,
+            "funcionarios": self.botao_funcionarios,
+            "veiculos": self.botao_veiculos,
+        }
+
+        alvo = botoes[nome]
+
+        # RENDERIZAR OS SUB-BOTÕES
+        for texto, comando in self.submenus[nome]:
+            botao = self.criar_botao(
+                master=self.submenu_frame,
+                text=texto,
+                font=FONTE_BOTAO_SECUNDARIO,
+                width=140,
+                command=comando,
+            )
+            botao.pack(padx=(40, 10), pady=1, anchor="w")
+
+        # INSERE O FRAME LOGO APÓS O BOTÃO CORRESPONDENTE
+        self.submenu_frame.pack(after=alvo, fill="x", pady=(0, 5))
+
+    def criar_botao(self, master, **kwargs):
+        return ctk.CTkButton(
+            master,
             fg_color=COR_BOTAO,
-            hover_color=HOVER_BOTAO,
-            text_color=COR_TEXTO_BOTAO
-        )
-        self.botao_veiculos.place(x=10, y=260)
-
-        # BOTÕES SECUNDARIOS
-
-        self.botao_editar_escala = ctk.CTkButton(
-            self,
-            text="Editar",
-            command=self.controller.mostrar_tela_editar_escala,
-            font=FONTE_BOTAO_SECUNDARIO,
-            fg_color= COR_BOTAO,
-            hover_color=HOVER_BOTAO,
-            text_color=COR_TEXTO_BOTAO
-        )
-        self.botao_visualizar_escala = ctk.CTkButton(
-            self,
-            text="Visualizar",
-            font=FONTE_BOTAO_SECUNDARIO,
-            fg_color= COR_BOTAO,
-            hover_color=HOVER_BOTAO,
-            text_color=COR_TEXTO_BOTAO
-        )
-
-        self.botao_cadastrar_pendencia_troca = ctk.CTkButton(
-            self,
-            text="Cadastrar",
-            font=FONTE_BOTAO_SECUNDARIO,
-            command=self.controller.mostrar_tela_cadastrar_pendencia,
-            fg_color= COR_BOTAO,
-            hover_color=HOVER_BOTAO,
-            text_color=COR_TEXTO_BOTAO
-        )
-        self.botao_editar_pendencia_troca = ctk.CTkButton(
-            self,
-            text="Editar",
-            font=FONTE_BOTAO_SECUNDARIO,
-            command=self.controller.mostrar_tela_editar_pendencia,
-            fg_color= COR_BOTAO,
             hover_color=HOVER_BOTAO,
             text_color=COR_TEXTO_BOTAO,
+            **kwargs
         )
-        self.botao_excluir_pendencia_troca = ctk.CTkButton(
-            self,
-            text="Excluir",
-            command=self.controller.mostrar_tela_excluir_pendencia,
-            font=FONTE_BOTAO_SECUNDARIO,
-            fg_color= COR_BOTAO,
-            hover_color=HOVER_BOTAO,
-            text_color=COR_TEXTO_BOTAO
-        )
-
-        self.botao_relatorio_pendencia = ctk.CTkButton(
-            self,
-            text="Pendência & Troca",
-            command=self.controller.mostrar_tela_relatorio_pendencia,
-            font=FONTE_BOTAO_SECUNDARIO,
-            fg_color=COR_BOTAO,
-            hover_color=HOVER_BOTAO,
-            text_color=COR_TEXTO_BOTAO
-        )
-
-        self.botao_cadastrar_funcionario = ctk.CTkButton(
-            self,
-            text="Cadastrar",
-            command=self.controller.mostrar_tela_cadastrar_funcionario,
-            font=FONTE_BOTAO_SECUNDARIO,
-            fg_color=COR_BOTAO,
-            hover_color=HOVER_BOTAO,
-            text_color=COR_TEXTO_BOTAO
-        )
-
-        self.botao_editar_funcionario = ctk.CTkButton(
-            self,
-            text="Editar",
-            command=self.controller.mostrar_tela_editar_funcionario,
-            font=FONTE_BOTAO_SECUNDARIO,
-            fg_color=COR_BOTAO,
-            hover_color=HOVER_BOTAO,
-            text_color=COR_TEXTO_BOTAO
-        )
-
-        self.botao_excluir_funcionario = ctk.CTkButton(
-            self,
-            text="Excluir",
-            command=self.controller.mostrar_tela_excluir_funcionario,
-            font=FONTE_BOTAO_SECUNDARIO,
-            fg_color=COR_BOTAO,
-            hover_color=HOVER_BOTAO,
-            text_color=COR_TEXTO_BOTAO
-        )
-
-        self.botao_cadastrar_veiculo = ctk.CTkButton(
-            self,
-            text="Cadastrar",
-            command=self.controller.mostrar_tela_cadastrar_veiculo,
-            font=FONTE_BOTAO_SECUNDARIO,
-            fg_color=COR_BOTAO,
-            hover_color=HOVER_BOTAO,
-            text_color=COR_TEXTO_BOTAO
-        )
-
-        self.botao_editar_veiculo = ctk.CTkButton(
-            self,
-            text="Editar",
-            command=self.controller.mostrar_tela_editar_veiculo,
-            font=FONTE_BOTAO_SECUNDARIO,
-            fg_color=COR_BOTAO,
-            hover_color=HOVER_BOTAO,
-            text_color=COR_TEXTO_BOTAO
-        )
-
-        self.botao_excluir_veiculo = ctk.CTkButton(
-            self,
-            text="Excluir",
-            command=self.controller.mostrar_tela_excluir_veiculo,
-            font=FONTE_BOTAO_SECUNDARIO,
-            fg_color=COR_BOTAO,
-            hover_color=HOVER_BOTAO,
-            text_color=COR_TEXTO_BOTAO
-        )
-
-    def mostrar_opcoes_escala(self):
-        self.botao_escala.place(x=10, y=100)
-        self.botao_pendencia_troca.place(x=10, y=210)
-        self.botao_relatorios.place(x=10, y=250)
-        self.botao_funcionarios.place(x=10, y=290)
-        self.botao_veiculos.place(x=10, y=330)
-
-        self.botao_cadastrar_pendencia_troca.place_forget()
-        self.botao_editar_pendencia_troca.place_forget()
-        self.botao_excluir_pendencia_troca.place_forget()
-
-        self.botao_relatorio_pendencia.place_forget()
-
-        self.botao_cadastrar_funcionario.place_forget()
-        self.botao_editar_funcionario.place_forget()
-        self.botao_excluir_funcionario.place_forget()
-
-        self.botao_cadastrar_veiculo.place_forget()
-        self.botao_editar_veiculo.place_forget()
-        self.botao_excluir_veiculo.place_forget()
-
-        self.botao_editar_escala.place(x=50, y=140)
-        self.botao_visualizar_escala.place(x=50, y=170)
-
-    def mostrar_opcoes_pendencia_troca(self):
-        self.botao_escala.place(x=10, y=100)
-        self.botao_pendencia_troca.place(x=10, y=140)
-        self.botao_relatorios.place(x=10, y=280)
-        self.botao_funcionarios.place(x=10, y=320)
-        self.botao_veiculos.place(x=10, y=360)
-
-        self.botao_editar_escala.place_forget()
-        self.botao_visualizar_escala.place_forget()
-
-        self.botao_relatorio_pendencia.place_forget()
-
-        self.botao_cadastrar_funcionario.place_forget()
-        self.botao_editar_funcionario.place_forget()
-        self.botao_excluir_funcionario.place_forget()
-
-        self.botao_cadastrar_veiculo.place_forget()
-        self.botao_editar_veiculo.place_forget()
-        self.botao_excluir_veiculo.place_forget()
-
-        self.botao_cadastrar_pendencia_troca.place(x=50, y=180)
-        self.botao_editar_pendencia_troca.place(x=50, y=210)
-        self.botao_excluir_pendencia_troca.place(x=50, y=240)
-
-    def mostrar_opcoes_relatorios(self):
-        self.botao_escala.place(x=10, y=100)
-        self.botao_pendencia_troca.place(x=10, y=140)
-        self.botao_relatorios.place(x=10, y=180)
-        self.botao_funcionarios.place(x=10, y=260)
-        self.botao_veiculos.place(x=10, y=300)
-
-
-        self.botao_editar_escala.place_forget()
-        self.botao_visualizar_escala.place_forget()
-
-        self.botao_cadastrar_pendencia_troca.place_forget()
-        self.botao_editar_pendencia_troca.place_forget()
-        self.botao_excluir_pendencia_troca.place_forget()
-
-        self.botao_cadastrar_funcionario.place_forget()
-        self.botao_editar_funcionario.place_forget()
-        self.botao_excluir_funcionario.place_forget()
-
-        self.botao_cadastrar_veiculo.place_forget()
-        self.botao_editar_veiculo.place_forget()
-        self.botao_excluir_veiculo.place_forget()
-
-        self.botao_relatorio_pendencia.place(x=50, y=220)
-
-    def mostrar_opcoes_funcionarios(self):
-        self.botao_escala.place(x=10, y=100)
-        self.botao_pendencia_troca.place(x=10, y=140)
-        self.botao_relatorios.place(x=10, y=180)
-        self.botao_funcionarios.place(x=10, y=220)
-        self.botao_veiculos.place(x=10, y=360)
-
-        self.botao_editar_escala.place_forget()
-        self.botao_visualizar_escala.place_forget()
-
-        self.botao_cadastrar_pendencia_troca.place_forget()
-        self.botao_editar_pendencia_troca.place_forget()
-        self.botao_excluir_pendencia_troca.place_forget()
-
-        self.botao_relatorio_pendencia.place_forget()
-
-        self.botao_cadastrar_veiculo.place_forget()
-        self.botao_editar_veiculo.place_forget()
-        self.botao_excluir_veiculo.place_forget()
-
-        self.botao_cadastrar_funcionario.place(x=50, y=260)
-        self.botao_editar_funcionario.place(x=50, y=290)
-        self.botao_excluir_funcionario.place(x=50, y=320)
-
-    def mostrar_opcoes_veiculos(self):
-        self.botao_escala.place(x=10, y=100)
-        self.botao_pendencia_troca.place(x=10, y=140)
-        self.botao_relatorios.place(x=10, y=180)
-        self.botao_funcionarios.place(x=10, y=220)
-        self.botao_veiculos.place(x=10, y=260)
-
-        self.botao_editar_escala.place_forget()
-        self.botao_visualizar_escala.place_forget()
-
-        self.botao_cadastrar_pendencia_troca.place_forget()
-        self.botao_editar_pendencia_troca.place_forget()
-        self.botao_excluir_pendencia_troca.place_forget()
-
-        self.botao_relatorio_pendencia.place_forget()
-
-        self.botao_cadastrar_funcionario.place_forget()
-        self.botao_editar_funcionario.place_forget()
-        self.botao_excluir_funcionario.place_forget()
-
-        self.botao_cadastrar_veiculo.place(x=50, y=300)
-        self.botao_editar_veiculo.place(x=50, y=330)
-        self.botao_excluir_veiculo.place(x=50, y=360)

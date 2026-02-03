@@ -76,25 +76,6 @@ class MenuController:
         self.tela_atual.place(x=255, y=0, relwidth=1, relheight=1)
         self.tela_atual.lift()
 
-    def mostrar_opcoes_escala(self):
-        self.definir_tela_atual(None)
-        self.view.mostrar_opcoes_escala()
-
-    def mostrar_opcoes_pendencia_troca(self):
-        self.definir_tela_atual(None)
-        self.view.mostrar_opcoes_pendencia_troca()
-
-    def mostrar_opcoes_relatorios(self):
-        self.definir_tela_atual(None)
-        self.view.mostrar_opcoes_relatorios()
-
-    def mostrar_opcoes_funcionarios(self):
-        self.definir_tela_atual(None)
-        self.view.mostrar_opcoes_funcionarios()
-
-    def mostrar_opcoes_veiculos(self):
-        self.definir_tela_atual(None)
-        self.view.mostrar_opcoes_veiculos()
 
     def mostrar_tela_editar_escala(self):
 
