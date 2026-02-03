@@ -485,7 +485,14 @@ class EscalaController:
         frame.entry_observacao.delete(0, "end")
         frame.entry_observacao.insert(0, dados["observacao"])
 
+        self.atualizar_indices_cargas()
+        self.atualizar_numero_total_cargas()
+        self.atualizar_numero_total_repetidos()
+        self.atualizar_numero_total_motoristas()
+        self.atualizar_numero_total_ajudantes()
+
         self._carregando = False
+
 
 
 
