@@ -5,13 +5,23 @@ from database.banco_dados_veiculos import conectar_banco_de_dados_veiculos
 from constants.banco_dados import BANCO_DADOS_VEICULOS, TABELA_VEICULOS
 
 from database.banco_dados_escala_temporaria import conectar_banco_de_dados_escala_temporaria
-from constants.banco_dados import BANCO_DADOS_ESCALA_TEMPORARIAS, TABELA_ESCALA_TEMPORARIAS
+from constants.banco_dados import TABELA_ESCALA_TEMPORARIAS
+
+from database.banco_dados_escala import conectar_banco_de_dados_escala
+from constants.banco_dados import TABELA_ESCALA
+
 
 
 class EscalaModel:
     def __init__(self):
         pass
+
+
+    # ----------------------------
+    #        FUNCIONÁRIO 
+    # ----------------------------
     
+
     def buscar_informacoes_funcionario(self, codigo):
 
         try:
@@ -39,8 +49,18 @@ class EscalaModel:
 
             return resultado
         
+        except Exception as e:
+            print("Erro ao buscar funcionário:", e)
+            return False
+        
         finally:
             conexao.close()
+
+
+    # ----------------------------
+    #      ESCALA TEMPORÁRIA
+    # ----------------------------
+
 
     def salvar_escala_temporaria(self, dados):
         
@@ -128,8 +148,6 @@ class EscalaModel:
             colunas = [desc[0] for desc in cursor.description]
             registros = [dict(zip(colunas, row)) for row in cursor.fetchall()]
 
-            conexao.close()
-
             return registros
         
         except Exception as e:
@@ -179,6 +197,78 @@ class EscalaModel:
 
         except Exception as e:
             print("Erro ao limpar banco dados escala temporária:", e)
+            return False
+        
+        finally:
+            if conexao:
+                conexao.close()
+
+
+    # ----------------------------
+    #           ESCALA 
+    # ----------------------------
+
+
+    def salvar_escala(self, dados):
+        # mesma carga + data diferente → INSERE
+        # mesma carga + mesma data → CONFLICT
+
+        conexao = None
+
+        try:
+            conexao = conectar_banco_de_dados_escala()
+            cursor = conexao.cursor()
+
+            cursor.execute(
+                f"""
+                INSERT INTO {TABELA_ESCALA} (
+                data,
+                data_saida,
+                numero_carga,
+                codigo_motorista,
+                codigo_ajudante_1,
+                codigo_ajudante_2,
+                nome_rota,
+                numero_rota,
+                observacao,
+                numero_caminhao,
+                dia_semana,
+                horario
+                )
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ON CONFLICT(numero_carga, data)
+                DO UPDATE SET
+                    data_saida  = excluded.data_saida,
+                    codigo_motorista  = excluded.codigo_motorista,
+                    codigo_ajudante_1 = excluded.codigo_ajudante_1,
+                    codigo_ajudante_2 = excluded.codigo_ajudante_2,
+                    nome_rota   = excluded.nome_rota,
+                    numero_rota = excluded.numero_rota,
+                    observacao  = excluded.observacao,
+                    numero_caminhao   = excluded.numero_caminhao,
+                    dia_semana  = excluded.dia_semana,
+                    horario     = excluded.horario
+                """,
+                (
+                    dados["data"],
+                    dados["data_saida"],
+                    dados["numero_carga"],
+                    dados["codigo_motorista"],
+                    dados["codigo_ajudante_1"],
+                    dados["codigo_ajudante_2"],
+                    dados["nome_rota"],
+                    dados["numero_rota"],
+                    dados["observacao"],
+                    dados["numero_caminhao"],
+                    dados["dia_semana"],
+                    dados["horario"]
+                )
+            )
+
+            conexao.commit()
+
+        except Exception as e:
+            print(f"Erro ao salvar escala:", e)
             return False
         
         finally:
