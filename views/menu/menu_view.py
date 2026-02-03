@@ -35,6 +35,7 @@ class MenuView(ctk.CTkFrame):
             text="Tema",
             font=FONTE_SUBTITULO,
             text_color=COR_TEXTO,
+            button_color=("#000000", "#FFFFFF",),
             progress_color="#979DA2",
             command=self.controller.alternar_modo_aparencia,
         )
