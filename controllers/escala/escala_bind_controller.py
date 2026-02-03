@@ -34,6 +34,13 @@ class EscalaBindController:
             lambda e: self._on_focus_out(frame, "ajudante_2")
         )
 
+        self._bind_autosave_entry(frame.entry_cod_motorista, frame)
+        self._bind_autosave_entry(frame.entry_cod_ajudante_1, frame)
+        self._bind_autosave_entry(frame.entry_cod_ajudante_2, frame)
+        self._bind_autosave_entry(frame.entry_rota, frame)
+        self._bind_autosave_entry(frame.entry_observacao, frame)
+
+
         self._configurar_tab(frame)
 
     # ENTER / FOCUS
@@ -151,4 +158,22 @@ class EscalaBindController:
 
         destino.focus_set()
         self.controller.scroll.scroll_para_widget(destino)
-    
+
+
+    def salvar_automatico(self, frame):
+        if self.controller._carregando:
+            return
+
+        if self.controller._after_id:
+            self.view.after_cancel(self.controller._after_id)
+
+        self.controller._after_id = self.view.after(
+            500,
+            lambda: self.controller.salvar_frame_temporario(frame)
+        )
+
+    def _bind_autosave_entry(self, entry, frame):
+        entry.bind(
+            "<KeyRelease>",
+            lambda e, f=frame: self.salvar_automatico(f)
+        )
