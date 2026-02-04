@@ -210,8 +210,8 @@ class EscalaModel:
 
 
     def salvar_escala(self, dados):
-        # mesma carga + data diferente → INSERE
-        # mesma carga + mesma data → CONFLICT
+        # mesma carga + data diferente -> INSERE
+        # mesma carga + mesma data -> CONFLICT
 
         conexao = None
 
@@ -266,6 +266,7 @@ class EscalaModel:
             )
 
             conexao.commit()
+
 
         except Exception as e:
             print(f"Erro ao salvar escala:", e)
