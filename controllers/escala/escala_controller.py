@@ -435,7 +435,7 @@ class EscalaController:
             
         data_formatada = proximo_dia.strftime("%d/%m/%Y")
 
-        return data_formatada
+        return proximo_dia
 
     def obter_numero_dia_semana(self, ):    
         dia_num = int(datetime.today().strftime("%w")) + 1
@@ -449,14 +449,13 @@ class EscalaController:
         dados = []
 
         data = datetime.now().date()
-        data_formatada = datetime.strftime(data, "%d/%m/%Y")
 
         for frame in self.view.frames_cargas:
 
             numero_carga = frame.label_numero_carga.cget("text").strip()
 
             dados.append({
-                "data": data_formatada,
+                "data": data,
                 "data_saida": self.obter_proximo_dia_util(data),
                 "cod_carga": frame.label_cod_carga.cget("text"),
                 "km_caminhao": frame.label_km_caminhao.cget("text"),
