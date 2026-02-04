@@ -1,6 +1,7 @@
 from typing import Literal
 import customtkinter as ctk
-from datetime import datetime
+from datetime import datetime, timedelta
+import holidays
 
 from controllers.escala.escala_scroll_controller import EscalaScrollController
 from controllers.escala.escala_bind_controller import EscalaBindController
@@ -230,10 +231,10 @@ class EscalaController:
         total_motorista = 0
 
         for carga in dados:
-            if not carga["motorista"]:
+            if not carga["codigo_motorista"]:
                 continue
             else:
-                resultado = self.model.buscar_informacoes_funcionario(carga["motorista"])
+                resultado = self.model.buscar_informacoes_funcionario(carga["codigo_motorista"])
                 if resultado:
                     total_motorista += 1
 
@@ -246,12 +247,12 @@ class EscalaController:
         total_ajudantes = 0
 
         for carga in dados:
-            if carga["ajudante_1"]:
-                resultado = self.model.buscar_informacoes_funcionario(carga["ajudante_1"])
+            if carga["codigo_ajudante_1"]:
+                resultado = self.model.buscar_informacoes_funcionario(carga["codigo_ajudante_1"])
                 if resultado:
                     total_ajudantes += 1
-            if carga["ajudante_2"]:
-                resultado = self.model.buscar_informacoes_funcionario(carga["ajudante_2"])
+            if carga["codigo_ajudante_2"]:
+                resultado = self.model.buscar_informacoes_funcionario(carga["codigo_ajudante_2"])
                 if resultado:
                     total_ajudantes += 1
 
@@ -278,11 +279,11 @@ class EscalaController:
 
 
 
-    def exibir_nome_funcionario(self, frame, tipo: Literal["motorista", "ajudante1", "ajudante2"]):
+    def exibir_nome_funcionario(self, frame, tipo: Literal["codigo_motorista", "codigo_ajudante1", "codigo_ajudante2"]):
         widgets = {
-            "motorista": (frame.entry_cod_motorista, frame.label_nome_motorista),
-            "ajudante_1": (frame.entry_cod_ajudante_1, frame.label_nome_ajudante_1),
-            "ajudante_2": (frame.entry_cod_ajudante_2, frame.label_nome_ajudante_2)
+            "codigo_motorista": (frame.entry_cod_motorista, frame.label_nome_motorista),
+            "codigo_ajudante_1": (frame.entry_cod_ajudante_1, frame.label_nome_ajudante_1),
+            "codigo_ajudante_2": (frame.entry_cod_ajudante_2, frame.label_nome_ajudante_2)
         }
         
         entry, label = widgets[tipo]
@@ -343,9 +344,9 @@ class EscalaController:
 
         for carga in dados:
             if codigo in (
-                carga["motorista"],
-                carga["ajudante_1"],
-                carga["ajudante_2"]
+                carga["codigo_motorista"],
+                carga["codigo_ajudante_1"],
+                carga["codigo_ajudante_2"]
             ):
                 ocorrencias.append(carga["cod_carga"])
 
@@ -366,9 +367,9 @@ class EscalaController:
         )
 
         campos = [
-            carga_atual["motorista"],
-            carga_atual["ajudante_1"],
-            carga_atual["ajudante_2"]
+            carga_atual["codigo_motorista"],
+            carga_atual["codigo_ajudante_1"],
+            carga_atual["codigo_ajudante_2"]
         ]
 
         if campos.count(codigo) > 1:
@@ -401,9 +402,9 @@ class EscalaController:
 
     def _processar_funcionario(self, frame, campo):
         codigo = {
-            "motorista": frame.entry_cod_motorista.get(),
-            "ajudante_1": frame.entry_cod_ajudante_1.get(),
-            "ajudante_2": frame.entry_cod_ajudante_2.get()
+            "codigo_motorista": frame.entry_cod_motorista.get(),
+            "codigo_ajudante_1": frame.entry_cod_ajudante_1.get(),
+            "codigo_ajudante_2": frame.entry_cod_ajudante_2.get()
         }[campo]
 
         self.verificar_repeticao_ao_digitar(
@@ -418,24 +419,60 @@ class EscalaController:
         self.atualizar_numero_total_repetidos()
 
 
+    def obter_numero_rota(self, nome_busca):
+        for chave, dados in ROTAS.items():
+            if nome_busca.upper() in dados[1].upper():
+                return chave
+    
+    def obter_proximo_dia_util(self, data_atual):
+        feriados_br = holidays.BR()
+
+        proximo_dia = data_atual + timedelta(days=1)
+        
+        # ENQUANTO FOR FINAL DE SEMANA (SÁB=5 DOM=6) OU FERIADO, PULA +1 DIA
+        while proximo_dia.weekday() >= 5 or proximo_dia in feriados_br:
+            proximo_dia += timedelta(days=1)
+            
+        data_formatada = proximo_dia.strftime("%d/%m/%Y")
+
+        return data_formatada
+
+    def obter_numero_dia_semana(self, ):    
+        dia_num = int(datetime.today().strftime("%w")) + 1
+        dias_semana = ("Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado")
+
+        return dia_num
+
+
 
     def coletar_dados(self):
         dados = []
 
+        data = datetime.now().date()
+        data_formatada = datetime.strftime(data, "%d/%m/%Y")
+
         for frame in self.view.frames_cargas:
+
+            numero_carga = frame.label_numero_carga.cget("text").strip()
+
             dados.append({
+                "data": data_formatada,
+                "data_saida": self.obter_proximo_dia_util(data),
                 "cod_carga": frame.label_cod_carga.cget("text"),
                 "km_caminhao": frame.label_km_caminhao.cget("text"),
-                "numero_carga": frame.label_numero_carga.cget("text"),
+                "numero_carga": numero_carga,
                 "horario": frame.label_horario_saida.cget("text"),
-                "motorista": frame.entry_cod_motorista.get(),
+                "codigo_motorista": frame.entry_cod_motorista.get(),
                 "nome_motorista": frame.label_nome_motorista.cget("text"),
-                "ajudante_1": frame.entry_cod_ajudante_1.get(),
+                "codigo_ajudante_1": frame.entry_cod_ajudante_1.get(),
                 "nome_ajudante_1": frame.label_nome_ajudante_1.cget("text"),
-                "ajudante_2": frame.entry_cod_ajudante_2.get(),
+                "codigo_ajudante_2": frame.entry_cod_ajudante_2.get(),
                 "nome_ajudante_2": frame.label_nome_ajudante_2.cget("text"),
-                "rota": frame.entry_rota.get(),
-                "observacao": frame.entry_observacao.get()
+                "nome_rota": frame.entry_rota.get(),
+                "numero_rota": self.obter_numero_rota(frame.entry_rota.get()),
+                "observacao": frame.entry_observacao.get(),
+                "dia_semana": self.obter_numero_dia_semana(),
+                "numero_caminhao": numero_carga[1:3]
             })
 
         return dados
@@ -444,5 +481,8 @@ class EscalaController:
     def confirmar(self):
 
         dados = self.coletar_dados()
+
+        for frame in dados:
+            self.model.salvar_escala(frame)
 
         print(dados)

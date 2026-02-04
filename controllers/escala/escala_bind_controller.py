@@ -10,11 +10,11 @@ class EscalaBindController:
     def configurar_frame(self, frame):
         frame.entry_cod_motorista.bind(
             "<Return>",
-            lambda e: self._on_enter(frame, "motorista", frame.entry_cod_ajudante_1)
+            lambda e: self._on_enter(frame, "codigo_motorista", frame.entry_cod_ajudante_1)
         )
         frame.entry_cod_ajudante_1.bind(
             "<Return>",
-            lambda e: self._on_enter(frame, "ajudante_1", frame.entry_cod_ajudante_2)
+            lambda e: self._on_enter(frame, "codigo_ajudante_1", frame.entry_cod_ajudante_2)
         )
         frame.entry_cod_ajudante_2.bind(
             "<Return>",
@@ -23,15 +23,15 @@ class EscalaBindController:
 
         frame.entry_cod_motorista.bind(
             "<FocusOut>",
-            lambda e: self._on_focus_out(frame, "motorista")
+            lambda e: self._on_focus_out(frame, "codigo_motorista")
         )
         frame.entry_cod_ajudante_1.bind(
             "<FocusOut>",
-            lambda e: self._on_focus_out(frame, "ajudante_1")
+            lambda e: self._on_focus_out(frame, "codigo_ajudante_1")
         )
         frame.entry_cod_ajudante_2.bind(
             "<FocusOut>",
-            lambda e: self._on_focus_out(frame, "ajudante_2")
+            lambda e: self._on_focus_out(frame, "codigo_ajudante_2")
         )
 
         self._bind_autosave_entry(frame.entry_cod_motorista, frame)
@@ -57,7 +57,7 @@ class EscalaBindController:
         entry = frame.entry_cod_ajudante_2
         entry._enter_executado = True
 
-        self.controller._processar_funcionario(frame, "ajudante_2")
+        self.controller._processar_funcionario(frame, "codigo_ajudante_2")
 
         try:
             idx = self.view.frames_cargas.index(frame)
@@ -117,9 +117,9 @@ class EscalaBindController:
 
     def _get_entry(self, frame, campo):
         return {
-            "motorista": frame.entry_cod_motorista,
-            "ajudante_1": frame.entry_cod_ajudante_1,
-            "ajudante_2": frame.entry_cod_ajudante_2,
+            "codigo_motorista": frame.entry_cod_motorista,
+            "codigo_ajudante_1": frame.entry_cod_ajudante_1,
+            "codigo_ajudante_2": frame.entry_cod_ajudante_2,
         }[campo]
     
 
