@@ -10,7 +10,6 @@ FUNDO = (255, 255, 255)
 
 
 def gerar_imagem_escala(escala):
-    print(escala)
 
     img = Image.new("RGB", (LARGURA, ALTURA), FUNDO)
     draw = ImageDraw.Draw(img)
