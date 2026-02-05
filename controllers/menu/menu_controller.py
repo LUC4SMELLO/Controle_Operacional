@@ -16,6 +16,7 @@ from views.veiculo.excluir_veiculo_view import ExcluirVeiculoView
 
 
 from controllers.escala.escala_controller import EscalaController
+from controllers.escala.visualizar_escala_controller import VisualizarEscalaController
 from controllers.pendencia.pendencia_controller import PendenciaController
 from controllers.relatorio.relatorio_controller import RelatorioController
 from controllers.funcionario.funcionario_controller import FuncionarioController
@@ -95,11 +96,11 @@ class MenuController:
 
         model = EscalaModel()
 
-        controller = EscalaController(model)
+        controller = VisualizarEscalaController(model)
 
         tela_visualizar_escala = VisualizarEscalaView(self.janela, controller)
 
-        controller.set_view(tela_visualizar_escala, inicializar_escala=False)
+        controller.set_view(tela_visualizar_escala)
 
         self.definir_tela_atual(tela_visualizar_escala)
 
