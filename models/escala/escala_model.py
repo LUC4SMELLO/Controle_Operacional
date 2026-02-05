@@ -1,5 +1,5 @@
 from database.banco_dados_funcionarios import conectar_banco_de_dados_funcionarios
-from constants.banco_dados import TABELA_FUNCIONARIOS
+from constants.banco_dados import BANCO_DADOS_FUNCIONARIOS, TABELA_FUNCIONARIOS
 
 from database.banco_dados_veiculos import conectar_banco_de_dados_veiculos
 from constants.banco_dados import BANCO_DADOS_VEICULOS, TABELA_VEICULOS
@@ -272,6 +272,68 @@ class EscalaModel:
             print(f"Erro ao salvar escala:", e)
             return False
         
+        finally:
+            if conexao:
+                conexao.close()
+
+    def buscar_escala(self, data=""):
+
+        conexao = None
+
+        try:
+            conexao = conectar_banco_de_dados_escala()
+            cursor = conexao.cursor()
+
+            cursor.execute(
+                f"""
+                ATTACH DATABASE '{BANCO_DADOS_FUNCIONARIOS}' 
+                AS funcionarios_db
+                """
+            )
+
+            consulta = f"""
+                SELECT 
+                    e.data,
+                    e.data_saida,
+                    e.numero_carga,
+
+                    m.nome  AS motorista,
+                    a1.nome AS ajudante_1,
+                    a2.nome AS ajudante_2,
+
+                    e.nome_rota,
+                    e.numero_rota,
+                    e.observacao,
+                    e.numero_caminhao,
+                    e.dia_semana,
+                    e.horario
+                FROM {TABELA_ESCALA} AS e
+
+                LEFT JOIN funcionarios_db.{TABELA_FUNCIONARIOS} AS m
+                    ON m.codigo = e.codigo_motorista
+
+                LEFT JOIN funcionarios_db.{TABELA_FUNCIONARIOS} AS a1
+                    ON a1.codigo = e.codigo_ajudante_1
+
+                LEFT JOIN funcionarios_db.{TABELA_FUNCIONARIOS} AS a2
+                    ON a2.codigo = e.codigo_ajudante_2
+            """
+            
+            parametros = []
+            if data:
+                consulta += " WHERE e.data = ?"
+                parametros.append(data)
+
+            cursor.execute(consulta, parametros)
+
+            resultado = cursor.fetchall()
+
+            return resultado
+        
+        except Exception as e:
+            print(f"Erro ao buscar escala:", e)
+            return None
+
         finally:
             if conexao:
                 conexao.close()
