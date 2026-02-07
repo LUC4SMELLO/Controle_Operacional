@@ -135,6 +135,42 @@ class VisualizarEscalaView(ctk.CTkFrame):
             )
         self.botao_buscar_escala.grid(row=0, column=2, padx=(10, 0), pady=(15, 0), sticky="w")
 
+        icone_menos_zoom = ctk.CTkImage(
+            light_image=Image.open(ICONS_DIR / "menos_zoom_dark.png"),
+            dark_image=Image.open(ICONS_DIR / "menos_zoom_dark.png"),
+            size=(23, 23)
+        )
+        self.botao_zoom_out = ctk.CTkButton(
+            self.toolbar_frame_1,
+            image=icone_menos_zoom,
+            text="",
+            command=lambda: self.controller.zoom_out(),
+            width=20,
+            height=20,
+            fg_color=COR_BOTAO,
+            hover_color=HOVER_BOTAO,
+            cursor="hand2"
+        )
+        self.botao_zoom_out.grid(row=0, column=3, padx=(10, 0), pady=(15, 0), sticky="w")
+
+        icone_mais_zoom = ctk.CTkImage(
+            light_image=Image.open(ICONS_DIR / "mais_zoom_dark.png"),
+            dark_image=Image.open(ICONS_DIR / "mais_zoom_dark.png"),
+            size=(23, 23)
+        )
+        self.botao_zoom_in = ctk.CTkButton(
+            self.toolbar_frame_1,
+            image=icone_mais_zoom,
+            text="",
+            command=lambda: self.controller.zoom_in(),
+            width=20,
+            height=20,
+            fg_color=COR_BOTAO,
+            hover_color=HOVER_BOTAO,
+            cursor="hand2"
+        )
+        self.botao_zoom_in.grid(row=0, column=4, padx=(10, 0), pady=(15, 0), sticky="w")
+
         ctk.CTkFrame(self.toolbar_frame_1, height=2, fg_color=COR_LINHAS).grid(row=2, column=0, padx=(40, 290), pady=(15, 0), sticky="ew", columnspan=5)
 
         self.visualizar_frame = ctk.CTkFrame(self.main_frame, fg_color="transparent")
@@ -148,7 +184,7 @@ class VisualizarEscalaView(ctk.CTkFrame):
 
         self.canvas = ctk.CTkCanvas(
             self.visualizar_frame,
-            bg="#212121",
+            bg="#FFFFFF",
             highlightthickness=0,
             bd=0
         )
@@ -166,13 +202,7 @@ class VisualizarEscalaView(ctk.CTkFrame):
         self.canvas.bind("<Shift-MouseWheel>", lambda e: self.canvas.xview_scroll(-int(e.delta / 2.5), "units"))
         self.canvas.bind("<Control-MouseWheel>", self.controller.zoom_mousewheel)
 
-
-        ctk.CTkButton(self.toolbar_frame_1, text="+", command=lambda: self.controller.zoom_in()).grid(row=0, column=3, padx=(10, 0), pady=(15, 0), sticky="w")
-        ctk.CTkButton(self.toolbar_frame_1, text="-", command=lambda: self.controller.zoom_out()).grid(row=0, column=4, padx=(10, 0), pady=(15, 0), sticky="w")
-
-
     
-
 
     def buscar_escala(self):
 
@@ -192,6 +222,8 @@ class VisualizarEscalaView(ctk.CTkFrame):
             caminho = REPORTS_IMAGES_DIR / nome
             if caminho.exists():
                 self.imagens_originais.append(Image.open(caminho))
+
+        self.zoom = 0.6
 
         self.controller.redesenhar_imagens()
 

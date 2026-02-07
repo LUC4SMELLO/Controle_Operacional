@@ -11,8 +11,6 @@ class VisualizarEscalaController:
         self.model = model
         self.view = None
 
-        self.zoom = 1.0
-
     def set_view(self, view):
         self.view = view
 
@@ -71,15 +69,15 @@ class VisualizarEscalaController:
         
 
     def zoom_in(self):
-        self.zoom += 0.1
-        self.aplicar_zoom(self.zoom)
+        self.view.zoom += 0.1
+        self.aplicar_zoom(self.view.zoom)
 
     def zoom_out(self):
-        self.zoom -= 0.1
-        self.aplicar_zoom(self.zoom)
+        self.view.zoom -= 0.1
+        self.aplicar_zoom(self.view.zoom)
 
     def aplicar_zoom(self, fator):
-        self.zoom = max(0.3, fator)
+        self.view.zoom = max(0.3, fator)
         self.redesenhar_imagens()
 
     def redesenhar_imagens(self):
@@ -90,8 +88,8 @@ class VisualizarEscalaController:
         espacamento = 30
 
         for img in self.view.imagens_originais:
-            largura = int(img.width * self.zoom)
-            altura = int(img.height * self.zoom)
+            largura = int(img.width * self.view.zoom)
+            altura = int(img.height * self.view.zoom)
 
             img_resize = img.resize((largura, altura))
             img_tk = ImageTk.PhotoImage(img_resize)
@@ -106,9 +104,9 @@ class VisualizarEscalaController:
 
     def zoom_mousewheel(self, event):
         if event.delta > 0:
-            self.zoom += 0.1
+            self.view.zoom += 0.1
         else:
-            self.zoom -= 0.1
+            self.view.zoom -= 0.1
 
-        self.zoom = max(0.3, min(self.zoom, 3.0))
+        self.view.zoom = max(0.3, min(self.view.zoom, 3.0))
         self.redesenhar_imagens()
