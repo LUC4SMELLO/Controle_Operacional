@@ -1,7 +1,13 @@
-from constants.paths import ARCHIVES_DIR
+from constants.paths import ARCHIVES_DIR, REPORTS_IMAGES_DIR
 
 CAMINHO_ARQUIVO_CLIENTES_CTA = ARCHIVES_DIR / "Clientes.csv"
 CAMINHO_ARQUIVO_CLIENTES_FORMATADOS = ARCHIVES_DIR / "Clientes Formatados.csv"
 
 CAMINHO_ARQUIVO_PRODUTOS_CTA = ARCHIVES_DIR / "PRODUTOS.CSV"
 CAMINHO_ARQUIVO_PRODUTOS_FORMATADOS = ARCHIVES_DIR / "Produtos Formatados.csv"
+
+CAMINHO_IMAGENS_ESCALA = [
+    (REPORTS_IMAGES_DIR / "relatorio_entrega_1.png"),
+    (REPORTS_IMAGES_DIR / "relatorio_entrega_2.png"),
+]
+
