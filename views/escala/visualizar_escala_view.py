@@ -1,11 +1,9 @@
 import tkinter as ttk
 import customtkinter as ctk
-from PIL import Image, ImageTk
+from PIL import Image
 from tkcalendar import DateEntry
 
-from tkinterPdfViewer import tkinterPdfViewer as pdf
-
-from constants.paths import ICONS_DIR
+from constants.paths import ICONS_DIR, REPORTS_IMAGES_DIR
 
 from constants.textos import (
     FONTE_TITULO,
@@ -17,7 +15,7 @@ from constants.textos import (
     FONTE_BOTAO_SECUNDARIO,
 )
 
-from constants.cores import COR_FUNDO_CONTAINER_CARGAS, COR_LINHAS
+from constants.cores import COR_LINHAS
 
 from constants.cores import COR_BOTAO, HOVER_BOTAO, COR_TEXTO, COR_TEXTO_BOTAO
 
@@ -45,6 +43,12 @@ class VisualizarEscalaView(ctk.CTkFrame):
         super().__init__(master)
 
         self.controller = controller
+
+        controller.set_view(self)
+
+        self.imagens_originais = []
+        self.imagens_tk = []
+        self.zoom = 1.0
 
         self.grid_rowconfigure(0, weight=1)
         self.grid_columnconfigure(0, weight=1)
@@ -147,7 +151,6 @@ class VisualizarEscalaView(ctk.CTkFrame):
             bg="#212121",
             highlightthickness=0,
             bd=0
-
         )
         self.canvas.grid(row=0, column=0, pady=(30, 30), sticky="nsew", columnspan=3)
 
@@ -161,69 +164,35 @@ class VisualizarEscalaView(ctk.CTkFrame):
 
         self.canvas.bind("<MouseWheel>", lambda e: self.canvas.yview_scroll(-int(e.delta / 100), "units"))
         self.canvas.bind("<Shift-MouseWheel>", lambda e: self.canvas.xview_scroll(-int(e.delta / 2.5), "units"))
-        self.canvas.bind("<Control-MouseWheel>", self.zoom_mousewheel)
+        self.canvas.bind("<Control-MouseWheel>", self.controller.zoom_mousewheel)
 
 
-
-        self.zoom = 1.0
-        self.imagens_originais = [
-            Image.open("archives/reports/images/relatorio_entrega_1.png"),
-            Image.open("archives/reports/images/relatorio_entrega_2.png")
-        ]
-        self.imagens_tk = []
-        self.redesenhar_imagens()
+        ctk.CTkButton(self.toolbar_frame_1, text="+", command=lambda: self.controller.zoom_in()).grid(row=0, column=3, padx=(10, 0), pady=(15, 0), sticky="w")
+        ctk.CTkButton(self.toolbar_frame_1, text="-", command=lambda: self.controller.zoom_out()).grid(row=0, column=4, padx=(10, 0), pady=(15, 0), sticky="w")
 
 
-        ctk.CTkButton(self.toolbar_frame_1, text="+", command=lambda: self.zoom_in()).grid(row=0, column=3, padx=(10, 0), pady=(15, 0), sticky="w")
-        ctk.CTkButton(self.toolbar_frame_1, text="-", command=lambda: self.zoom_out()).grid(row=0, column=4, padx=(10, 0), pady=(15, 0), sticky="w")
-
-    def zoom_in(self):
-        self.zoom += 0.1
-        self.aplicar_zoom(self.zoom)
-
-    def zoom_out(self):
-        self.zoom -= 0.1
-        self.aplicar_zoom(self.zoom)
-
-    def aplicar_zoom(self, fator):
-        self.zoom = max(0.3, fator)
-        self.redesenhar_imagens()
-
-    def redesenhar_imagens(self):
-        self.canvas.delete("all")
-        self.imagens_tk.clear()
-
-        y_offset = 0
-        espacamento = 30
-
-        for img in self.imagens_originais:
-            largura = int(img.width * self.zoom)
-            altura = int(img.height * self.zoom)
-
-            img_resize = img.resize((largura, altura))
-            img_tk = ImageTk.PhotoImage(img_resize)
-
-            self.imagens_tk.append(img_tk)
-
-            self.canvas.create_image(0, y_offset, image=img_tk, anchor="nw")
-
-            y_offset += altura + espacamento
-
-        self.canvas.configure(scrollregion=self.canvas.bbox("all"))
-
-    def zoom_mousewheel(self, event):
-        if event.delta > 0:
-            self.zoom += 0.1
-        else:
-            self.zoom -= 0.1
-
-        self.zoom = max(0.3, min(self.zoom, 3.0))
-        self.redesenhar_imagens()
+    
 
 
     def buscar_escala(self):
 
+        self.controller.limpar_imagens_escala()
+
         resultado = self.controller.exibir_escala()
 
         exibir_mensagem(resultado["titulo"], resultado["mensagem"], resultado["icone"])
+
+        if not resultado["sucesso"]:
+            return "break"
+    
+        self.canvas.delete("all")
+        self.imagens_tk.clear()
+
+        for nome in ["relatorio_entrega_1.png", "relatorio_entrega_2.png"]:
+            caminho = REPORTS_IMAGES_DIR / nome
+            if caminho.exists():
+                self.imagens_originais.append(Image.open(caminho))
+
+        self.controller.redesenhar_imagens()
+
         return "break"
