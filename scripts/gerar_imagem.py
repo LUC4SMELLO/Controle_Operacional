@@ -66,17 +66,17 @@ def gerar_imagem_escala(escala):
         item_lista = list(item) 
 
         try:
-            objeto_data = datetime.strptime(str(item_lista[0]), "%Y-%m-%d")
-            item_lista[0] = objeto_data.strftime("%d/%m/%Y")
+            objeto_data = datetime.strptime(str(item_lista[1]), "%Y-%m-%d")
+            item_lista[1] = objeto_data.strftime("%d/%m/%Y")
         except Exception:
-            item_lista[0] = ""
+            item_lista[1] = ""
 
         fundo = (236, 236, 236) if i % 2 == 0 else (255, 255, 255)
 
         dados = [
             item[2],
-            f"{item_lista[0]}\n{item[11]}",
-            f"{item[3]}\n{item[4]}\n{item[5] or ''}",
+            f"{item_lista[1]}\n{item[11]}",
+            f"{item[3]}\n{item[4] or ''}\n{item[5] or ''}",
             item[6],
             item[8],
         ]
