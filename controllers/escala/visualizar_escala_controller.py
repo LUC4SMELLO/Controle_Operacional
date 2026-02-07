@@ -84,6 +84,8 @@ class VisualizarEscalaController:
         self.view.canvas.delete("all")
         self.view.imagens_tk.clear()
 
+        canvas_width = self.view.canvas.winfo_width()
+
         y_offset = 0
         espacamento = 30
 
@@ -96,7 +98,9 @@ class VisualizarEscalaController:
 
             self.view.imagens_tk.append(img_tk)
 
-            self.view.canvas.create_image(0, y_offset, image=img_tk, anchor="nw")
+            x = max((canvas_width - largura) // 2, 0)
+
+            self.view.canvas.create_image(x, y_offset, image=img_tk, anchor="nw")
 
             y_offset += altura + espacamento
 

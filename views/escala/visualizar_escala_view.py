@@ -223,7 +223,7 @@ class VisualizarEscalaView(ctk.CTkFrame):
             if caminho.exists():
                 self.imagens_originais.append(Image.open(caminho))
 
-        self.zoom = 0.6
+        self.zoom = 1.0
 
         self.controller.redesenhar_imagens()
 
