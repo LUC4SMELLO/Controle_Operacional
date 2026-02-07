@@ -1,5 +1,6 @@
+import tkinter as ttk
 import customtkinter as ctk
-from PIL import Image
+from PIL import Image, ImageTk
 from tkcalendar import DateEntry
 
 from tkinterPdfViewer import tkinterPdfViewer as pdf
@@ -84,7 +85,8 @@ class VisualizarEscalaView(ctk.CTkFrame):
         self.toolbar_frame_1.grid_columnconfigure(0, weight=0)
         self.toolbar_frame_1.grid_columnconfigure(1, weight=0)
         self.toolbar_frame_1.grid_columnconfigure(2, weight=0)
-        self.toolbar_frame_1.grid_columnconfigure(3, weight=1)
+        self.toolbar_frame_1.grid_columnconfigure(3, weight=0)
+        self.toolbar_frame_1.grid_columnconfigure(4, weight=1)
         self.toolbar_frame_1.grid(
             row=1,
             column=0,
@@ -129,17 +131,95 @@ class VisualizarEscalaView(ctk.CTkFrame):
             )
         self.botao_buscar_escala.grid(row=0, column=2, padx=(10, 0), pady=(15, 0), sticky="w")
 
-        ctk.CTkFrame(self.toolbar_frame_1, height=2, fg_color=COR_LINHAS).grid(row=2, column=0, padx=(40, 290), pady=(15, 0), sticky="ew", columnspan=4)
+        ctk.CTkFrame(self.toolbar_frame_1, height=2, fg_color=COR_LINHAS).grid(row=2, column=0, padx=(40, 290), pady=(15, 0), sticky="ew", columnspan=5)
 
         self.visualizar_frame = ctk.CTkFrame(self.main_frame, fg_color="transparent")
+        self.visualizar_frame.grid_rowconfigure(0, weight=1)
+        self.visualizar_frame.grid_columnconfigure(0, weight=0)
+        self.visualizar_frame.grid_columnconfigure(1, weight=0)
+        self.visualizar_frame.grid_columnconfigure(2, weight=1)
         self.visualizar_frame.grid(row=4, column=0, padx=(40, 290), sticky="nsew")
 
-        self.visualizar_frame.grid_rowconfigure(0, weight=1)
-        self.visualizar_frame.grid_columnconfigure(0, weight=1)
 
-        v1 = pdf.ShowPdf()
-        v2 = v1.pdf_view(self.visualizar_frame, pdf_location=r"relatorio_entrega.pdf", width=103, height=80)
-        v2.grid(row=0, column=0, padx=(50, 0), pady=(25, 0), sticky="")
+
+        self.canvas = ctk.CTkCanvas(
+            self.visualizar_frame,
+            bg="#212121",
+            highlightthickness=0,
+            bd=0
+
+        )
+        self.canvas.grid(row=0, column=0, pady=(30, 30), sticky="nsew", columnspan=3)
+
+        scroll_x = ttk.Scrollbar(self.canvas, orient="horizontal", command=self.canvas.xview)
+        scroll_y = ttk.Scrollbar(self.canvas, orient="vertical", command=self.canvas.yview)
+
+        self.canvas.configure(
+            xscrollcommand=scroll_x.set,
+            yscrollcommand=scroll_y.set
+        )
+
+        self.canvas.bind("<MouseWheel>", lambda e: self.canvas.yview_scroll(-int(e.delta / 100), "units"))
+        self.canvas.bind("<Shift-MouseWheel>", lambda e: self.canvas.xview_scroll(-int(e.delta / 2.5), "units"))
+        self.canvas.bind("<Control-MouseWheel>", self.zoom_mousewheel)
+
+
+
+        self.zoom = 1.0
+        self.imagens_originais = [
+            Image.open("archives/reports/images/relatorio_entrega_1.png"),
+            Image.open("archives/reports/images/relatorio_entrega_2.png")
+        ]
+        self.imagens_tk = []
+        self.redesenhar_imagens()
+
+
+        ctk.CTkButton(self.toolbar_frame_1, text="+", command=lambda: self.zoom_in()).grid(row=0, column=3, padx=(10, 0), pady=(15, 0), sticky="w")
+        ctk.CTkButton(self.toolbar_frame_1, text="-", command=lambda: self.zoom_out()).grid(row=0, column=4, padx=(10, 0), pady=(15, 0), sticky="w")
+
+    def zoom_in(self):
+        self.zoom += 0.1
+        self.aplicar_zoom(self.zoom)
+
+    def zoom_out(self):
+        self.zoom -= 0.1
+        self.aplicar_zoom(self.zoom)
+
+    def aplicar_zoom(self, fator):
+        self.zoom = max(0.3, fator)
+        self.redesenhar_imagens()
+
+    def redesenhar_imagens(self):
+        self.canvas.delete("all")
+        self.imagens_tk.clear()
+
+        y_offset = 0
+        espacamento = 30
+
+        for img in self.imagens_originais:
+            largura = int(img.width * self.zoom)
+            altura = int(img.height * self.zoom)
+
+            img_resize = img.resize((largura, altura))
+            img_tk = ImageTk.PhotoImage(img_resize)
+
+            self.imagens_tk.append(img_tk)
+
+            self.canvas.create_image(0, y_offset, image=img_tk, anchor="nw")
+
+            y_offset += altura + espacamento
+
+        self.canvas.configure(scrollregion=self.canvas.bbox("all"))
+
+    def zoom_mousewheel(self, event):
+        if event.delta > 0:
+            self.zoom += 0.1
+        else:
+            self.zoom -= 0.1
+
+        self.zoom = max(0.3, min(self.zoom, 3.0))
+        self.redesenhar_imagens()
+
 
     def buscar_escala(self):
 
