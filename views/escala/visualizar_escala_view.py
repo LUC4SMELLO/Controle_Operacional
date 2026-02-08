@@ -91,8 +91,10 @@ class VisualizarEscalaView(ctk.CTkFrame):
         self.toolbar_frame_1.grid_columnconfigure(2, weight=0)
         self.toolbar_frame_1.grid_columnconfigure(3, weight=0)
         self.toolbar_frame_1.grid_columnconfigure(4, weight=0)
-        self.toolbar_frame_1.grid_columnconfigure(5, weight=1)
+        self.toolbar_frame_1.grid_columnconfigure(5, weight=0)
         self.toolbar_frame_1.grid_columnconfigure(6, weight=0)
+        self.toolbar_frame_1.grid_columnconfigure(7, weight=1)
+        self.toolbar_frame_1.grid_columnconfigure(8, weight=0)
 
         self.toolbar_frame_1.grid(
             row=1,
@@ -174,6 +176,39 @@ class VisualizarEscalaView(ctk.CTkFrame):
         )
         self.botao_zoom_in.grid(row=0, column=4, padx=(10, 0), pady=(15, 0), sticky="w")
 
+        self.entry_pagina = ctk.CTkComboBox(
+            self.toolbar_frame_1,
+            values=["Página 1", "Página 2"],
+            font=FONTE_TEXTO,
+            text_color=COR_TEXTO,
+            width=100,
+            height=30,
+            corner_radius=2
+            )
+        self.entry_pagina.grid(row=0, column=5, padx=(10, 0), pady=(15, 0))
+
+        icone_copiar_arquivo = ctk.CTkImage(
+            light_image=Image.open(ICONS_DIR / "copiar_arquivo_dark.png"),
+            dark_image=Image.open(ICONS_DIR / "copiar_arquivo_dark.png"),
+            size=(23, 23)
+        )
+        self.botao_copiar_arquivo = ctk.CTkButton(
+            self.toolbar_frame_1,
+            image=icone_copiar_arquivo,
+            text="",
+            command=lambda: self.controller.copiar_imagem_para_clipboard(str(self.entry_pagina.get()).replace("á", "a").replace(" ", "_").lower()),
+            width=20,
+            height=20,
+            fg_color=COR_BOTAO,
+            hover_color=HOVER_BOTAO,
+            cursor="hand2"
+        )
+        self.botao_copiar_arquivo.grid(row=0, column=6, padx=(10, 0), pady=(15, 0), sticky="w")
+
+
+
+
+
         self.botao_limpar = ctk.CTkButton(
             self.toolbar_frame_1,
             text="Limpar",
@@ -185,9 +220,9 @@ class VisualizarEscalaView(ctk.CTkFrame):
             fg_color=COR_BOTAO,
             hover_color=HOVER_BOTAO,
         )
-        self.botao_limpar.grid(row=0, column=6, padx=(10, 290), pady=(15, 0))
+        self.botao_limpar.grid(row=0, column=8, padx=(10, 290), pady=(15, 0))
 
-        ctk.CTkFrame(self.toolbar_frame_1, height=2, fg_color=COR_LINHAS).grid(row=2, column=0, padx=(40, 290), pady=(15, 0), sticky="ew", columnspan=7)
+        ctk.CTkFrame(self.toolbar_frame_1, height=2, fg_color=COR_LINHAS).grid(row=2, column=0, padx=(40, 290), pady=(15, 0), sticky="ew", columnspan=9)
 
         self.visualizar_frame = ctk.CTkFrame(self.main_frame, fg_color="transparent")
         self.visualizar_frame.grid_rowconfigure(0, weight=1)

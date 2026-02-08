@@ -1,5 +1,9 @@
+from typing import Literal
+import win32clipboard
+import io
+
 from datetime import datetime
-from PIL import ImageTk
+from PIL import Image, ImageTk
 
 from constants.caminho_arquivos import CAMINHO_IMAGENS_ESCALA
 
@@ -52,6 +56,26 @@ class VisualizarEscalaController:
             "mensagem": "Escala Encontrada!",
             "icone": "check"
         }
+
+
+    def copiar_imagem_para_clipboard(self, caminho_imagem: Literal["pagina_1", "pagina_2"]):
+
+        # ABRE IMAGEM
+        if caminho_imagem == "pagina_1":
+            imagem = Image.open(CAMINHO_IMAGENS_ESCALA[0])
+        else:
+            imagem = Image.open(CAMINHO_IMAGENS_ESCALA[1])
+
+        # CONVERTE PARA BPM
+        with io.BytesIO() as output:
+            imagem.convert("RGB").save(output, "BMP")
+            dados = output.getvalue()[14:]
+
+        # COPIA PARA A CLIPBOARD
+        win32clipboard.OpenClipboard()
+        win32clipboard.EmptyClipboard()
+        win32clipboard.SetClipboardData(win32clipboard.CF_DIB, dados)
+        win32clipboard.CloseClipboard()
     
     def limpar_imagens_escala(self):
         for img in self.view.imagens_originais:
