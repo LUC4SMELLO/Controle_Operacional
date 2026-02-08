@@ -83,14 +83,17 @@ class VisualizarEscalaView(ctk.CTkFrame):
 
 
         self.toolbar_frame_1 = ctk.CTkFrame(self.main_frame, fg_color="transparent")
-        self.toolbar_frame_1.grid_rowconfigure(0, weight=0)
+        self.toolbar_frame_1.grid_rowconfigure(0, weight=1)
         self.toolbar_frame_1.grid_rowconfigure(1, weight=0)
         self.toolbar_frame_1.grid_rowconfigure(2, weight=1)
         self.toolbar_frame_1.grid_columnconfigure(0, weight=0)
         self.toolbar_frame_1.grid_columnconfigure(1, weight=0)
         self.toolbar_frame_1.grid_columnconfigure(2, weight=0)
         self.toolbar_frame_1.grid_columnconfigure(3, weight=0)
-        self.toolbar_frame_1.grid_columnconfigure(4, weight=1)
+        self.toolbar_frame_1.grid_columnconfigure(4, weight=0)
+        self.toolbar_frame_1.grid_columnconfigure(5, weight=1)
+        self.toolbar_frame_1.grid_columnconfigure(6, weight=0)
+
         self.toolbar_frame_1.grid(
             row=1,
             column=0,
@@ -171,7 +174,20 @@ class VisualizarEscalaView(ctk.CTkFrame):
         )
         self.botao_zoom_in.grid(row=0, column=4, padx=(10, 0), pady=(15, 0), sticky="w")
 
-        ctk.CTkFrame(self.toolbar_frame_1, height=2, fg_color=COR_LINHAS).grid(row=2, column=0, padx=(40, 290), pady=(15, 0), sticky="ew", columnspan=5)
+        self.botao_limpar = ctk.CTkButton(
+            self.toolbar_frame_1,
+            text="Limpar",
+            command=controller.limpar_canvas,
+            width=50,
+            height=30,
+            font=FONTE_BOTAO_SECUNDARIO,
+            text_color=COR_TEXTO_BOTAO,
+            fg_color=COR_BOTAO,
+            hover_color=HOVER_BOTAO,
+        )
+        self.botao_limpar.grid(row=0, column=6, padx=(10, 290), pady=(15, 0))
+
+        ctk.CTkFrame(self.toolbar_frame_1, height=2, fg_color=COR_LINHAS).grid(row=2, column=0, padx=(40, 290), pady=(15, 0), sticky="ew", columnspan=7)
 
         self.visualizar_frame = ctk.CTkFrame(self.main_frame, fg_color="transparent")
         self.visualizar_frame.grid_rowconfigure(0, weight=1)
@@ -223,7 +239,7 @@ class VisualizarEscalaView(ctk.CTkFrame):
             if caminho.exists():
                 self.imagens_originais.append(Image.open(caminho))
 
-        self.zoom = 1.0
+        self.zoom = 0.6
 
         self.controller.redesenhar_imagens()
 

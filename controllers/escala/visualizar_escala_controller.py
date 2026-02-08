@@ -66,6 +66,10 @@ class VisualizarEscalaController:
 
         for caminho in CAMINHO_IMAGENS_ESCALA:
             caminho.unlink(missing_ok=True)
+
+    def limpar_canvas(self):
+        self.view.canvas.delete("all")
+        self.view.imagens_tk.clear()
         
 
     def zoom_in(self):
