@@ -126,24 +126,39 @@ class ApontamentoView(ctk.CTkFrame):
 
 
         self.cargas_frame = ctk.CTkFrame(self.main_frame, fg_color="#2BB800")
-        self.cargas_frame.grid_rowconfigure(0, weight=0)
-        self.cargas_frame.grid_rowconfigure(1, weight=0)
-        self.cargas_frame.grid_columnconfigure(0, minsize=120)
-        self.cargas_frame.grid_columnconfigure(1, weight=0)
-        self.cargas_frame.grid_columnconfigure(2, minsize=120)
-        self.cargas_frame.grid_columnconfigure(3, minsize=120)
-        self.cargas_frame.grid_columnconfigure(4, minsize=120)
-        self.cargas_frame.grid_columnconfigure(5, minsize=120)
-        self.cargas_frame.grid(row=2, column=0, sticky="ew")
+        self.cargas_frame.grid_columnconfigure(0, weight=1)
+        self.cargas_frame.grid(row=2, column=0, sticky="nsew")
 
-        ctk.CTkLabel(self.cargas_frame, text="Carga", font=FONTE_LABEL, text_color=COR_TEXTO).grid(row=0, column=0, padx=(40, 0), pady=(25, 0), sticky="n")
+        self.cargas_header = ctk.CTkFrame(self.cargas_frame, fg_color="#ACD3A0")
+        self.cargas_header.grid(row=0, column=0, sticky="ew")
 
-        ctk.CTkFrame(self.cargas_frame, fg_color=COR_LINHAS, width=2).grid(row=0, column=1, padx=(24, 0), pady=(25, 0), rowspan=30, sticky="ns")
+        self.cargas_header.grid_columnconfigure(0, minsize=120)
+        self.cargas_header.grid_columnconfigure(1, minsize=20)
+        self.cargas_header.grid_columnconfigure(2, minsize=120)
+        self.cargas_header.grid_columnconfigure(3, minsize=120)
+        self.cargas_header.grid_columnconfigure(4, minsize=120)
+        self.cargas_header.grid_columnconfigure(5, minsize=120)
 
-        ctk.CTkLabel(self.cargas_frame, text="Hora Saída", font=FONTE_LABEL, text_color=COR_TEXTO).grid(row=0, column=2, padx=(40, 0), pady=(25, 0), sticky="n")
-        ctk.CTkLabel(self.cargas_frame, text="Hora Chegada", font=FONTE_LABEL, text_color=COR_TEXTO).grid(row=0, column=3, padx=(40, 0), pady=(25, 0), sticky="n")
-        ctk.CTkLabel(self.cargas_frame, text="KM Inicial", font=FONTE_LABEL, text_color=COR_TEXTO).grid(row=0, column=4, padx=(40, 0), pady=(25, 0), sticky="n")
-        ctk.CTkLabel(self.cargas_frame, text="KM Final", font=FONTE_LABEL, text_color=COR_TEXTO).grid(row=0, column=5, padx=(40, 0), pady=(25, 0), sticky="n")
+        ctk.CTkLabel(self.cargas_header, text="Carga", font=FONTE_LABEL).grid(row=0, column=0, padx=(40, 0), pady=(25, 0))
+        ctk.CTkLabel(self.cargas_header, text="Hora Saída", font=FONTE_LABEL).grid(row=0, column=1, padx=(40, 0), pady=(25, 0))
+        ctk.CTkLabel(self.cargas_header, text="Hora Chegada", font=FONTE_LABEL).grid(row=0, column=2, padx=(40, 0), pady=(25, 0))
+        ctk.CTkLabel(self.cargas_header, text="KM Inicial", font=FONTE_LABEL).grid(row=0, column=3, padx=(30, 0), pady=(25, 0))
+        ctk.CTkLabel(self.cargas_header, text="KM Final", font=FONTE_LABEL).grid(row=0, column=4, padx=(40, 0), pady=(25, 0))
+
+        self.cargas_scroll = ctk.CTkScrollableFrame(
+            self.cargas_frame,
+            fg_color="#A0C6FF",
+            height=400
+        )
+        self.cargas_scroll.grid_columnconfigure(0, minsize=120)
+        self.cargas_scroll.grid_columnconfigure(1, minsize=20)
+        self.cargas_scroll.grid_columnconfigure(2, minsize=120)
+        self.cargas_scroll.grid_columnconfigure(3, minsize=120)
+        self.cargas_scroll.grid_columnconfigure(4, minsize=120)
+        self.cargas_scroll.grid_columnconfigure(5, minsize=120)
+        self.cargas_scroll.grid(row=1, column=0, sticky="nsew")
+
+        self.cargas_frame.grid_rowconfigure(1, weight=1)
 
 
     def exibir_cargas(self, cargas):
@@ -152,21 +167,21 @@ class ApontamentoView(ctk.CTkFrame):
         linha_grid = 1
         for carga in cargas:
 
-            label_carga = ctk.CTkLabel(self.cargas_frame, text=carga["numero_carga"], font=("Segoe UI", 17), text_color=COR_TEXTO)
-            label_carga.grid(row=linha_grid, column=0, padx=(40, 0), pady=(10, 0), sticky="n")
+            label_carga = ctk.CTkLabel(self.cargas_scroll, text=carga["numero_carga"], font=("Segoe UI", 17), text_color=COR_TEXTO)
+            label_carga.grid(row=linha_grid, column=0, padx=(25, 0), pady=(10, 0))
 
-            entry_hora_saida = ctk.CTkEntry(self.cargas_frame, font=FONTE_TEXTO, text_color=COR_TEXTO, width=50)
+            entry_hora_saida = ctk.CTkEntry(self.cargas_scroll, font=FONTE_TEXTO, text_color=COR_TEXTO, width=50)
             entry_hora_saida.insert(0, carga["horario"])
-            entry_hora_saida.grid(row=linha_grid, column=2, padx=(35, 0), pady=(10, 0), sticky="n")
+            entry_hora_saida.grid(row=linha_grid, column=2, pady=(10, 0))
 
-            entry_hora_chegada = ctk.CTkEntry(self.cargas_frame, font=FONTE_TEXTO, text_color=COR_TEXTO, width=50)
-            entry_hora_chegada.grid(row=linha_grid, column=3, padx=(35, 0), pady=(10, 0), sticky="n")
+            entry_hora_chegada = ctk.CTkEntry(self.cargas_scroll, font=FONTE_TEXTO, text_color=COR_TEXTO, width=50)
+            entry_hora_chegada.grid(row=linha_grid, column=3, padx=(30, 0), pady=(10, 0))
 
-            entry_km_inicial = ctk.CTkEntry(self.cargas_frame, font=FONTE_TEXTO, text_color=COR_TEXTO, width=70)
-            entry_km_inicial.grid(row=linha_grid, column=4, padx=(0, 5), pady=(10, 0), sticky="ne")
+            entry_km_inicial = ctk.CTkEntry(self.cargas_scroll, font=FONTE_TEXTO, text_color=COR_TEXTO, width=70)
+            entry_km_inicial.grid(row=linha_grid, column=4, padx=(55, 0), pady=(10, 0))
 
-            entry_km_final = ctk.CTkEntry(self.cargas_frame, font=FONTE_TEXTO, text_color=COR_TEXTO, width=70)
-            entry_km_final.grid(row=linha_grid, column=5, padx=(40, 0), pady=(10, 0), sticky="n")
+            entry_km_final = ctk.CTkEntry(self.cargas_scroll, font=FONTE_TEXTO, text_color=COR_TEXTO, width=70)
+            entry_km_final.grid(row=linha_grid, column=5, padx=(55, 0), pady=(10, 0))
 
 
 
@@ -182,7 +197,6 @@ class ApontamentoView(ctk.CTkFrame):
 
     def buscar_carga(self):
         data = self.entry_data.get()
-        print(data)
 
         self.controller.buscar_cargas(data)
 
