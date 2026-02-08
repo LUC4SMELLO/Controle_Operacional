@@ -127,13 +127,13 @@ class ApontamentoView(ctk.CTkFrame):
 
         self.cargas_frame = ctk.CTkFrame(self.main_frame, fg_color="#2BB800")
         self.cargas_frame.grid_rowconfigure(0, weight=0)
-        self.cargas_frame.grid_rowconfigure(1, weight=1)
-        self.cargas_frame.grid_columnconfigure(0, weight=0)
+        self.cargas_frame.grid_rowconfigure(1, weight=0)
+        self.cargas_frame.grid_columnconfigure(0, minsize=120)
         self.cargas_frame.grid_columnconfigure(1, weight=0)
-        self.cargas_frame.grid_columnconfigure(2, weight=0)
-        self.cargas_frame.grid_columnconfigure(3, weight=0)
-        self.cargas_frame.grid_columnconfigure(4, weight=0)
-        self.cargas_frame.grid_columnconfigure(5, weight=0)
+        self.cargas_frame.grid_columnconfigure(2, minsize=120)
+        self.cargas_frame.grid_columnconfigure(3, minsize=120)
+        self.cargas_frame.grid_columnconfigure(4, minsize=120)
+        self.cargas_frame.grid_columnconfigure(5, minsize=120)
         self.cargas_frame.grid(row=2, column=0, sticky="ew")
 
         ctk.CTkLabel(self.cargas_frame, text="Carga", font=FONTE_LABEL, text_color=COR_TEXTO).grid(row=0, column=0, padx=(40, 0), pady=(25, 0), sticky="n")
@@ -147,26 +147,26 @@ class ApontamentoView(ctk.CTkFrame):
 
 
     def exibir_cargas(self, cargas):
-        #self.limpar_lista()
+        self.controller.limpar_cargas()
 
         linha_grid = 1
         for carga in cargas:
 
-            label_carga = ctk.CTkLabel(self.cargas_frame, text=carga["numero_carga"], font=("Segoe UI", 17), text_color=COR_TEXTO, width=100)
-            label_carga.grid(row=linha_grid, column=0, padx=(40, 0), pady=(10, 0))
+            label_carga = ctk.CTkLabel(self.cargas_frame, text=carga["numero_carga"], font=("Segoe UI", 17), text_color=COR_TEXTO)
+            label_carga.grid(row=linha_grid, column=0, padx=(40, 0), pady=(10, 0), sticky="n")
 
             entry_hora_saida = ctk.CTkEntry(self.cargas_frame, font=FONTE_TEXTO, text_color=COR_TEXTO, width=50)
             entry_hora_saida.insert(0, carga["horario"])
-            entry_hora_saida.grid(row=linha_grid, column=2, padx=(40, 0), pady=(10, 0))
+            entry_hora_saida.grid(row=linha_grid, column=2, padx=(35, 0), pady=(10, 0), sticky="n")
 
             entry_hora_chegada = ctk.CTkEntry(self.cargas_frame, font=FONTE_TEXTO, text_color=COR_TEXTO, width=50)
-            entry_hora_chegada.grid(row=linha_grid, column=3, padx=(40, 0), pady=(10, 0))
+            entry_hora_chegada.grid(row=linha_grid, column=3, padx=(35, 0), pady=(10, 0), sticky="n")
 
-            entry_km_inicial = ctk.CTkEntry(self.cargas_frame, font=FONTE_TEXTO, text_color=COR_TEXTO, width=60)
-            entry_km_inicial.grid(row=linha_grid, column=4, padx=(40, 0), pady=(10, 0))
+            entry_km_inicial = ctk.CTkEntry(self.cargas_frame, font=FONTE_TEXTO, text_color=COR_TEXTO, width=70)
+            entry_km_inicial.grid(row=linha_grid, column=4, padx=(0, 5), pady=(10, 0), sticky="ne")
 
-            entry_km_final = ctk.CTkEntry(self.cargas_frame, font=FONTE_TEXTO, text_color=COR_TEXTO, width=60)
-            entry_km_final.grid(row=linha_grid, column=5, padx=(40, 0), pady=(10, 0))
+            entry_km_final = ctk.CTkEntry(self.cargas_frame, font=FONTE_TEXTO, text_color=COR_TEXTO, width=70)
+            entry_km_final.grid(row=linha_grid, column=5, padx=(40, 0), pady=(10, 0), sticky="n")
 
 
 

@@ -20,3 +20,9 @@ class ApontamentoController:
 
         cargas = self.model.buscar_escalas_por_data(data)
         self.view.exibir_cargas(cargas)
+
+    def limpar_cargas(self):
+        for widget in self.view.cargas_frame.grid_slaves():
+            if int(widget.grid_info()["row"]) > 0:
+                widget.destroy()
+        self.view.linhas.clear()
