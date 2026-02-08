@@ -121,7 +121,7 @@ class MenuView(ctk.CTkFrame):
             "carga": [
                 ("Mapa de Troca", None),
                 ("Carregamento Troca", None),
-                ("Km Caminhões", None),
+                ("Apontamentos", self.controller.mostrar_tela_apontamento),
             ],
             "pendencia": [
                 ("Cadastrar", self.controller.mostrar_tela_cadastrar_pendencia),
