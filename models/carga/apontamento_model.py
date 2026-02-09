@@ -26,6 +26,7 @@ class ApontamentoModel:
                     horario
                 FROM {TABELA_ESCALA}
                 WHERE data = ?
+                ORDER BY numero_carga ASC
             """, (data,))
 
             registros = cursor.fetchall()
