@@ -1,10 +1,7 @@
 import customtkinter as ctk
-from PIL import Image
 from tkcalendar import DateEntry
 
 from views.dialogs.exibir_mensagem import exibir_mensagem
-
-from constants.paths import ICONS_DIR
 
 from constants.textos import (
     FONTE_TITULO,
@@ -16,7 +13,7 @@ from constants.textos import (
     FONTE_BOTAO_SECUNDARIO
 )
 
-from constants.cores import COR_LINHAS
+from constants.cores import COR_LINHAS, COR_FUNDO_CONTAINER_CARGAS
 
 from constants.cores import (
     COR_BOTAO,
@@ -52,14 +49,14 @@ class ApontamentoView(ctk.CTkFrame):
         self.grid_rowconfigure(0, weight=1)
         self.grid_columnconfigure(0, weight=1)
 
-        self.main_frame = ctk.CTkFrame(self, fg_color="#FFACAC")
+        self.main_frame = ctk.CTkFrame(self, fg_color="transparent")
         self.main_frame.grid_rowconfigure(0, weight=0) # HEADER
         self.main_frame.grid_rowconfigure(1, weight=0) # CADASTRO
         self.main_frame.grid_rowconfigure(2, weight=0) # FOOTER
         self.main_frame.grid_columnconfigure(0, weight=1)
         self.main_frame.grid(row=0, column=0, sticky="nsew")
 
-        self.header_frame = ctk.CTkFrame(self.main_frame, fg_color="#FD4C4C")
+        self.header_frame = ctk.CTkFrame(self.main_frame, fg_color="transparent")
         self.header_frame.grid_rowconfigure(0, weight=1)
         self.header_frame.grid_rowconfigure(1, weight=1)
         self.header_frame.grid_rowconfigure(2, weight=1)
@@ -75,7 +72,7 @@ class ApontamentoView(ctk.CTkFrame):
         ctk.CTkFrame(self.header_frame, height=2, fg_color=COR_LINHAS).grid(row=2, column=0, padx=(40, 290), pady=(15, 0), sticky="ew", columnspan=1)
 
 
-        self.toolbar_frame_1 = ctk.CTkFrame(self.main_frame, fg_color="#95B7FF")
+        self.toolbar_frame_1 = ctk.CTkFrame(self.main_frame, fg_color="transparent")
         self.toolbar_frame_1.grid_rowconfigure(0, weight=0)
         self.toolbar_frame_1.grid_rowconfigure(1, weight=1)
         self.toolbar_frame_1.grid_columnconfigure(0, weight=0)
@@ -125,11 +122,11 @@ class ApontamentoView(ctk.CTkFrame):
         ctk.CTkFrame(self.toolbar_frame_1, height=2, fg_color=COR_LINHAS).grid(row=2, column=0, padx=(40, 290), pady=(15, 0), sticky="ew", columnspan=4)
 
 
-        self.cargas_frame = ctk.CTkFrame(self.main_frame, fg_color="#2BB800")
+        self.cargas_frame = ctk.CTkFrame(self.main_frame, fg_color="transparent")
         self.cargas_frame.grid_columnconfigure(0, weight=1)
         self.cargas_frame.grid(row=2, column=0, sticky="nsew")
 
-        self.cargas_header = ctk.CTkFrame(self.cargas_frame, fg_color="#ACD3A0")
+        self.cargas_header = ctk.CTkFrame(self.cargas_frame, fg_color="transparent")
         self.cargas_header.grid(row=0, column=0, sticky="ew")
 
         self.cargas_header.grid_columnconfigure(0, minsize=120)
@@ -147,8 +144,7 @@ class ApontamentoView(ctk.CTkFrame):
 
         self.cargas_scroll = ctk.CTkScrollableFrame(
             self.cargas_frame,
-            fg_color="#A0C6FF",
-            height=400
+            height=350
         )
         self.cargas_scroll.grid_columnconfigure(0, minsize=120)
         self.cargas_scroll.grid_columnconfigure(1, minsize=20)
@@ -159,6 +155,43 @@ class ApontamentoView(ctk.CTkFrame):
         self.cargas_scroll.grid(row=1, column=0, sticky="nsew")
 
         self.cargas_frame.grid_rowconfigure(1, weight=1)
+
+        self.footer_frame = ctk.CTkFrame(self.main_frame, height=100, fg_color="transparent")
+        self.footer_frame.grid_rowconfigure(0, weight=0)
+        self.footer_frame.grid_rowconfigure(1, weight=0)
+        self.footer_frame.grid_columnconfigure(0, weight=0)
+        self.footer_frame.grid_columnconfigure(1, weight=0)
+        self.footer_frame.grid_columnconfigure(2, weight=1)
+        self.footer_frame.grid(row=3, column=0, sticky="we")
+
+
+        ctk.CTkFrame(self.footer_frame, height=2, fg_color=COR_LINHAS).grid(row=0, column=0, padx=(40, 290), pady=(10, 0), sticky="ew", columnspan=3)
+
+
+        self.botao_confirmar = ctk.CTkButton(
+            self.footer_frame,
+            text="Confirmar",
+            font=FONTE_BOTAO_PRINCIPAL,
+            width=160,
+            height=38,
+            fg_color=COR_BOTAO,
+            hover_color=HOVER_BOTAO,
+            text_color= COR_TEXTO_BOTAO,
+        )
+        self.botao_confirmar.grid(row=1, column=0, padx=(40, 0), pady=(20, 0))
+
+        self.botao_cancelar= ctk.CTkButton(
+            self.footer_frame,
+            text="Cancelar",
+            command=self.controller.limpar_cargas,
+            font=FONTE_BOTAO_PRINCIPAL,
+            width=160,
+            height=38,
+            fg_color=COR_BOTAO,
+            hover_color=HOVER_BOTAO,
+            text_color=COR_TEXTO_BOTAO,
+        )
+        self.botao_cancelar.grid(row=1, column=1, padx=(40, 0), pady=(20, 0))
 
 
     def exibir_cargas(self, cargas):
@@ -182,8 +215,6 @@ class ApontamentoView(ctk.CTkFrame):
 
             entry_km_final = ctk.CTkEntry(self.cargas_scroll, font=FONTE_TEXTO, text_color=COR_TEXTO, width=70)
             entry_km_final.grid(row=linha_grid, column=5, padx=(55, 0), pady=(10, 0))
-
-
 
             # GUARDAR REFERÊNCIA
             self.linhas[carga["numero_carga"]] = {
@@ -213,4 +244,3 @@ class ApontamentoView(ctk.CTkFrame):
                 km_inicial,
                 hora_saida
             )
-
