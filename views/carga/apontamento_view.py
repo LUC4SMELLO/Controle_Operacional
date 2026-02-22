@@ -127,7 +127,7 @@ class ApontamentoView(ctk.CTkFrame):
         self.cargas_frame.grid(row=2, column=0, sticky="nsew")
 
         self.cargas_header = ctk.CTkFrame(self.cargas_frame, fg_color="transparent")
-        self.cargas_header.grid(row=0, column=0, sticky="ew")
+        self.cargas_header.grid(row=0, column=0, padx=(40, 0), sticky="ew")
 
         self.cargas_header.grid_columnconfigure(0, minsize=120)
         self.cargas_header.grid_columnconfigure(1, minsize=20)
@@ -136,15 +136,16 @@ class ApontamentoView(ctk.CTkFrame):
         self.cargas_header.grid_columnconfigure(4, minsize=120)
         self.cargas_header.grid_columnconfigure(5, minsize=120)
 
-        ctk.CTkLabel(self.cargas_header, text="Carga", font=FONTE_LABEL).grid(row=0, column=0, padx=(40, 0), pady=(25, 0))
-        ctk.CTkLabel(self.cargas_header, text="Hora Saída", font=FONTE_LABEL).grid(row=0, column=1, padx=(40, 0), pady=(25, 0))
-        ctk.CTkLabel(self.cargas_header, text="Hora Chegada", font=FONTE_LABEL).grid(row=0, column=2, padx=(40, 0), pady=(25, 0))
-        ctk.CTkLabel(self.cargas_header, text="KM Inicial", font=FONTE_LABEL).grid(row=0, column=3, padx=(30, 0), pady=(25, 0))
-        ctk.CTkLabel(self.cargas_header, text="KM Final", font=FONTE_LABEL).grid(row=0, column=4, padx=(40, 0), pady=(25, 0))
+        ctk.CTkLabel(self.cargas_header, text="Carga", font=FONTE_LABEL, text_color=COR_TEXTO).grid(row=0, column=0, padx=(40, 0), pady=(25, 0))
+        ctk.CTkLabel(self.cargas_header, text="Hora Saída", font=FONTE_LABEL, text_color=COR_TEXTO).grid(row=0, column=1, padx=(40, 0), pady=(25, 0))
+        ctk.CTkLabel(self.cargas_header, text="Hora Chegada", font=FONTE_LABEL, text_color=COR_TEXTO).grid(row=0, column=2, padx=(40, 0), pady=(25, 0))
+        ctk.CTkLabel(self.cargas_header, text="KM Inicial", font=FONTE_LABEL, text_color=COR_TEXTO).grid(row=0, column=3, padx=(30, 0), pady=(25, 0))
+        ctk.CTkLabel(self.cargas_header, text="KM Final", font=FONTE_LABEL, text_color=COR_TEXTO).grid(row=0, column=4, padx=(40, 0), pady=(25, 0))
 
         self.cargas_scroll = ctk.CTkScrollableFrame(
             self.cargas_frame,
-            height=350
+            fg_color=COR_FUNDO_CONTAINER_CARGAS,
+            height=320
         )
         self.cargas_scroll.grid_columnconfigure(0, minsize=120)
         self.cargas_scroll.grid_columnconfigure(1, minsize=20)
@@ -152,7 +153,7 @@ class ApontamentoView(ctk.CTkFrame):
         self.cargas_scroll.grid_columnconfigure(3, minsize=120)
         self.cargas_scroll.grid_columnconfigure(4, minsize=120)
         self.cargas_scroll.grid_columnconfigure(5, minsize=120)
-        self.cargas_scroll.grid(row=1, column=0, sticky="nsew")
+        self.cargas_scroll.grid(row=1, column=0, padx=(40, 290), sticky="nsew")
 
         self.cargas_frame.grid_rowconfigure(1, weight=1)
 
@@ -165,7 +166,7 @@ class ApontamentoView(ctk.CTkFrame):
         self.footer_frame.grid(row=3, column=0, sticky="we")
 
 
-        ctk.CTkFrame(self.footer_frame, height=2, fg_color=COR_LINHAS).grid(row=0, column=0, padx=(40, 290), pady=(10, 0), sticky="ew", columnspan=3)
+        ctk.CTkFrame(self.footer_frame, height=2, fg_color=COR_LINHAS).grid(row=0, column=0, padx=(40, 290), pady=(25, 0), sticky="ew", columnspan=3)
 
 
         self.botao_confirmar = ctk.CTkButton(
