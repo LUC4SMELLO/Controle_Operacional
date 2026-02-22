@@ -51,23 +51,48 @@ class CadastrarPendenciaView(ctk.CTkFrame):
 
         self.controller = controller
 
+        self.grid_rowconfigure(0, weight=1)
+        self.grid_columnconfigure(0, weight=1)
 
-        icone_lupa = ctk.CTkImage(
-            light_image=Image.open(ICONS_DIR / "lupa_dark.png"),
-            dark_image=Image.open(ICONS_DIR / "lupa_dark.png"),
-            size=(23, 23)
-        )
+        self.main_frame = ctk.CTkFrame(self, fg_color="transparent")
+        self.main_frame.grid_rowconfigure(0, weight=0)
+        self.main_frame.grid_rowconfigure(1, weight=0)
+        self.main_frame.grid_rowconfigure(2, weight=0)
+        self.main_frame.grid_columnconfigure(0, weight=1)
+        self.main_frame.grid(row=0, column=0, sticky="nsew")
 
-        ctk.CTkLabel(self, text="Pendência & Troca", font=FONTE_TITULO, text_color=COR_TEXTO).place(x=40, y=15)
+        self.header_frame = ctk.CTkFrame(self.main_frame, fg_color="transparent")
+        self.header_frame.grid_rowconfigure(0, weight=1)
+        self.header_frame.grid_rowconfigure(1, weight=1)
+        self.header_frame.grid_rowconfigure(2, weight=1)
+        self.header_frame.grid_columnconfigure(0, weight=1)
+        self.header_frame.grid_columnconfigure(1, weight=0)
+        self.header_frame.grid(row=0, column=0, sticky="ew")
 
-        ctk.CTkLabel(self, text="Cadastrar", font=FONTE_SUBTITULO, text_color=COR_TEXTO).place(x=40, y=65)
+        ctk.CTkLabel(self.header_frame, text="Pendência & Troca", font=FONTE_TITULO, text_color=COR_TEXTO).grid(row=0, column=0, padx=(40, 0), pady=(15, 0), sticky="w")
 
-        ctk.CTkFrame(self, width=650, height=2, fg_color=COR_LINHAS).place(x=40, y=105)
+        ctk.CTkLabel(self.header_frame, text="Cadastrar", font=FONTE_SUBTITULO, text_color=COR_TEXTO).grid(row=1, column=0, padx=(40, 0), pady=(20, 0), sticky="w")
 
-        ctk.CTkLabel(self, text="Data:", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=135, y=130)
+
+        ctk.CTkFrame(self.header_frame, height=2, fg_color=COR_LINHAS).grid(row=2, column=0, padx=(40, 290), pady=(15, 0), sticky="ew", columnspan=1)
+
+        self.cadastro_frame = ctk.CTkFrame(self.main_frame, fg_color="transparent")
+        self.cadastro_frame.grid_rowconfigure(1, weight=0)
+        self.cadastro_frame.grid_rowconfigure(1, weight=0)
+        self.cadastro_frame.grid_rowconfigure(2, weight=0)
+        self.cadastro_frame.grid_rowconfigure(3, weight=0)
+        self.cadastro_frame.grid_columnconfigure(0, weight=0)
+        self.cadastro_frame.grid_columnconfigure(1, weight=0)
+        self.cadastro_frame.grid_columnconfigure(2, weight=0)
+        self.cadastro_frame.grid_columnconfigure(3, weight=1)
+        self.cadastro_frame.grid_columnconfigure(4, weight=0)
+        self.cadastro_frame.grid(row=1, column=0, sticky="ew")
+
+
+        ctk.CTkLabel(self.cadastro_frame, text="Data:", font=FONTE_LABEL, text_color=COR_TEXTO).grid(row=0, column=0, padx=(40, 0), pady=(15, 0), sticky="e")
 
         self.entry_data = DateEntry(
-            self,
+            self.cadastro_frame,
             justify = "center", 
             font = FONTE_PEQUENA,
             background = BACKGROUND,
@@ -86,19 +111,25 @@ class CadastrarPendenciaView(ctk.CTkFrame):
             date_pattern = 'dd/mm/yyyy',
             width=16
             )
-        self.entry_data.place(x=184, y=130)
+        self.entry_data.grid(row=0, column=1, padx=(10, 0), pady=(15, 0), sticky="w", columnspan=2)
         
-        ctk.CTkLabel(self, text="Carga:", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=127, y=165)
-        self.entry_carga = ctk.CTkEntry(self, font=FONTE_TEXTO, width=100, height=30, corner_radius=2)
-        self.entry_carga.place(x=184, y=165)
+        ctk.CTkLabel(self.cadastro_frame, text="Carga:", font=FONTE_LABEL, text_color=COR_TEXTO).grid(row=1, column=0, padx=(40, 0), pady=(10, 0), sticky="e")
+        self.entry_carga = ctk.CTkEntry(self.cadastro_frame, font=FONTE_TEXTO, width=100, height=30, corner_radius=2)
+        self.entry_carga.grid(row=1, column=1, padx=(10, 0), pady=(10, 0), sticky="w")
 
 
-        ctk.CTkLabel(self, text="Código Cliente:", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=55, y=200)
-        self.entry_codigo_cliente = ctk.CTkEntry(self, font=FONTE_TEXTO, width=100, height=30, corner_radius=2)
-        self.entry_codigo_cliente.place(x=184, y=200)
+        ctk.CTkLabel(self.cadastro_frame, text="Código Cliente:", font=FONTE_LABEL, text_color=COR_TEXTO).grid(row=2, column=0, padx=(40, 0), pady=(10, 0), sticky="e")
+        self.entry_codigo_cliente = ctk.CTkEntry(self.cadastro_frame, font=FONTE_TEXTO, width=100, height=30, corner_radius=2)
+        self.entry_codigo_cliente.grid(row=2, column=1, padx=(10, 0), pady=(10, 0), sticky="w")
+
+        icone_lupa = ctk.CTkImage(
+            light_image=Image.open(ICONS_DIR / "lupa_dark.png"),
+            dark_image=Image.open(ICONS_DIR / "lupa_dark.png"),
+            size=(23, 23)
+        )
 
         self.botao_pesquisar_cliente = ctk.CTkButton(
-            self,
+            self.cadastro_frame,
             image=icone_lupa,
             text="",
             command=self.abrir_tela_pesquisa_cliente,
@@ -108,28 +139,30 @@ class CadastrarPendenciaView(ctk.CTkFrame):
             hover_color=HOVER_BOTAO,
             cursor="hand2",
         )
-        self.botao_pesquisar_cliente.place(x=295, y=200)
+        self.botao_pesquisar_cliente.grid(row=2, column=2, padx=(10, 0), pady=(10, 0), sticky="w")
 
-        self.label_razao_social = ctk.CTkLabel(self, text="", font=FONTE_TEXTO, text_color=COR_TEXTO)
-        self.label_razao_social.place(x=350, y=200)
+        self.label_razao_social = ctk.CTkLabel(self.cadastro_frame, text="", font=FONTE_TEXTO, text_color=COR_TEXTO)
+        self.label_razao_social.grid(row=2, column=3, padx=(25, 0), pady=(10, 0), sticky="w")
     
-        ctk.CTkLabel(self, text="Tipo:", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=138, y=235)
-        self.entry_tipo = ctk.CTkComboBox(self, font=FONTE_TEXTO, values=["Pendência", "Troca"], width=150, height=30, corner_radius=2)
+        ctk.CTkLabel(self.cadastro_frame, text="Tipo:", font=FONTE_LABEL, text_color=COR_TEXTO).grid(row=3, column=0, padx=(40, 0), pady=(10, 0), sticky="e")
+        self.entry_tipo = ctk.CTkComboBox(self.cadastro_frame, font=FONTE_TEXTO, values=["Pendência", "Troca"], width=150, height=30, corner_radius=2)
         self.entry_tipo.set("")
-        self.entry_tipo.place(x=184, y=235)
+        self.entry_tipo.grid(row=3, column=1, padx=(10, 0), pady=(10, 0), sticky="w", columnspan=2)
 
-        ctk.CTkLabel(self, text="Responsável:", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=77, y=270)
-        self.entry_responsavel = ctk.CTkEntry(self, font=FONTE_TEXTO, width=150, height=30, corner_radius=2)
-        self.entry_responsavel.place(x=184, y=270)
+        ctk.CTkLabel(self.cadastro_frame, text="Responsável:", font=FONTE_LABEL, text_color=COR_TEXTO).grid(row=4, column=0, padx=(40, 0), pady=(10, 0), sticky="e")
+        self.entry_responsavel = ctk.CTkEntry(self.cadastro_frame, font=FONTE_TEXTO, width=150, height=30, corner_radius=2)
+        self.entry_responsavel.grid(row=4, column=1, padx=(10, 0), pady=(10, 0), sticky="w", columnspan=2)
 
-        ctk.CTkFrame(self, width=650, height=2, fg_color=COR_LINHAS).place(x=40, y=325)
 
-        ctk.CTkLabel(self, text="Código Produto:", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=45, y=350)
-        self.entry_codigo_produto = ctk.CTkEntry(self, font=FONTE_TEXTO, width=100, height=30, corner_radius=2)
-        self.entry_codigo_produto.place(x=184, y=350)
+        ctk.CTkFrame(self.cadastro_frame, height=2, fg_color=COR_LINHAS).grid(row=5, column=0, padx=(40, 290), pady=(15, 0), sticky="ew", columnspan=5)
+
+
+        ctk.CTkLabel(self.cadastro_frame, text="Código Produto:", font=FONTE_LABEL, text_color=COR_TEXTO).grid(row=6, column=0, padx=(40, 0), pady=(15, 0), sticky="e")
+        self.entry_codigo_produto = ctk.CTkEntry(self.cadastro_frame, font=FONTE_TEXTO, width=100, height=30, corner_radius=2)
+        self.entry_codigo_produto.grid(row=6, column=1, padx=(10, 0), pady=(15, 0), sticky="w", columnspan=2)
 
         self.botao_pesquisar_produto = ctk.CTkButton(
-            self,
+            self.cadastro_frame,
             image=icone_lupa,
             text="",
             command=self.abrir_tela_pesquisa_produto,
@@ -139,19 +172,33 @@ class CadastrarPendenciaView(ctk.CTkFrame):
             hover_color=HOVER_BOTAO,
             cursor="hand2",
         )
-        self.botao_pesquisar_produto.place(x=295, y=350)
+        self.botao_pesquisar_produto.grid(row=6, column=2, padx=(10, 0), pady=(10, 0), sticky="w")
 
-        self.label_descricao_produto = ctk.CTkLabel(self, text="", font=FONTE_TEXTO, text_color=COR_TEXTO)
-        self.label_descricao_produto.place(x=350, y=350)
+        self.label_descricao_produto = ctk.CTkLabel(self.cadastro_frame, text="", font=FONTE_TEXTO, text_color=COR_TEXTO)
+        self.label_descricao_produto.grid(row=6, column=3, padx=(25, 0), pady=(10, 0), sticky="w")
 
-        ctk.CTkLabel(self, text="Quantidade:", font=FONTE_LABEL, text_color=COR_TEXTO).place(x=79, y=385)
-        self.entry_quantidade = ctk.CTkEntry(self, font=FONTE_TEXTO, width=100, height=30, corner_radius=2)
-        self.entry_quantidade.place(x=184, y=385)
+        ctk.CTkLabel(self.cadastro_frame, text="Quantidade:", font=FONTE_LABEL, text_color=COR_TEXTO).grid(row=7, column=0, padx=(40, 0), pady=(10, 0), sticky="e")
+        self.entry_quantidade = ctk.CTkEntry(self.cadastro_frame, font=FONTE_TEXTO, width=100, height=30, corner_radius=2)
+        self.entry_quantidade.grid(row=7, column=1, padx=(10, 0), pady=(10, 0), sticky="w")
 
-        ctk.CTkFrame(self, width=650, height=2, fg_color=COR_LINHAS).place(x=40, y=440)
+
+        ctk.CTkFrame(self.cadastro_frame, height=2, fg_color=COR_LINHAS).grid(row=8, column=0, padx=(40, 290), pady=(15, 0), sticky="ew", columnspan=5)
+
+
+        self.footer_frame = ctk.CTkFrame(self.main_frame, fg_color="transparent")
+        self.footer_frame.grid_columnconfigure(0, minsize=100)
+        self.footer_frame.grid_columnconfigure(1, minsize=100)
+        self.footer_frame.grid_columnconfigure(2, minsize=100)
+        self.footer_frame.grid_columnconfigure(3, minsize=100)
+        self.footer_frame.grid(
+            row=2,
+            column=0,
+            sticky="ew",
+            padx=(40, 290),
+        )
 
         self.botao_confirmar = ctk.CTkButton(
-            self,
+            self.footer_frame,
             text="Cadastrar",
             command=self.confirmar,
             font=FONTE_BOTAO_PRINCIPAL,
@@ -161,10 +208,10 @@ class CadastrarPendenciaView(ctk.CTkFrame):
             hover_color=HOVER_BOTAO,
             text_color= COR_TEXTO_BOTAO,
         )
-        self.botao_confirmar.place(x=350, y=465)
+        self.botao_confirmar.grid(row=0, column=2, padx=(10, 0), pady=(25, 0))
 
         self.botao_cancelar= ctk.CTkButton(
-            self,
+            self.footer_frame,
             text="Cancelar",
             font=FONTE_BOTAO_PRINCIPAL,
             command=self.controller.limpar_formulario,
@@ -174,7 +221,7 @@ class CadastrarPendenciaView(ctk.CTkFrame):
             hover_color=HOVER_BOTAO,
             text_color=COR_TEXTO_BOTAO,
         )
-        self.botao_cancelar.place(x=532, y=465)
+        self.botao_cancelar.grid(row=0, column=3, padx=(10, 0), pady=(25, 0))
 
     def confirmar(self):
         resultado = self.controller.confirmar_cadastro_pendencia()
