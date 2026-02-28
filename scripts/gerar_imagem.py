@@ -57,7 +57,7 @@ def gerar_imagem_escala(escala):
 
         # INDICADOR DE PÁGINA
         draw.text(
-            (80, 40),
+            (250, 40),
             f"PÁGINA {indice_pagina}/{len(paginas)}",
             fill="white",
             font=fonte_header
@@ -67,7 +67,7 @@ def gerar_imagem_escala(escala):
         y = 105
         colunas = [
             ("CARGA", 0, 150),
-            ("DATA/HORA", 150, 350),
+            ("DATA / HORA", 150, 350),
             ("MOTORISTA / AJUDANTE", 350, 830),
             ("LOCALIDADE DA ENTREGA", 830, 1330),
             ("OBSERVAÇÃO", 1330, 1600),
