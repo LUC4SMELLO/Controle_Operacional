@@ -16,7 +16,7 @@ class TelaPesquisarFuncionarioView(ctk.CTkToplevel):
         self.title("Pesquisar Funcionário")
         self.geometry("455x540+850+100")
         self.resizable(False, False)
-        #self.grab_set()
+        self.grab_set()
 
         self.funcionarios = listar_funcionarios_banco_dados() or []
 
