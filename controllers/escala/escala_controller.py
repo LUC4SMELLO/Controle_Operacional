@@ -265,7 +265,7 @@ class EscalaController:
         total_repetidos = 0
 
         for carga in dados:
-            funcionarios = [carga.get("motorista"), carga.get("ajudante_1"), carga.get("ajudante_2")]
+            funcionarios = [carga.get("codigo_motorista"), carga.get("codigo_ajudante_1"), carga.get("codigo_ajudante_2")]
             
             for codigo in funcionarios:
                 if codigo and str(codigo).strip():
