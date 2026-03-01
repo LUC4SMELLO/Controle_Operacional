@@ -41,6 +41,7 @@ class VisualizarEscalaController:
             }
 
         try:
+            self.limpar_imagens_escala()
             gerar_imagem_escala(resultado)
         except Exception as e:
             return {
@@ -59,6 +60,9 @@ class VisualizarEscalaController:
 
 
     def copiar_imagem_para_clipboard(self, caminho_imagem: Literal["pagina_1", "pagina_2"]):
+
+        if not all(imagens.exists() for imagens in CAMINHO_IMAGENS_ESCALA):
+            return
 
         # ABRE IMAGEM
         if caminho_imagem == "pagina_1":
