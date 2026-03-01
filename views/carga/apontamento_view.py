@@ -231,7 +231,13 @@ class ApontamentoView(ctk.CTkFrame):
     def buscar_carga(self):
         data = self.entry_data.get()
 
-        self.controller.buscar_cargas(data)
+        resultado = self.controller.buscar_cargas(data)
+        if resultado:
+            self.controller.limpar_cargas()
+            self.exibir_cargas(resultado)
+        else:
+            exibir_mensagem("Aviso", "Cargas não encontradas.", "warning")
+            return
 
     def confimar(self):
         resultado = self.controller.salvar_apontamento()

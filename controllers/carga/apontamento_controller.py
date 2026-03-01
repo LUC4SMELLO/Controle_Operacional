@@ -18,9 +18,12 @@ class ApontamentoController:
         except Exception:
             data = "."
 
-
         cargas = self.model.buscar_escalas_por_data(data)
-        self.view.exibir_cargas(cargas)
+
+        if cargas:
+            return cargas
+        else:
+            return False
 
     def limpar_cargas(self):
         for widget in self.view.cargas_scroll.grid_slaves():
