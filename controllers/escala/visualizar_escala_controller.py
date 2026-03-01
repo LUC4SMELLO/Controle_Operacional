@@ -41,7 +41,6 @@ class VisualizarEscalaController:
             }
 
         try:
-            self.limpar_imagens_escala()
             gerar_imagem_escala(resultado)
         except Exception as e:
             return {
