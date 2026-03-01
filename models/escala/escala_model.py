@@ -74,6 +74,7 @@ class EscalaModel:
                 f"""
                 INSERT INTO {TABELA_ESCALA_TEMPORARIAS} (
                     numero_carga,
+                    km,
                     horario,
                     codigo_motorista,
                     nome_motorista,
@@ -84,9 +85,10 @@ class EscalaModel:
                     rota,
                     observacao
                 )
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 ON CONFLICT(numero_carga)
                 DO UPDATE SET
+                    km          = excluded.km,
                     horario     = excluded.horario,
                     codigo_motorista   = excluded.codigo_motorista,
                     nome_motorista     = excluded.nome_motorista,
@@ -97,8 +99,9 @@ class EscalaModel:
                     rota        = excluded.rota,
                     observacao  = excluded.observacao
                 """,
-                    (
+                    (   
                         dados["numero_carga"],
+                        dados["km"],
                         dados["horario"],
                         dados["codigo_motorista"],
                         dados["nome_motorista"],
@@ -132,6 +135,7 @@ class EscalaModel:
                 f"""
                 SELECT
                     numero_carga,
+                    km,
                     horario,
                     codigo_motorista,
                     nome_motorista,

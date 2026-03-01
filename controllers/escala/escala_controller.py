@@ -7,6 +7,8 @@ from controllers.escala.escala_scroll_controller import EscalaScrollController
 from controllers.escala.escala_bind_controller import EscalaBindController
 from controllers.escala.escala_temporaria_controller import EscalaTemporariaController
 
+from services.veiculos_service import buscar_km_caminhao
+
 from views.escala.components.frame_carga import FrameCarga
 
 from views.dialogs.exibir_mensagem import exibir_mensagem
@@ -207,6 +209,12 @@ class EscalaController:
             
         frame.label_horario_saida.configure(text="erro")
 
+    def atualizar_km_caminhao(self, codigo_caminhao, frame):
+        km_caminhao = buscar_km_caminhao(codigo_caminhao)
+
+        frame.label_km_caminhao.configure(text=km_caminhao[0])
+        
+
 
     def atualizar_numero_total_cargas(self):
         quantidade_total = len(self.view.frames_cargas)
@@ -321,6 +329,7 @@ class EscalaController:
             frame.label_numero_carga.configure(text="")
 
         self.atualizar_horario_saida(frame.entry_rota.get(), frame)
+        self.atualizar_km_caminhao(resultado[4], frame)
 
         
     def calcular_numero_viagem_carga(self, codigo_motorista, frame_atual):

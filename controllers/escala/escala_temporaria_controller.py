@@ -15,6 +15,7 @@ class EscalaTemporariaController:
             return
 
         dados = {
+            "km": frame.label_km_caminhao.cget("text"),
             "numero_carga": frame.label_numero_carga.cget("text"),
             "horario": frame.label_horario_saida.cget("text"),
             "codigo_motorista": frame.entry_cod_motorista.get(),
@@ -61,6 +62,7 @@ class EscalaTemporariaController:
         self._carregando = True
 
         frame.label_numero_carga.configure(text=dados["numero_carga"])
+        frame.label_km_caminhao.configure(text=dados["km"])
         frame.label_horario_saida.configure(text=dados["horario"])
 
 

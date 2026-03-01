@@ -28,7 +28,7 @@ class FrameCarga(ctk.CTkFrame):
         self.label_cod_carga.grid(row=1, column=0, padx=(2, 5), pady=(0, 5))
 
         # KM DO CAMINHÃO
-        self.label_km_caminhao = ctk.CTkLabel(self, text="219.257", width=20, font=("Segoe UI", 14), text_color=COR_TEXTO_BOTAO)
+        self.label_km_caminhao = ctk.CTkLabel(self, text="", width=20, font=("Segoe UI", 14), text_color=COR_TEXTO_BOTAO)
         self.label_km_caminhao.grid(row=1, column=1)
 
         # NÚMERO DA CARGA

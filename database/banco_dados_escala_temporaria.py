@@ -16,6 +16,7 @@ def criar_tabela_escala_temporaria():
     f"""
     CREATE TABLE IF NOT EXISTS {TABELA_ESCALA_TEMPORARIAS} (
     numero_carga VARCHAR(8) PRIMARY KEY,
+    km VARCHAR(10),
     horario VARCHAR(6),
     codigo_motorista VARCHAR(6),
     nome_motorista VARCHAR(100),
