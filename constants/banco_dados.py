@@ -21,3 +21,6 @@ TABELA_ESCALA_TEMPORARIAS = "escala_temporarias"
 
 BANCO_DADOS_ESCALA = DATABASE_DIR / "escalas.db"
 TABELA_ESCALA = "escala"
+
+BANCO_DADOS_APONTAMENTOS = DATABASE_DIR / "apontamentos.db"
+TABELA_APONTAMENTOS = "apontamentos"
