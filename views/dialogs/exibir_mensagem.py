@@ -37,7 +37,7 @@ def exibir_mensagem(
         title=titulo,
         message=mensagem,
         icon=icone,
-        width=320,
+        width=350,
         height=50,
         font=FONTE_TEXTO,
         text_color=COR_TEXTO,
