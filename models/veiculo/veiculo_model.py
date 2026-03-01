@@ -18,13 +18,15 @@ class VeiculoModel:
                 INSERT INTO {TABELA_VEICULOS} (
                 codigo,
                 placa,
+                km,
                 codigo_motorista
                 )
-                VALUES (?, ?, ?)
+                VALUES (?, ?, ?, ?)
                 """,
                 (
                     dados["codigo"],
                     dados["placa"],
+                    dados["km"],
                     dados["codigo_motorista"]
                 )
             )
@@ -50,11 +52,13 @@ class VeiculoModel:
                 f"""
                 UPDATE {TABELA_VEICULOS}
                 SET placa = ?,
+                km = ?,
                 codigo_motorista = ?
                 WHERE codigo = ?
                 """, 
                     (   
                         dados["placa"],
+                        dados["km"],
                         dados["codigo_motorista"],
                         dados["codigo"],
                     )
@@ -106,6 +110,7 @@ class VeiculoModel:
                 SELECT
                 codigo,
                 placa,
+                km,
                 codigo_motorista
                 FROM {TABELA_VEICULOS}
                 WHERE codigo = ?

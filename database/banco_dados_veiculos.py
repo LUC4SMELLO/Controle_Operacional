@@ -17,6 +17,7 @@ def criar_tabela_veiculos():
     CREATE TABLE IF NOT EXISTS {TABELA_VEICULOS} (
     codigo INTEGER PRIMARY KEY,
     placa VARCHAR(10),
+    km VARCHAR(8),
     codigo_motorista VARCHAR(5)
     )
     """
