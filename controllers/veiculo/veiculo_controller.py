@@ -18,7 +18,8 @@ class VeiculoController:
 
             fluxo_entrys = [
                 (self.view.entry_codigo, self.view.entry_placa),
-                (self.view.entry_placa, self.view.entry_codigo_motorista),
+                (self.view.entry_placa, self.view.entry_km),
+                (self.view.entry_km, self.view.entry_codigo_motorista),
                 (self.view.entry_codigo_motorista, self.view.botao_confirmar),
             ]
         else:
@@ -27,7 +28,8 @@ class VeiculoController:
             fluxo_entrys = [
                 (self.view.entry_codigo, self.view.botao_buscar_veiculo),
                 (self.view.botao_buscar_veiculo, self.view.entry_placa),
-                (self.view.entry_placa, self.view.entry_codigo_motorista),
+                (self.view.entry_placa, self.view.entry_km),
+                (self.view.entry_km, self.view.entry_codigo_motorista),
                 (self.view.entry_codigo_motorista, self.view.botao_confirmar),
             ]
 
@@ -53,6 +55,7 @@ class VeiculoController:
         dados = {
             "codigo": self.view.entry_codigo.get().strip(),
             "placa": self.view.entry_placa.get().strip(),
+            "km": self.view.entry_km.get().strip(),
             "codigo_motorista": self.view.entry_codigo_motorista.get().strip()
         }
 
@@ -166,7 +169,8 @@ class VeiculoController:
 
         self.view.entry_codigo.insert(0, resultado[0])
         self.view.entry_placa.insert(0, resultado[1])
-        self.view.entry_codigo_motorista.insert(0, resultado[2])
+        self.view.entry_km.insert(0, resultado[2])
+        self.view.entry_codigo_motorista.insert(0, resultado[3])
 
         if tipo_view == "excluir":
             self.view.entry_codigo.configure(state="readonly")
@@ -185,7 +189,7 @@ class VeiculoController:
 
         campo_bloqueaveis = [
             self.view.entry_codigo, self.view.entry_placa,
-            self.view.entry_codigo_motorista
+            self.view.entry_km, self.view.entry_codigo_motorista
         ]
 
         for campo in campo_bloqueaveis:
@@ -195,6 +199,7 @@ class VeiculoController:
 
         self.view.entry_codigo.delete(0, ctk.END)
         self.view.entry_placa.delete(0, ctk.END)
+        self.view.entry_km.delete(0, ctk.END)
         self.view.entry_codigo_motorista.delete(0, ctk.END)
         
         

@@ -90,6 +90,7 @@ class EditarVeiculoView(ctk.CTkFrame):
         self.edicao_frame_2.grid_rowconfigure(0, weight=0)
         self.edicao_frame_2.grid_rowconfigure(1, weight=0)
         self.edicao_frame_2.grid_rowconfigure(2, weight=0)
+        self.edicao_frame_2.grid_rowconfigure(3, weight=0)
         self.edicao_frame_2.grid_columnconfigure(0, weight=0)
         self.edicao_frame_2.grid_columnconfigure(1, weight=0)
         self.edicao_frame_2.grid_columnconfigure(2, weight=1)
@@ -100,9 +101,13 @@ class EditarVeiculoView(ctk.CTkFrame):
         self.entry_placa = ctk.CTkEntry(self.edicao_frame_2, font=FONTE_TEXTO, text_color=COR_TEXTO, width=120, height=30, corner_radius=2)
         self.entry_placa.grid(row=0, column=1, padx=(10, 0), pady=(20, 0), sticky="w")
 
-        ctk.CTkLabel(self.edicao_frame_2, text="Código Motorista:", font=FONTE_LABEL, text_color=COR_TEXTO).grid(row=1, column=0, padx=(40, 0), pady=(5, 0), sticky="e")
+        ctk.CTkLabel(self.edicao_frame_2, text="Km:", font=FONTE_LABEL, text_color=COR_TEXTO).grid(row=1, column=0, padx=(40, 0), pady=(5, 0), sticky="e")
+        self.entry_km = ctk.CTkEntry(self.edicao_frame_2, font=FONTE_TEXTO, text_color=COR_TEXTO, width=120, height=30, corner_radius=2)
+        self.entry_km.grid(row=1, column=1, padx=(10, 0), pady=(5, 0), sticky="w")
+
+        ctk.CTkLabel(self.edicao_frame_2, text="Código Motorista:", font=FONTE_LABEL, text_color=COR_TEXTO).grid(row=2, column=0, padx=(40, 0), pady=(5, 0), sticky="e")
         self.entry_codigo_motorista = ctk.CTkEntry(self.edicao_frame_2, font=FONTE_TEXTO, text_color=COR_TEXTO, width=120, height=30, corner_radius=2)
-        self.entry_codigo_motorista.grid(row=1, column=1, padx=(10, 0), pady=(5, 0), sticky="w")
+        self.entry_codigo_motorista.grid(row=2, column=1, padx=(10, 0), pady=(5, 0), sticky="w")
 
         ctk.CTkFrame(self.edicao_frame_2, height=2, fg_color=COR_LINHAS).grid(row=6, column=0, padx=(40, 290), pady=(25, 0), sticky="ew", columnspan=4)
 

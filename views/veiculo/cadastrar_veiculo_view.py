@@ -58,7 +58,8 @@ class CadastrarVeiculoView(ctk.CTkFrame):
         self.cadastro_frame.grid_rowconfigure(0, weight=0)
         self.cadastro_frame.grid_rowconfigure(1, weight=0)
         self.cadastro_frame.grid_rowconfigure(2, weight=0)
-        self.cadastro_frame.grid_rowconfigure(3, weight=1)
+        self.cadastro_frame.grid_rowconfigure(3, weight=0)
+        self.cadastro_frame.grid_rowconfigure(4, weight=1)
         self.cadastro_frame.grid_columnconfigure(0, weight=0)
         self.cadastro_frame.grid_columnconfigure(1, weight=0)
         self.cadastro_frame.grid_columnconfigure(2, weight=1)
@@ -73,11 +74,15 @@ class CadastrarVeiculoView(ctk.CTkFrame):
         self.entry_placa = ctk.CTkEntry(self.cadastro_frame, font=FONTE_TEXTO, text_color=COR_TEXTO, width=120, height=30, corner_radius=2)
         self.entry_placa.grid(row=1, column=1, padx=(10, 0), pady=(5, 0), sticky="w")
 
-        ctk.CTkLabel(self.cadastro_frame, text="Código Motorista:", font=FONTE_LABEL, text_color=COR_TEXTO).grid(row=2, column=0, padx=(40, 0), pady=(5, 0), sticky="e")
-        self.entry_codigo_motorista = ctk.CTkEntry(self.cadastro_frame, font=FONTE_TEXTO, text_color=COR_TEXTO, width=120, height=30, corner_radius=2)
-        self.entry_codigo_motorista.grid(row=2, column=1, padx=(10, 0), pady=(5, 0), sticky="w")
+        ctk.CTkLabel(self.cadastro_frame, text="Km:", font=FONTE_LABEL, text_color=COR_TEXTO).grid(row=2, column=0, padx=(40, 0), pady=(5, 0), sticky="e")
+        self.entry_km = ctk.CTkEntry(self.cadastro_frame, font=FONTE_TEXTO, text_color=COR_TEXTO, width=120, height=30, corner_radius=2)
+        self.entry_km.grid(row=2, column=1, padx=(10, 0), pady=(5, 0), sticky="w")
 
-        ctk.CTkFrame(self.cadastro_frame, height=2, fg_color=COR_LINHAS).grid(row=3, column=0, padx=(40, 290), pady=(25, 0), sticky="ew", columnspan=4)
+        ctk.CTkLabel(self.cadastro_frame, text="Código Motorista:", font=FONTE_LABEL, text_color=COR_TEXTO).grid(row=3, column=0, padx=(40, 0), pady=(5, 0), sticky="e")
+        self.entry_codigo_motorista = ctk.CTkEntry(self.cadastro_frame, font=FONTE_TEXTO, text_color=COR_TEXTO, width=120, height=30, corner_radius=2)
+        self.entry_codigo_motorista.grid(row=3, column=1, padx=(10, 0), pady=(5, 0), sticky="w")
+
+        ctk.CTkFrame(self.cadastro_frame, height=2, fg_color=COR_LINHAS).grid(row=4, column=0, padx=(40, 290), pady=(25, 0), sticky="ew", columnspan=4)
 
         self.footer_frame = ctk.CTkFrame(self.main_frame, fg_color="transparent")
         self.footer_frame.grid_columnconfigure(0, minsize=100)
