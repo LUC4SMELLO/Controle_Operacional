@@ -47,6 +47,14 @@ class ApontamentoController:
         return dados
 
     def salvar_apontamento(self):
+        if not self.view.cargas_scroll.winfo_children():
+            return {
+                "sucesso": False,
+                "titulo": "Aviso",
+                "mensagem": "Não existem apontamentos para serem salvos.",
+                "icone": "warning"
+            }
+
         dados = self.coletar_dados()
 
         resultado = validar_apontamento(dados)
