@@ -172,6 +172,7 @@ class ApontamentoView(ctk.CTkFrame):
         self.botao_confirmar = ctk.CTkButton(
             self.footer_frame,
             text="Confirmar",
+            command=self.confimar,
             font=FONTE_BOTAO_PRINCIPAL,
             width=160,
             height=38,
@@ -232,16 +233,8 @@ class ApontamentoView(ctk.CTkFrame):
 
         self.controller.buscar_cargas(data)
 
-    def salvar(self):
-        for numero_carga, campos in self.linhas.items():
-            km_inicial = campos["km_inicial"].get()
-            hora_saida = campos["hora_saida"].get()
+    def confimar(self):
+        resultado = self.controller.salvar_apontamento()
 
-            if not km_inicial:
-                continue
-
-            self.controller.salvar_apontamento(
-                numero_carga,
-                km_inicial,
-                hora_saida
-            )
+        exibir_mensagem(resultado["titulo"], resultado["mensagem"], resultado["icone"])
+        return
