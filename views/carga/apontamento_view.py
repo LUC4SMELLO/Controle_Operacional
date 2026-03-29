@@ -13,7 +13,7 @@ from constants.textos import (
     FONTE_BOTAO_SECUNDARIO
 )
 
-from constants.cores import COR_LINHAS, COR_FUNDO_CONTAINER_CARGAS
+from constants.cores import COR_LINHAS, COR_FUNDO_CONTAINER_CARGAS, COR_FUNDO_FRAME_CARGAS
 
 from constants.cores import (
     COR_BOTAO,
@@ -147,15 +147,12 @@ class ApontamentoView(ctk.CTkFrame):
             fg_color=COR_FUNDO_CONTAINER_CARGAS,
             height=320
         )
-        self.cargas_scroll.grid_columnconfigure(0, minsize=120)
-        self.cargas_scroll.grid_columnconfigure(1, minsize=20)
-        self.cargas_scroll.grid_columnconfigure(2, minsize=120)
-        self.cargas_scroll.grid_columnconfigure(3, minsize=120)
-        self.cargas_scroll.grid_columnconfigure(4, minsize=120)
-        self.cargas_scroll.grid_columnconfigure(5, minsize=120)
+
+        self.cargas_scroll.grid_columnconfigure(0, weight=0)
+        self.cargas_scroll.grid_columnconfigure(1, weight=1)
+        self.cargas_scroll.grid_rowconfigure(0, weight=1)
         self.cargas_scroll.grid(row=1, column=0, padx=(40, 290), sticky="nsew")
 
-        self.cargas_frame.grid_rowconfigure(1, weight=1)
 
         self.footer_frame = ctk.CTkFrame(self.main_frame, height=100, fg_color="transparent")
         self.footer_frame.grid_rowconfigure(0, weight=0)
@@ -202,21 +199,32 @@ class ApontamentoView(ctk.CTkFrame):
         linha_grid = 1
         for carga in cargas:
 
-            label_carga = ctk.CTkLabel(self.cargas_scroll, text=carga["numero_carga"], font=("Segoe UI", 17), text_color=COR_TEXTO)
-            label_carga.grid(row=linha_grid, column=0, padx=(25, 0), pady=(10, 0))
 
-            entry_hora_saida = ctk.CTkEntry(self.cargas_scroll, font=FONTE_TEXTO, text_color=COR_TEXTO, width=50)
+
+            self.frame_cargas = ctk.CTkFrame(self.cargas_scroll, fg_color=COR_FUNDO_FRAME_CARGAS, height=45, border_width=0, corner_radius=0)
+            self.frame_cargas.grid_columnconfigure(0, minsize=120)
+            self.frame_cargas.grid_columnconfigure(1, minsize=20)
+            self.frame_cargas.grid_columnconfigure(2, minsize=120)
+            self.frame_cargas.grid_columnconfigure(3, minsize=120)
+            self.frame_cargas.grid_columnconfigure(4, minsize=120)
+            self.frame_cargas.grid_columnconfigure(5, minsize=120)
+            self.frame_cargas.grid(row=linha_grid, column=0, pady=(7, 0), sticky="we", columnspan=2)
+
+            label_carga = ctk.CTkLabel(self.frame_cargas, text=carga["numero_carga"], font=("Segoe UI", 17), text_color=COR_TEXTO)
+            label_carga.grid(row=0, column=0, padx=(25, 0), pady=(4, 4))
+
+            entry_hora_saida = ctk.CTkEntry(self.frame_cargas, font=FONTE_TEXTO, text_color=COR_TEXTO, width=50)
             entry_hora_saida.insert(0, carga["horario"])
-            entry_hora_saida.grid(row=linha_grid, column=2, pady=(10, 0))
+            entry_hora_saida.grid(row=0, column=2, pady=(4, 4))
 
-            entry_hora_chegada = ctk.CTkEntry(self.cargas_scroll, font=FONTE_TEXTO, text_color=COR_TEXTO, width=50)
-            entry_hora_chegada.grid(row=linha_grid, column=3, padx=(30, 0), pady=(10, 0))
+            entry_hora_chegada = ctk.CTkEntry(self.frame_cargas, font=FONTE_TEXTO, text_color=COR_TEXTO, width=50)
+            entry_hora_chegada.grid(row=0, column=3, padx=(30, 0), pady=(4, 4))
 
-            entry_km_inicial = ctk.CTkEntry(self.cargas_scroll, font=FONTE_TEXTO, text_color=COR_TEXTO, width=70)
-            entry_km_inicial.grid(row=linha_grid, column=4, padx=(55, 0), pady=(10, 0))
+            entry_km_inicial = ctk.CTkEntry(self.frame_cargas, font=FONTE_TEXTO, text_color=COR_TEXTO, width=70)
+            entry_km_inicial.grid(row=0, column=4, padx=(55, 0), pady=(4, 4))
 
-            entry_km_final = ctk.CTkEntry(self.cargas_scroll, font=FONTE_TEXTO, text_color=COR_TEXTO, width=70)
-            entry_km_final.grid(row=linha_grid, column=5, padx=(55, 0), pady=(10, 0))
+            entry_km_final = ctk.CTkEntry(self.frame_cargas, font=FONTE_TEXTO, text_color=COR_TEXTO, width=70)
+            entry_km_final.grid(row=0, column=5, padx=(55, 0), pady=(4, 4))
 
             # GUARDAR REFERÊNCIA
             self.linhas[carga["numero_carga"]] = {
