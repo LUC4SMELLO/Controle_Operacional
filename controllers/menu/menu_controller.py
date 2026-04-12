@@ -3,6 +3,7 @@ import os
 
 from views.escala.editar_escala_view import EditarEscalaView
 from views.escala.visualizar_escala_view import VisualizarEscalaView
+from views.carga.carregamento_troca_view import CarregamentoTrocaView
 from views.carga.apontamento_view import ApontamentoView
 from views.pendencia.cadastrar_pendencia_view import CadastrarPendenciaView
 from views.pendencia.editar_pendencia_view import EditarPendenciaView
@@ -18,6 +19,7 @@ from views.veiculo.excluir_veiculo_view import ExcluirVeiculoView
 
 from controllers.escala.escala_controller import EscalaController
 from controllers.escala.visualizar_escala_controller import VisualizarEscalaController
+from controllers.carga.carregamento_troca_controller import CarregamentoTrocaController
 from controllers.carga.apontamento_controller import ApontamentoController
 from controllers.pendencia.pendencia_controller import PendenciaController
 from controllers.relatorio.relatorio_controller import RelatorioController
@@ -25,6 +27,7 @@ from controllers.funcionario.funcionario_controller import FuncionarioController
 from controllers.veiculo.veiculo_controller import VeiculoController
 
 from models.escala.escala_model import EscalaModel
+from models.carga.carregamento_troca_model import CarregamentoTrocaModel
 from models.carga.apontamento_model import ApontamentoModel
 from models.pendencia.pendencia_model import PendenciaModel
 from models.relatorio.relatorio_model import RelatorioModel
@@ -106,6 +109,19 @@ class MenuController:
         controller.set_view(tela_visualizar_escala)
 
         self.definir_tela_atual(tela_visualizar_escala)
+
+    def mostrar_tela_carregamento_troca(self):
+
+        model = CarregamentoTrocaModel()
+
+        controller = CarregamentoTrocaController(model)
+
+        tela_carregamento_troca = CarregamentoTrocaView(self.janela, controller)
+
+        controller.set_view(tela_carregamento_troca)
+
+        self.definir_tela_atual(tela_carregamento_troca)
+    
 
     def mostrar_tela_apontamento(self):
 
