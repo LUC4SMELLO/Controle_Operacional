@@ -25,7 +25,21 @@ class PendenciaController:
                 (self.view.entry_codigo_produto, self.view.entry_quantidade),
                 (self.view.entry_quantidade, self.view.botao_confirmar)
             ]
-        else:
+        if view == "editar":
+            self.view.entry_cupom.focus_set()
+
+            fluxo_entrys = [
+                (self.view.entry_cupom, self.view.botao_buscar_cupom),
+                (self.view.botao_buscar_cupom, self.view.entry_carga),
+                (self.view.entry_carga, self.view.entry_codigo_cliente),
+                (self.view.entry_codigo_cliente, self.view.entry_tipo),
+                (self.view.entry_tipo, self.view.entry_responsavel),
+                (self.view.entry_responsavel, self.view.entry_situacao),
+                (self.view.entry_situacao, self.view.entry_codigo_produto),
+                (self.view.entry_codigo_produto, self.view.entry_quantidade),
+                (self.view.entry_quantidade, self.view.botao_confirmar)
+            ]
+        if view == "excluir":
             self.view.entry_cupom.focus_set()
 
             fluxo_entrys = [
@@ -266,10 +280,14 @@ class PendenciaController:
 
         self.limpar_formulario()
 
+        
+
         objeto_data = datetime.strptime(resultado[1], "%Y-%m-%d")
         data_formatada = datetime.strftime(objeto_data, "%d/%m/%Y")
 
         self.view.entry_cupom.insert(0, resultado[0])
+        self.view.entry_cupom.configure(state="readonly")
+
         self.view.entry_data.set_date(data_formatada)
         self.view.entry_carga.insert(0, resultado[2])
         self.view.entry_codigo_cliente.insert(0, resultado[3])
@@ -281,20 +299,24 @@ class PendenciaController:
 
         self.view.entry_tipo.set(resultado[5])
         self.view.entry_responsavel.insert(0, resultado[6])
-        self.view.entry_codigo_produto.insert(0, resultado[7])
+        self.view.entry_situacao.set(resultado[7])
+        self.view.entry_codigo_produto.insert(0, resultado[8])
 
-        if not resultado[8]:
+        if not resultado[9]:
             self.view.label_descricao_produto.configure(text="Produto não encontrado.")
         else:
-            self.view.label_descricao_produto.configure(text=resultado[8])
+            self.view.label_descricao_produto.configure(text=resultado[9])
             
-        self.view.entry_quantidade.insert(0, resultado[9])
+        self.view.entry_quantidade.insert(0, resultado[10])
 
         if tipo_view == "excluir":
+            self.view.entry_cupom.configure(state="readonly")
+            self.view.entry_data.configure(state="readonly")
             self.view.entry_carga.configure(state="readonly")
             self.view.entry_codigo_cliente.configure(state="readonly")
             self.view.entry_tipo.configure(state="readonly")
             self.view.entry_responsavel.configure(state="readonly")
+            self.view.entry_situacao.configure(state="readonly")
             self.view.entry_codigo_produto.configure(state="readonly")
             self.view.entry_quantidade.configure(state="readonly")
 
@@ -307,32 +329,42 @@ class PendenciaController:
 
 
     def limpar_formulario(self):
-        campos_bloqueáveis = [
-            self.view.entry_carga, self.view.entry_codigo_cliente,
-            self.view.entry_tipo, self.view.entry_responsavel,
-            self.view.entry_codigo_produto, self.view.entry_quantidade
+        nomes_campos = [
+            "entry_cupom", "entry_data", "entry_carga", "entry_codigo_cliente",
+            "entry_tipo", "entry_responsavel", "entry_situacao",
+            "entry_codigo_produto", "entry_quantidade"
         ]
 
-        for campo in campos_bloqueáveis:
-            campo.configure(state="normal")
-
-        data_atual = datetime.today()
-        data_formatada = data_atual.strftime('%d/%m/%Y')
+        for nome in nomes_campos:
+            # Tenta pegar o atributo da view com segurança
+            campo = getattr(self.view, nome, None)
+            
+            if campo is not None:
+                try:
+                    campo.configure(state="normal")
+                    # Se for um campo de entrada comum, já aproveita para limpar
+                    if hasattr(campo, 'delete'):
+                        campo.delete(0, 'end')
+                    # Se for um CTkOptionMenu ou similar
+                    elif hasattr(campo, 'set'):
+                        campo.set("")
+                except Exception:
+                    pass
 
         try:
-            self.view.entry_cupom.focus_set()
-            self.view.entry_cupom.delete(0, ctk.END)
+            if hasattr(self.view, 'entry_cupom'):
+                self.view.entry_cupom.focus_set()
+            else:
+                self.view.entry_carga.focus_set()
+                
+            data_atual = datetime.today().strftime('%d/%m/%Y')
+            if hasattr(self.view, 'entry_data'):
+                self.view.entry_data.set_date(data_atual)
+                
+            # Limpar labels que não estão na lista de campos de entrada
+            if hasattr(self.view, 'label_razao_social'):
+                self.view.label_razao_social.configure(text="")
+            if hasattr(self.view, 'label_descricao_produto'):
+                self.view.label_descricao_produto.configure(text="")
         except Exception:
-            self.view.entry_carga.focus_set()
-
-        finally:
-
-            self.view.entry_data.set_date(data_formatada)
-            self.view.entry_carga.delete(0, ctk.END)
-            self.view.entry_codigo_cliente.delete(0, ctk.END)
-            self.view.label_razao_social.configure(text="")
-            self.view.entry_tipo.set("")
-            self.view.entry_responsavel.delete(0, ctk.END)
-            self.view.entry_codigo_produto.delete(0, ctk.END)
-            self.view.label_descricao_produto.configure(text="")
-            self.view.entry_quantidade.delete(0, ctk.END)
+            pass
