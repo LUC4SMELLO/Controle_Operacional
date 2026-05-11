@@ -50,7 +50,9 @@ class RelatorioModel:
             pen.responsavel,
             pen.codigo_produto,
             pro.descricao,
-            pen.quantidade
+            pen.quantidade,
+            pen.situacao,
+            pen.carga_entregue
             FROM {TABELA_PENDENCIAS} AS pen
             LEFT JOIN clientes.{TABELA_CLIENTES} AS cli ON pen.codigo_cliente = cli.codigo
             LEFT JOIN produtos.{TABELA_PRODUTOS} AS pro ON pen.codigo_produto = pro.codigo
