@@ -116,6 +116,7 @@ class PendenciaModel:
             cli.razao_social,
             pen.tipo,
             pen.responsavel,
+            pen.situacao,
             pen.codigo_produto,
             pro.descricao,
             pen.quantidade
