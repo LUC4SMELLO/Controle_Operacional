@@ -22,7 +22,9 @@ def criar_tabela_pendencias():
     tipo VARCHAR(10),
     responsavel VARCHAR(50),
     codigo_produto VARCHAR(10),
-    quantidade VARCHAR(10)
+    quantidade VARCHAR(10),
+    situacao VARCHAR(50),
+    carga_entregue VARHCAR(8)
     )
     """
     )

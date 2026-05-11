@@ -26,9 +26,11 @@ class PendenciaModel:
             tipo,
             responsavel,
             codigo_produto,
-            quantidade
+            quantidade,
+            situacao,
+            carga_entregue
             )
-            VALUES (?, ?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
                 (
                     dados["data"],
@@ -37,7 +39,9 @@ class PendenciaModel:
                     dados["tipo"],
                     dados["responsavel"],
                     dados["codigo_produto"],
-                    dados["quantidade"]
+                    dados["quantidade"],
+                    "Pendente",
+                    "",
                 )
             )
         
