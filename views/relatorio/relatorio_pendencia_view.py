@@ -218,7 +218,7 @@ class RelatorioPendenciaView(ctk.CTkFrame):
         self.entry_situacao.grid(row=0, column=5, padx=(10, 0), pady=(15, 0))
 
         ctk.CTkLabel(self.filterbar_frame_2, text="Carga Entregue:", font=FONTE_LABEL, text_color=COR_TEXTO).grid(row=0, column=6, padx=(10, 0), pady=(15, 0))
-        self.entry_carga_entregue = ctk.CTkEntry(self.filterbar_frame_2, font=FONTE_TEXTO, width=65, height=30, corner_radius=2)
+        self.entry_carga_entregue = ctk.CTkEntry(self.filterbar_frame_2, font=FONTE_TEXTO, width=70, height=30, corner_radius=2)
         self.entry_carga_entregue.grid(row=0, column=7, padx=(10, 0), pady=(15, 0))
 
 

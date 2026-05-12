@@ -23,7 +23,9 @@ class RelatorioModel:
             carga="",
             codigo_cliente="",
             tipo="",
-            codigo_produto=""
+            codigo_produto="",
+            situacao="",
+            carga_entregue=""
         ):
         
         """FAZ UMA CONSULTA SQL COM BASE NOS FILTROS"""
@@ -96,6 +98,16 @@ class RelatorioModel:
             if codigo_produto:
                 consulta_sql += " AND pen.codigo_produto LIKE ?"
                 parametros.append(codigo_produto + "%")
+
+            if situacao not in ["Pendente", "Entregue"]:
+                situacao = ""
+            if situacao:
+                consulta_sql += " AND pen.situacao LIKE ?"
+                parametros.append(situacao + "%")
+
+            if carga_entregue:
+                consulta_sql += " AND pen.carga_entregue LIKE ?"
+                parametros.append(carga_entregue + "%")
 
 
             cursor.execute(consulta_sql, parametros)

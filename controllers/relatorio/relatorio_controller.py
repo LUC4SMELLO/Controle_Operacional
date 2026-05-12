@@ -24,6 +24,8 @@ class RelatorioController:
             self.view.entry_codigo_cliente.get(),
             self.view.entry_tipo.get(),
             self.view.entry_codigo_produto.get(),
+            self.view.entry_situacao.get(),
+            self.view.entry_carga_entregue.get()
         )
 
         if not resultado:
@@ -75,6 +77,8 @@ class RelatorioController:
         self.view.entry_codigo_cliente.delete(0, ctk.END)
         self.view.entry_tipo.set("Ambos")
         self.view.entry_codigo_produto.delete(0, ctk.END)
+        self.view.entry_situacao.set("Ambos")
+        self.view.entry_carga_entregue.delete(0, ctk.END)
 
         self.atualizar_numero_total_itens()
 
