@@ -144,8 +144,11 @@ class CarregamentoTrocaView(ctk.CTkFrame):
 
 
             razao = pendencia["razao_social"]
-            if len(razao) > 30:
-                razao = razao[:27] + "..."
+            try:
+                if len(razao) > 30:
+                    razao = razao[:27] + "..."
+            except Exception:
+                razao = ""
             
             label_razao_social = ctk.CTkLabel(self.frame_pendencia, text=razao, font=FONTE_TEXTO, text_color=COR_TEXTO)
             label_razao_social.grid(row=0, column=3, padx=(10, 0), pady=(0, 0), sticky="ew")
