@@ -35,7 +35,8 @@ class PendenciaController:
                 (self.view.entry_codigo_cliente, self.view.entry_tipo),
                 (self.view.entry_tipo, self.view.entry_responsavel),
                 (self.view.entry_responsavel, self.view.entry_situacao),
-                (self.view.entry_situacao, self.view.entry_codigo_produto),
+                (self.view.entry_situacao, self.view.entry_carga_entregue),
+                (self.view.entry_carga_entregue, self.view.entry_codigo_produto),
                 (self.view.entry_codigo_produto, self.view.entry_quantidade),
                 (self.view.entry_quantidade, self.view.botao_confirmar)
             ]
@@ -48,7 +49,9 @@ class PendenciaController:
                 (self.view.entry_carga, self.view.entry_codigo_cliente),
                 (self.view.entry_codigo_cliente, self.view.entry_tipo),
                 (self.view.entry_tipo, self.view.entry_responsavel),
-                (self.view.entry_responsavel, self.view.entry_codigo_produto),
+                (self.view.entry_responsavel, self.view.entry_situacao),
+                (self.view.entry_situacao, self.view.entry_carga_entregue),
+                (self.view.entry_carga_entregue, self.view.entry_codigo_produto),
                 (self.view.entry_codigo_produto, self.view.entry_quantidade),
                 (self.view.entry_quantidade, self.view.botao_confirmar)
             ]
@@ -107,7 +110,7 @@ class PendenciaController:
 
         resultado = self.model.buscar_cliente(codigo_cliente)
         if not resultado:
-            self.view.label_razao_social.configure(text="Cliente não encontrado.")
+            self.view.label_razao_social.configure(text="CLIENTE NÃO ENCONTRADO")
             return
 
         self.view.label_razao_social.configure(text=resultado[0])
@@ -117,7 +120,7 @@ class PendenciaController:
 
         resultado = self.model.buscar_produto(codigo_produto)
         if not resultado:
-            self.view.label_descricao_produto.configure(text="Produto não encontrado.")
+            self.view.label_descricao_produto.configure(text="PRODUTO NÃO ENCONTRADO")
             return
 
         self.view.label_descricao_produto.configure(text=resultado[0])
@@ -293,21 +296,22 @@ class PendenciaController:
         self.view.entry_codigo_cliente.insert(0, resultado[3])
 
         if not resultado[4]:
-            self.view.label_razao_social.configure(text="Cliente não encontrado.")
+            self.view.label_razao_social.configure(text="CLIENTE NÃO ENCONTRADO")
         else:
             self.view.label_razao_social.configure(text=resultado[4])
 
         self.view.entry_tipo.set(resultado[5])
         self.view.entry_responsavel.insert(0, resultado[6])
         self.view.entry_situacao.set(resultado[7])
-        self.view.entry_codigo_produto.insert(0, resultado[8])
+        self.view.entry_carga_entregue.insert(0, resultado[8])
+        self.view.entry_codigo_produto.insert(0, resultado[9])
 
         if not resultado[9]:
-            self.view.label_descricao_produto.configure(text="Produto não encontrado.")
+            self.view.label_descricao_produto.configure(text="PRODUTO NÃO ENCONTRADO")
         else:
-            self.view.label_descricao_produto.configure(text=resultado[9])
+            self.view.label_descricao_produto.configure(text=resultado[10])
             
-        self.view.entry_quantidade.insert(0, resultado[10])
+        self.view.entry_quantidade.insert(0, resultado[11])
 
         if tipo_view == "excluir":
             self.view.entry_cupom.configure(state="readonly")
@@ -317,6 +321,7 @@ class PendenciaController:
             self.view.entry_tipo.configure(state="readonly")
             self.view.entry_responsavel.configure(state="readonly")
             self.view.entry_situacao.configure(state="readonly")
+            self.view.entry_carga_entregue.configure(state="readonly")
             self.view.entry_codigo_produto.configure(state="readonly")
             self.view.entry_quantidade.configure(state="readonly")
 
@@ -331,7 +336,7 @@ class PendenciaController:
     def limpar_formulario(self):
         nomes_campos = [
             "entry_cupom", "entry_data", "entry_carga", "entry_codigo_cliente",
-            "entry_tipo", "entry_responsavel", "entry_situacao",
+            "entry_tipo", "entry_responsavel", "entry_situacao", "entry_carga_entregue",
             "entry_codigo_produto", "entry_quantidade"
         ]
 
