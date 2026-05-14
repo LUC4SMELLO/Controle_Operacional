@@ -117,6 +117,7 @@ class PendenciaModel:
             pen.tipo,
             pen.responsavel,
             pen.situacao,
+            pen.carga_entregue,
             pen.codigo_produto,
             pro.descricao,
             pen.quantidade

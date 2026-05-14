@@ -168,11 +168,15 @@ class ExcluirPendenciaView(ctk.CTkFrame):
         self.entry_situacao.set("")
         self.entry_situacao.grid(row=7, column=1, padx=(10, 0), pady=(10, 0), sticky="w", columnspan=2)
 
-        ctk.CTkFrame(self.edicao_frame, height=2, fg_color=COR_LINHAS).grid(row=8, column=0, padx=(40, 290), pady=(15, 0), sticky="ew", columnspan=5)
+        ctk.CTkLabel(self.edicao_frame, text="Carga Entregue:", font=FONTE_LABEL, text_color=COR_TEXTO).grid(row=8, column=0, padx=(40, 0), pady=(10, 0), sticky="e")
+        self.entry_carga_entregue = ctk.CTkEntry(self.edicao_frame, font=FONTE_TEXTO, width=150, height=30, corner_radius=2)
+        self.entry_carga_entregue.grid(row=8, column=1, padx=(10, 0), pady=(10, 0), sticky="w", columnspan=2)
 
-        ctk.CTkLabel(self.edicao_frame, text="Código Produto:", font=FONTE_LABEL, text_color=COR_TEXTO).grid(row=9, column=0, padx=(40, 0), pady=(15, 0), sticky="e")
+        ctk.CTkFrame(self.edicao_frame, height=2, fg_color=COR_LINHAS).grid(row=9, column=0, padx=(40, 290), pady=(15, 0), sticky="ew", columnspan=5)
+
+        ctk.CTkLabel(self.edicao_frame, text="Código Produto:", font=FONTE_LABEL, text_color=COR_TEXTO).grid(row=10, column=0, padx=(40, 0), pady=(15, 0), sticky="e")
         self.entry_codigo_produto = ctk.CTkEntry(self.edicao_frame, font=FONTE_TEXTO, width=100, height=30, corner_radius=2)
-        self.entry_codigo_produto.grid(row=9, column=1, padx=(10, 0), pady=(15, 0), sticky="w")
+        self.entry_codigo_produto.grid(row=10, column=1, padx=(10, 0), pady=(15, 0), sticky="w")
 
         self.botao_pesquisar_produto = ctk.CTkButton(
             self.edicao_frame,
@@ -185,16 +189,16 @@ class ExcluirPendenciaView(ctk.CTkFrame):
             hover_color=HOVER_BOTAO,
             cursor="hand2",
         )
-        self.botao_pesquisar_produto.grid(row=9, column=2, padx=(10, 0), pady=(15, 0), sticky="w")
+        self.botao_pesquisar_produto.grid(row=10, column=2, padx=(10, 0), pady=(15, 0), sticky="w")
 
         self.label_descricao_produto = ctk.CTkLabel(self.edicao_frame, text="", font=FONTE_TEXTO, text_color=COR_TEXTO)
-        self.label_descricao_produto.grid(row=9, column=3, padx=(25, 0), pady=(15, 0), sticky="w")
+        self.label_descricao_produto.grid(row=10, column=3, padx=(25, 0), pady=(15, 0), sticky="w")
 
-        ctk.CTkLabel(self.edicao_frame, text="Quantidade:", font=FONTE_LABEL, text_color=COR_TEXTO).grid(row=10, column=0, padx=(40, 0), pady=(10, 0), sticky="e")
+        ctk.CTkLabel(self.edicao_frame, text="Quantidade:", font=FONTE_LABEL, text_color=COR_TEXTO).grid(row=11, column=0, padx=(40, 0), pady=(10, 0), sticky="e")
         self.entry_quantidade = ctk.CTkEntry(self.edicao_frame, font=FONTE_TEXTO, width=100, height=30, corner_radius=2)
-        self.entry_quantidade.grid(row=10, column=1, padx=(10, 0), pady=(10, 0))
+        self.entry_quantidade.grid(row=11, column=1, padx=(10, 0), pady=(10, 0))
 
-        ctk.CTkFrame(self.edicao_frame, height=2, fg_color=COR_LINHAS).grid(row=11, column=0, padx=(40, 290), pady=(15, 0), sticky="ew", columnspan=5)
+        ctk.CTkFrame(self.edicao_frame, height=2, fg_color=COR_LINHAS).grid(row=12, column=0, padx=(40, 290), pady=(15, 0), sticky="ew", columnspan=5)
 
         self.footer_frame = ctk.CTkFrame(self.main_frame, fg_color="transparent")
         self.footer_frame.grid_columnconfigure(0, minsize=100)
