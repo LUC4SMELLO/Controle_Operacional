@@ -5,6 +5,8 @@ from PIL import Image
 
 from constants.paths import ICONS_DIR
 
+from views.dialogs.exibir_mensagem import exibir_mensagem
+
 from constants.textos import (
     FONTE_TITULO,
     FONTE_SUBTITULO,
@@ -23,6 +25,8 @@ from constants.cores import (
     COR_TEXTO,
     COR_TEXTO_BOTAO,
     COR_LINHAS,
+    COR_FUNDO_CONTAINER_CARGAS,
+    COR_FUNDO_FRAME_CARGAS,
     COR_BACKGROUND_HEADING_TREE,
     COR_FOREGROUND_HEADING_TREE,
     COR_BACKGROUND_HEADING_HOVER_TREE,
@@ -45,6 +49,9 @@ class CarregamentoTrocaView(ctk.CTkFrame):
         super().__init__(master)
 
         self.controller = controller
+
+        self.entradas_carga = []
+        self.linhas = {}
 
         self.grid_rowconfigure(0, weight=1)
         self.grid_columnconfigure(0, weight=1)
@@ -71,130 +78,105 @@ class CarregamentoTrocaView(ctk.CTkFrame):
 
         ctk.CTkFrame(self.header_frame, height=2, fg_color=COR_LINHAS).grid(row=2, column=0, padx=(40, 290), pady=(15, 0), sticky="ew", columnspan=1)
 
+        self.pendencias_frame = ctk.CTkFrame(self.main_frame, fg_color="transparent")
+        self.pendencias_frame.grid_columnconfigure(0, weight=1)
+        self.pendencias_frame.grid(row=1, column=0, sticky="nsew")
 
-        self.toolbar_frame_1 = ctk.CTkFrame(self.main_frame, height=40, fg_color="transparent")
-        self.toolbar_frame_1.grid_rowconfigure(0, weight=0)
-        self.toolbar_frame_1.grid_columnconfigure(0, weight=0)
-        self.toolbar_frame_1.grid_columnconfigure(1, weight=0)
-        self.toolbar_frame_1.grid_columnconfigure(2, weight=1)
-        self.toolbar_frame_1.grid_columnconfigure(3, weight=0)
-        self.toolbar_frame_1.grid(row=1, column=0, sticky="ew")
+        self.pendencias_header = ctk.CTkFrame(self.pendencias_frame, fg_color="transparent")
+        self.pendencias_header.grid(row=0, column=0, padx=(40, 290), sticky="ew")
 
-        ctk.CTkLabel(self.toolbar_frame_1, text="Última Atualização Arquivo:", font=FONTE_LABEL, text_color=COR_TEXTO).grid(row=0, column=0, padx=(40, 0), pady=(15, 0), sticky="e")
-        label_ultima_atualizacao = ctk.CTkLabel(self.toolbar_frame_1, text="11/04/2026 - 19:30", font=("Segoe UI", 16), text_color=COR_TEXTO)
-        label_ultima_atualizacao.grid(row=0, column=1, padx=(10, 0), pady=(15, 0), sticky="w")
+        self.pendencias_header.grid_columnconfigure(0, minsize=100) # Cupom
+        self.pendencias_header.grid_columnconfigure(1, minsize=20)
+        self.pendencias_header.grid_columnconfigure(2, minsize=100) # Código Cliente
+        self.pendencias_header.grid_columnconfigure(3, minsize=250) # Razão Social (Maior)
+        self.pendencias_header.grid_columnconfigure(4, minsize=20)
+        self.pendencias_header.grid_columnconfigure(5, minsize=120) # Código Produto
+        self.pendencias_header.grid_columnconfigure(6, minsize=100) # Quantidade
+        self.pendencias_header.grid_columnconfigure(7, minsize=100) # Carga
 
-        icone_atualizar_arquivo = ctk.CTkImage(
-            light_image=Image.open(ICONS_DIR / "reiniciar_dark.png"),
-            dark_image=Image.open(ICONS_DIR / "reiniciar_dark.png"),
-            size=(23, 23)
+        ctk.CTkLabel(self.pendencias_header, text="Cupom", font=FONTE_LABEL, anchor="w").grid(row=0, column=0, padx=(25, 0), pady=(25, 0), sticky="ew")
+        ctk.CTkLabel(self.pendencias_header, text="Código Cliente", font=FONTE_LABEL, anchor="w").grid(row=0, column=2, padx=(10, 0), pady=(25, 0), sticky="ew")
+        ctk.CTkLabel(self.pendencias_header, text="Razão Social", font=FONTE_LABEL, anchor="w").grid(row=0, column=3, padx=(75, 0), pady=(25, 0), sticky="ew")
+        ctk.CTkLabel(self.pendencias_header, text="Código Produto", font=FONTE_LABEL, anchor="w").grid(row=0, column=5, padx=(20, 0), pady=(25, 0), sticky="ew")
+        ctk.CTkLabel(self.pendencias_header, text="Quantidade", font=FONTE_LABEL, anchor="w").grid(row=0, column=6, padx=(30, 0), pady=(25, 0), sticky="ew")
+        ctk.CTkLabel(self.pendencias_header, text="Carga", font=FONTE_LABEL, anchor="w").grid(row=0, column=7, padx=(30, 0), pady=(25, 0), sticky="ew")
+
+        self.pendencias_scroll = ctk.CTkScrollableFrame(
+            self.pendencias_frame,
+            fg_color=COR_FUNDO_CONTAINER_CARGAS,
+            height=320
         )
+        self.pendencias_scroll._scrollbar.grid_remove()
 
-        self.botao_atualizar_arquivo = ctk.CTkButton(
-            self.toolbar_frame_1,
-            image=icone_atualizar_arquivo,
-            text="",
-            width=20,
-            height=20,
-            fg_color=COR_BOTAO,
-            hover_color=HOVER_BOTAO,
-            cursor="hand2",
-        )
-        self.botao_atualizar_arquivo.grid(row=0, column=3, padx=(0, 290), pady=(15, 0), sticky="e")
+        self.pendencias_scroll.grid_columnconfigure(0, weight=0)
+        self.pendencias_scroll.grid_columnconfigure(1, weight=1)
+        self.pendencias_scroll.grid_rowconfigure(0, weight=1)
+        self.pendencias_scroll.grid(row=1, column=0, padx=(40, 290), sticky="nsew")
 
-        ctk.CTkFrame(self.toolbar_frame_1, height=2, fg_color=COR_LINHAS).grid(row=1, column=0, padx=(40, 290), pady=(15, 0), sticky="ew", columnspan=5)
+        ctk.CTkFrame(self.pendencias_frame, height=2, fg_color=COR_LINHAS).grid(row=2, column=0, padx=(40, 290), pady=(30, 0), sticky="ew", columnspan=1)
+
+        self.after(500, self.buscar_pendencias)
 
 
-        self.container_treeview = ctk.CTkFrame(self.main_frame, height=400, fg_color="transparent")
-        self.container_treeview.grid_rowconfigure(0, weight=1)
-        self.container_treeview.grid_rowconfigure(1, weight=0)
-        self.container_treeview.grid_columnconfigure(0, weight=1)
-        self.container_treeview.grid_columnconfigure(1, weight=0)
-        self.container_treeview.grid(
-            row=2,
-            column=0,
-            sticky="we"
-        )
+    def exibir_pendencias(self, pendencias):
 
-        style = ttk.Style()
-        style.theme_use("default")
+        linha_grid = 1
+        for pendencia in pendencias:
 
-        style.configure(
-            "Treeview.Heading",
-            font=FONTE_CABECALHO_TREE_VIEW,
-            background=COR_BACKGROUND_HEADING_TREE,
-            foreground=COR_FOREGROUND_HEADING_TREE,
-        )
-        style.map(
-            "Treeview.Heading",
-            background=[("active", COR_BACKGROUND_HEADING_HOVER_TREE)],
-            foreground=[("active", COR_FOREGROUND_HEADING_HOVER_TREE)]
-        )
-        style.configure(
-            "Treeview",
-            font=FONTE_TEXTO_TREE_VIEW,
-            rowheight=40,
-        )
-        style.map(
-            "Treeview", 
-            background=[('selected', COR_BACKGROUND_VALORES_HOVER_TREE)],
-            foreground=[('selected', COR_FOREGROUND_VALORES_HOVER_TREE)]
-        )
+            self.frame_pendencia = ctk.CTkFrame(self.pendencias_scroll, fg_color=COR_FUNDO_FRAME_CARGAS, height=45, border_width=0, corner_radius=0)
+            # CONFIGURAÇÃO DE LARGURA IDÊNTICA AO HEADER
+            self.frame_pendencia.grid_columnconfigure(0, minsize=100)
+            self.frame_pendencia.grid_columnconfigure(1, minsize=20)
+            self.frame_pendencia.grid_columnconfigure(2, minsize=100)
+            self.frame_pendencia.grid_columnconfigure(3, minsize=300) # Espaço fixo para o nome
+            self.frame_pendencia.grid_columnconfigure(4, minsize=20)
+            self.frame_pendencia.grid_columnconfigure(5, minsize=120)
+            self.frame_pendencia.grid_columnconfigure(6, minsize=100)
+            self.frame_pendencia.grid_columnconfigure(7, minsize=100)
 
-        colunas = ("cupom", "codigo_cliente", "razao_social", "rota", "tipo", "codigo_produto", "quantidade")
-        self.tree = ttk.Treeview(
-            self.container_treeview,
-            columns=colunas,
-            show="headings",
-            height=10
-            )
-        self.tree.grid(row=0, column=0, padx=(40, 0), pady=(15, 0), sticky="we")
+            self.frame_pendencia.grid(row=linha_grid, column=0, pady=(7, 0), sticky="we", columnspan=2)
 
-        self.tree.heading("cupom", text="Cupom", anchor="center")
-        self.tree.heading("codigo_cliente", text="Código Cliente", anchor="center")
-        self.tree.heading("razao_social", text="Razão Social", anchor="center")
-        self.tree.heading("rota", text="Rota", anchor="center")
-        self.tree.heading("tipo", text="Tipo", anchor="center")
-        self.tree.heading("codigo_produto", text="Código Produto", anchor="center")
-        self.tree.heading("quantidade", text="Quantidade", anchor="center")
+            label_cupom = ctk.CTkLabel(self.frame_pendencia, text=pendencia["cupom"], font=("Segoe UI", 17), text_color=COR_TEXTO)
+            label_cupom.grid(row=0, column=0, padx=(10, 0), pady=(0, 0), sticky="ew")
 
-        self.tree.column("cupom", width=90, anchor="center")
-        self.tree.column("codigo_cliente", width=160, anchor="center")
-        self.tree.column("razao_social", width=280, anchor="center")
-        self.tree.column("rota", width=160, anchor="center")
-        self.tree.column("tipo", width=110, anchor="center")
-        self.tree.column("codigo_produto", width=175, anchor="center")
-        self.tree.column("quantidade", width=140, anchor="center")
-
-        scroll_x = ttk.Scrollbar(self.container_treeview, orient="horizontal", command=self.tree.xview)
-        scroll_y = ttk.Scrollbar(self.container_treeview, orient="vertical", command=self.tree.yview)
-
-        scroll_x.grid(row=1, column=0, padx=(40, 5), pady=(0, 15), sticky="we")
-        scroll_y.grid(row=0, column=1, padx=(0, 290), pady=(15, 0), sticky="ns")
+            label_codigo_cliente = ctk.CTkLabel(self.frame_pendencia, text=pendencia["codigo_cliente"], font=("Segoe UI", 17), text_color=COR_TEXTO)
+            label_codigo_cliente.grid(row=0, column=2, padx=(10, 0), pady=(0, 0), sticky="ew")
 
 
-        self.tree.configure(
-            xscrollcommand=scroll_x.set,
-            yscrollcommand=scroll_y.set
-        )
+            razao = pendencia["razao_social"]
+            if len(razao) > 30:
+                razao = razao[:27] + "..."
+            
+            label_razao_social = ctk.CTkLabel(self.frame_pendencia, text=razao, font=FONTE_TEXTO, text_color=COR_TEXTO)
+            label_razao_social.grid(row=0, column=3, padx=(10, 0), pady=(0, 0), sticky="ew")
 
-        self.tree.bind("<MouseWheel>", lambda e: self.tree.yview_scroll(-int(e.delta / 100), "units"))
-        self.tree.bind("<Shift-MouseWheel>", lambda e: self.tree.xview_scroll(-int(e.delta / 2.5), "units"))
+            label_codigo_produto = ctk.CTkLabel(self.frame_pendencia, text=pendencia["codigo_produto"], font=FONTE_TEXTO, text_color=COR_TEXTO)
+            label_codigo_produto.grid(row=0, column=5, padx=(10, 0), pady=(0, 0), sticky="ew")
 
-        self.footer_frame = ctk.CTkFrame(self.main_frame, fg_color="transparent")
-        self.footer_frame.grid_columnconfigure(0, minsize=100)
-        self.footer_frame.grid(
-            row=3,
-            column=0,
-            sticky="ew"
-        )
+            label_quantidade = ctk.CTkLabel(self.frame_pendencia, text=pendencia["quantidade"], font=FONTE_TEXTO, text_color=COR_TEXTO)
+            label_quantidade.grid(row=0, column=6, padx=(40, 0), pady=(0, 0), sticky="ew")
 
-        
-        self.label_numero_total_itens = ctk.CTkLabel(
-            self.footer_frame,
-            text="Total: 0",
-            font=("Segoe UI", 14, "bold"),
-            text_color=COR_TEXTO,
-            anchor="w"
-        )
-        self.label_numero_total_itens.grid(row=0, column=0, padx=(40, 0), sticky="w")
+            entry_carga = ctk.CTkEntry(self.frame_pendencia, font=FONTE_TEXTO, text_color=COR_TEXTO, width=80, height=25)
+            entry_carga.grid(row=0, column=7, padx=(45, 0), pady=(0, 0), sticky="ew")
+
+            self.entradas_carga.append(entry_carga)
+            entry_carga.bind("<Return>", lambda event, entry=entry_carga: self.controller.binds.focar_proximo(entry))
+
+            self.linhas[pendencia["cupom"]] = {
+                "codigo_cliente": label_codigo_cliente,
+                "razao_social": label_razao_social,
+                "codigo_produto": label_codigo_produto,
+                "quantidade": label_quantidade
+            }
+
+            linha_grid += 1
+
+
+    def buscar_pendencias(self):
+        resultado = self.controller.buscar_pendencias()
+        if resultado:
+            self.controller.limpar_pendencias()
+            self.exibir_pendencias(resultado)
+        else:
+            exibir_mensagem("Aviso", "Pendências não encontradas.", "warning")
+            return
