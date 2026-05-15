@@ -56,3 +56,33 @@ class CarregamentoTrocaModel:
         finally:
             if conexao:
                 conexao.close()
+
+    
+    def atualizar_carga_entregue(self, cupom, carga_entregue):
+
+        conexao = None
+        try:
+            conexao = conectar_banco_de_dados_pendencias()
+            cursor = conexao.cursor()
+
+            cursor.execute(
+                f"""
+                UPDATE {TABELA_PENDENCIAS}
+                SET carga_entregue = ?
+                WHERE cupom = ?
+                """,
+                    (
+                        carga_entregue,
+                        cupom
+                    )
+            )
+
+            conexao.commit()
+            
+        except Exception as erro:
+            print("Erro ao atualizar carga entregue: ", erro)
+            return False
+        
+        finally:
+            if conexao:
+                conexao.close()
