@@ -85,6 +85,9 @@ class PendenciaController:
         self.view.entry_codigo_cliente.bind("<FocusOut>", lambda event: self.exibir_razao_social_cliente(event))
         self.view.entry_codigo_produto.bind("<FocusOut>", lambda event: self.exibir_descricao_produto(event))
 
+        self.view.winfo_toplevel().bind("<Escape>", lambda event: self.limpar_formulario(event))
+
+
     
     def navegar_combobox(self, event, combobox):
         valores = combobox.cget("values")
@@ -306,7 +309,7 @@ class PendenciaController:
         self.view.entry_carga_entregue.insert(0, resultado[8])
         self.view.entry_codigo_produto.insert(0, resultado[9])
 
-        if not resultado[9]:
+        if not resultado[10]:
             self.view.label_descricao_produto.configure(text="PRODUTO NÃO ENCONTRADO")
         else:
             self.view.label_descricao_produto.configure(text=resultado[10])
@@ -333,7 +336,7 @@ class PendenciaController:
                 }
 
 
-    def limpar_formulario(self):
+    def limpar_formulario(self, event=""):
         nomes_campos = [
             "entry_cupom", "entry_data", "entry_carga", "entry_codigo_cliente",
             "entry_tipo", "entry_responsavel", "entry_situacao", "entry_carga_entregue",
