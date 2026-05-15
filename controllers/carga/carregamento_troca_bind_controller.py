@@ -5,6 +5,12 @@ class CarregamentoTrocaBindController:
     
     def set_view(self, view):
         self.view = view
+
+    def _on_enter(self, linha, entry_atual):
+
+        self.focar_proximo(entry_atual)
+
+        self.controller.atualizar_carga_entregue(linha, entry_atual)
     
     def focar_proximo(self, entry_atual):
         try:

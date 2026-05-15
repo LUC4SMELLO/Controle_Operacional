@@ -51,7 +51,7 @@ class CarregamentoTrocaView(ctk.CTkFrame):
         self.controller = controller
 
         self.entradas_carga = []
-        self.linhas = {}
+        self.linhas_pendencia = []
 
         self.grid_rowconfigure(0, weight=1)
         self.grid_columnconfigure(0, weight=1)
@@ -136,11 +136,11 @@ class CarregamentoTrocaView(ctk.CTkFrame):
 
             self.frame_pendencia.grid(row=linha_grid, column=0, pady=(7, 0), sticky="we", columnspan=2)
 
-            label_cupom = ctk.CTkLabel(self.frame_pendencia, text=pendencia["cupom"], font=("Segoe UI", 17), text_color=COR_TEXTO)
-            label_cupom.grid(row=0, column=0, padx=(10, 0), pady=(0, 0), sticky="ew")
+            self.frame_pendencia.label_cupom = ctk.CTkLabel(self.frame_pendencia, text=pendencia["cupom"], font=("Segoe UI", 17), text_color=COR_TEXTO)
+            self.frame_pendencia.label_cupom.grid(row=0, column=0, padx=(10, 0), pady=(0, 0), sticky="ew")
 
-            label_codigo_cliente = ctk.CTkLabel(self.frame_pendencia, text=pendencia["codigo_cliente"], font=("Segoe UI", 17), text_color=COR_TEXTO)
-            label_codigo_cliente.grid(row=0, column=2, padx=(10, 0), pady=(0, 0), sticky="ew")
+            self.frame_pendencia.label_codigo_cliente = ctk.CTkLabel(self.frame_pendencia, text=pendencia["codigo_cliente"], font=("Segoe UI", 17), text_color=COR_TEXTO)
+            self.frame_pendencia.label_codigo_cliente.grid(row=0, column=2, padx=(10, 0), pady=(0, 0), sticky="ew")
 
 
             razao = pendencia["razao_social"]
@@ -163,14 +163,9 @@ class CarregamentoTrocaView(ctk.CTkFrame):
             entry_carga.grid(row=0, column=7, padx=(45, 0), pady=(0, 0), sticky="ew")
 
             self.entradas_carga.append(entry_carga)
-            entry_carga.bind("<Return>", lambda event, entry=entry_carga: self.controller.binds.focar_proximo(entry))
+            entry_carga.bind("<Return>", lambda event, linha=self.frame_pendencia, entry=entry_carga: self.controller.binds._on_enter(linha, entry))
 
-            self.linhas[pendencia["cupom"]] = {
-                "codigo_cliente": label_codigo_cliente,
-                "razao_social": label_razao_social,
-                "codigo_produto": label_codigo_produto,
-                "quantidade": label_quantidade
-            }
+            self.linhas_pendencia.append(self.frame_pendencia)
 
             linha_grid += 1
 
