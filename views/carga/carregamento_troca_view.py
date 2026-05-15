@@ -94,12 +94,12 @@ class CarregamentoTrocaView(ctk.CTkFrame):
         self.pendencias_header.grid_columnconfigure(6, minsize=100) # Quantidade
         self.pendencias_header.grid_columnconfigure(7, minsize=100) # Carga
 
-        ctk.CTkLabel(self.pendencias_header, text="Cupom", font=FONTE_LABEL, anchor="w").grid(row=0, column=0, padx=(25, 0), pady=(25, 0), sticky="ew")
-        ctk.CTkLabel(self.pendencias_header, text="Código Cliente", font=FONTE_LABEL, anchor="w").grid(row=0, column=2, padx=(10, 0), pady=(25, 0), sticky="ew")
-        ctk.CTkLabel(self.pendencias_header, text="Razão Social", font=FONTE_LABEL, anchor="w").grid(row=0, column=3, padx=(75, 0), pady=(25, 0), sticky="ew")
-        ctk.CTkLabel(self.pendencias_header, text="Código Produto", font=FONTE_LABEL, anchor="w").grid(row=0, column=5, padx=(20, 0), pady=(25, 0), sticky="ew")
-        ctk.CTkLabel(self.pendencias_header, text="Quantidade", font=FONTE_LABEL, anchor="w").grid(row=0, column=6, padx=(30, 0), pady=(25, 0), sticky="ew")
-        ctk.CTkLabel(self.pendencias_header, text="Carga", font=FONTE_LABEL, anchor="w").grid(row=0, column=7, padx=(30, 0), pady=(25, 0), sticky="ew")
+        ctk.CTkLabel(self.pendencias_header, text="Cupom", font=FONTE_LABEL, text_color=COR_TEXTO, anchor="w").grid(row=0, column=0, padx=(25, 0), pady=(25, 0), sticky="ew")
+        ctk.CTkLabel(self.pendencias_header, text="Código Cliente", font=FONTE_LABEL, text_color=COR_TEXTO, anchor="w").grid(row=0, column=2, padx=(10, 0), pady=(25, 0), sticky="ew")
+        ctk.CTkLabel(self.pendencias_header, text="Razão Social", font=FONTE_LABEL, text_color=COR_TEXTO, anchor="w").grid(row=0, column=3, padx=(75, 0), pady=(25, 0), sticky="ew")
+        ctk.CTkLabel(self.pendencias_header, text="Código Produto", font=FONTE_LABEL, text_color=COR_TEXTO, anchor="w").grid(row=0, column=5, padx=(20, 0), pady=(25, 0), sticky="ew")
+        ctk.CTkLabel(self.pendencias_header, text="Quantidade", font=FONTE_LABEL, text_color=COR_TEXTO, anchor="w").grid(row=0, column=6, padx=(30, 0), pady=(25, 0), sticky="ew")
+        ctk.CTkLabel(self.pendencias_header, text="Carga", font=FONTE_LABEL, text_color=COR_TEXTO, anchor="w").grid(row=0, column=7, padx=(30, 0), pady=(25, 0), sticky="ew")
 
         self.pendencias_scroll = ctk.CTkScrollableFrame(
             self.pendencias_frame,
