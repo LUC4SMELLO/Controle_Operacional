@@ -12,5 +12,5 @@ if __name__ == "__main__":
 
     controller.set_view(tela_menu)
 
-    tela_menu.place(relx=0, rely=0, relwidth=1, relheight=1)
+    tela_menu.grid(row=0, column=0, sticky="nsew")
     janela.mainloop()

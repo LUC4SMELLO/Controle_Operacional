@@ -18,17 +18,20 @@ class MenuView(ctk.CTkFrame):
 
         self.controller.atualizar_todos_os_bancos_dados()
 
+        self.grid_columnconfigure(0, weight=0)
+        self.grid_rowconfigure(0, weight=1)
+
         # MENU
-        self.menu_frame = ctk.CTkFrame(self, width=240, fg_color=COR_FUNDO_MENU_LATERAL, corner_radius=0)
-        self.menu_frame.pack(side="left", fill="both")
+        self.menu_frame = ctk.CTkFrame(self, fg_color=COR_FUNDO_MENU_LATERAL, corner_radius=0)
+        self.menu_frame.grid(row=0, column=0, sticky="nsew")
 
         # HEADER
         self.header_frame = ctk.CTkFrame(self.menu_frame, fg_color="transparent")
-        self.header_frame.pack(side="top", fill="x")
+        self.header_frame.grid(row=0, column=0, padx=(0, 0), pady=(0, 0), sticky="we")
 
         ctk.CTkLabel(
             self.header_frame, text="Menu", font=FONTE_TITULO, text_color=COR_TEXTO
-        ).pack(side="left", padx=(15, 0), pady=(15, 0), anchor="w")
+        ).grid(row=0, column=0, padx=(10, 0), pady=(10, 0))
 
         self.switch_alternar_modo = ctk.CTkSwitch(
             self.header_frame,
@@ -39,7 +42,7 @@ class MenuView(ctk.CTkFrame):
             progress_color="#979DA2",
             command=self.controller.alternar_modo_aparencia,
         )
-        self.switch_alternar_modo.pack(side="right", padx=(50, 12), pady=(20, 0))
+        self.switch_alternar_modo.grid(row=0, column=2, padx=(82, 5), pady=(10, 0))
 
 
         # ----------------------------
@@ -55,7 +58,7 @@ class MenuView(ctk.CTkFrame):
             height=38,
             command=lambda: self.mostrar_submenu("escala"),
         )
-        self.botao_escala.pack(side="top", padx=10, pady=(20, 1), anchor="w")
+        self.botao_escala.grid(row=1, column=0, padx=(10, 0), pady=(20, 0), sticky="w")
 
         self.botao_carga = self.criar_botao(
             master=self.menu_frame,
@@ -65,7 +68,7 @@ class MenuView(ctk.CTkFrame):
             height=38,
             command=lambda: self.mostrar_submenu("carga"),
         )
-        self.botao_carga.pack(side="top", padx=10, pady=1, anchor="w")
+        self.botao_carga.grid(row=2, column=0, padx=(10, 0), pady=(2, 0), sticky="w")
 
         self.botao_pendencia_troca = self.criar_botao(
             master=self.menu_frame,
@@ -75,7 +78,7 @@ class MenuView(ctk.CTkFrame):
             height=38,
             command=lambda: self.mostrar_submenu("pendencia"),
         )
-        self.botao_pendencia_troca.pack(side="top", padx=10, pady=1, anchor="w")
+        self.botao_pendencia_troca.grid(row=3, column=0, padx=(10, 0), pady=(2, 0), sticky="w")
 
         self.botao_relatorios = self.criar_botao(
             master=self.menu_frame,
@@ -85,7 +88,7 @@ class MenuView(ctk.CTkFrame):
             height=38,
             command=lambda: self.mostrar_submenu("relatorios"),
         )
-        self.botao_relatorios.pack(side="top", padx=10, pady=1, anchor="w")
+        self.botao_relatorios.grid(row=4, column=0, padx=(10, 0), pady=(2, 0), sticky="w")
 
         self.botao_funcionarios = self.criar_botao(
             master=self.menu_frame,
@@ -95,7 +98,7 @@ class MenuView(ctk.CTkFrame):
             height=38,
             command=lambda: self.mostrar_submenu("funcionarios"),
         )
-        self.botao_funcionarios.pack(side="top", padx=10, pady=1, anchor="w")
+        self.botao_funcionarios.grid(row=5, column=0, padx=(10, 0), pady=(2, 0), sticky="w")
 
         self.botao_veiculos = self.criar_botao(
             master=self.menu_frame,
@@ -105,7 +108,7 @@ class MenuView(ctk.CTkFrame):
             height=38,
             command=lambda: self.mostrar_submenu("veiculos"),
         )
-        self.botao_veiculos.pack(side="top", padx=10, pady=1, anchor="w")
+        self.botao_veiculos.grid(row=6, column=0, padx=(10, 0), pady=(2, 0), sticky="w")
 
 
         # ----------------------------
@@ -170,8 +173,21 @@ class MenuView(ctk.CTkFrame):
 
         alvo = botoes[nome]
 
-        # RENDERIZAR OS SUB-BOTÕES
-        for texto, comando in self.submenus[nome]:
+        # 1. PEGA A POSIÇÃO ATUAL DO BOTÃO ALVO NO GRID
+        alvo_info = alvo.grid_info()
+        linha_alvo = alvo_info["row"]
+        coluna_alvo = alvo_info["column"]
+
+        # 2. EMPURRA OS BOTÕES ABAIXO PARA DAR ESPAÇO AO SUBMENU
+        # PERCORRE TODOS OS WIDGETS DENTRO DO menu_frame
+        for widget in self.menu_frame.winfo_children():
+            widget_info = widget.grid_info()
+            # SE O WIDGET ESTIVER ABAIXO DO BOTÃO CLICADO, MOVE +1 LINHA PARA BAIXO
+            if widget_info and widget_info["row"] > linha_alvo:
+                widget.grid(row=widget_info["row"] + 1)
+
+        # 3. RENDERIZAR OS SUB-BOTÕES INTERNOS
+        for i, (texto, comando) in enumerate(self.submenus[nome]):
             botao = self.criar_botao(
                 master=self.submenu_frame,
                 text=texto,
@@ -179,10 +195,12 @@ class MenuView(ctk.CTkFrame):
                 width=140,
                 command=comando,
             )
-            botao.pack(padx=(40, 10), pady=1, anchor="w")
+            # ORGANIZA OS SUB-BOTÕES VERTICALMENTE DENTRO DO submenu_frame
+            botao.grid(row=i, column=0, padx=(40, 10), pady=1, sticky="w")
 
-        # INSERE O FRAME LOGO APÓS O BOTÃO CORRESPONDENTE
-        self.submenu_frame.pack(after=alvo, fill="x", pady=(0, 5))
+        # 4. INSERE O FRAME LOGO ABAIXO DO BOTÃO CORRESPONDENTE
+        self.submenu_frame.grid(row=linha_alvo + 1, column=coluna_alvo, pady=(0, 5), sticky="ew")
+
 
     def criar_botao(self, master, **kwargs):
         return ctk.CTkButton(
