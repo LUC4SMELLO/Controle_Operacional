@@ -8,6 +8,7 @@ CAMPOS_PENDENCIA = [
         "razao_social",
         "codigo_produto",
         "quantidade",
+        "carga_entregue"
     ]
 
 class CarregamentoTrocaModel:
@@ -32,7 +33,8 @@ class CarregamentoTrocaModel:
                     pen.codigo_cliente,
                     cli.razao_social,
                     pen.codigo_produto,
-                    pen.quantidade
+                    pen.quantidade,
+                    pen.carga_entregue
                 FROM {TABELA_PENDENCIAS} AS pen
                 LEFT JOIN clientes.{TABELA_CLIENTES} AS cli ON pen.codigo_cliente = cli.codigo
                 WHERE pen.situacao = ?
