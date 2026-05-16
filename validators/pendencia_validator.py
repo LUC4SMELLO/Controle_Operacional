@@ -9,6 +9,7 @@ def validar_pendencia(dados: dict, exigir_cupom: bool = False):
 
     if exigir_cupom:
         obrigatorios.insert(0, "cupom")
+        obrigatorios.append("situacao")
 
 
     for campo in obrigatorios:
@@ -39,6 +40,15 @@ def validar_pendencia(dados: dict, exigir_cupom: bool = False):
             "mensagem": "O valor do campo 'Tipo' está incorreto.",
             "icone": "cancel"
         }
+    
+    if "situacao" in dados:
+        if dados["situacao"] not in ("Pendente", "Entregue"):
+            return {
+                "sucesso": False,
+                "titulo": "Erro",
+                "mensagem": "O valor do campo 'Situação' está incorreto.",
+                "icone": "cancel"
+            }
 
     try:
         if int(dados["quantidade"]) <= 0:

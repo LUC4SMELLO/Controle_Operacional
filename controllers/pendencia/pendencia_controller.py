@@ -79,6 +79,13 @@ class PendenciaController:
         combobox_tipo.bind("<Left>", lambda event: self.navegar_combobox(event, combobox_tipo))
         combobox_tipo.bind("<Right>", lambda event: self.navegar_combobox(event, combobox_tipo))
 
+        try:
+            combobox_situacao = self.view.entry_situacao
+            combobox_situacao.bind("<Left>", lambda event: self.navegar_combobox(event, combobox_situacao))
+            combobox_situacao.bind("<Right>", lambda event: self.navegar_combobox(event, combobox_situacao))
+        except Exception:
+            pass
+
         self.view.entry_codigo_cliente.bind("<Return>", lambda event: self.exibir_razao_social_cliente(event))
         self.view.entry_codigo_produto.bind("<Return>", lambda event: self.exibir_descricao_produto(event))
 
@@ -141,6 +148,10 @@ class PendenciaController:
 
         if hasattr(self.view, "entry_cupom"):
             dados["cupom"] = self.view.entry_cupom.get().strip()
+        if hasattr(self.view, "entry_situacao"):
+            dados["situacao"] = self.view.entry_situacao.get()
+        if hasattr(self.view, "entry_carga_entregue"):
+            dados["carga_entregue"] = self.view.entry_carga_entregue.get()
     
         return dados
 

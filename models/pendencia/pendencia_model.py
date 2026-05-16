@@ -62,7 +62,9 @@ class PendenciaModel:
             tipo = ?,
             responsavel = ?,
             codigo_produto = ?,
-            quantidade = ?
+            quantidade = ?,
+            situacao = ?,
+            carga_entregue = ?
             WHERE cupom = ?
             """,
                 (
@@ -73,6 +75,8 @@ class PendenciaModel:
                     dados["responsavel"],
                     dados["codigo_produto"],
                     dados["quantidade"],
+                    dados["situacao"],
+                    dados["carga_entregue"],
                     dados["cupom"]
                 )
             )
