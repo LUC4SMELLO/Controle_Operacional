@@ -134,7 +134,7 @@ class CarregamentoTrocaView(ctk.CTkFrame):
             self.frame_pendencia.grid_columnconfigure(6, minsize=100)
             self.frame_pendencia.grid_columnconfigure(7, minsize=100)
 
-            self.frame_pendencia.grid(row=linha_grid, column=0, pady=(7, 0), sticky="we", columnspan=2)
+            self.frame_pendencia.grid(row=linha_grid, column=0, padx=(5, 10), pady=(7, 0), sticky="we", columnspan=2)
 
             self.frame_pendencia.label_cupom = ctk.CTkLabel(self.frame_pendencia, text=pendencia["cupom"], font=("Segoe UI", 17), text_color=COR_TEXTO)
             self.frame_pendencia.label_cupom.grid(row=0, column=0, padx=(10, 0), pady=(0, 0), sticky="ew")
@@ -160,6 +160,8 @@ class CarregamentoTrocaView(ctk.CTkFrame):
             label_quantidade.grid(row=0, column=6, padx=(40, 0), pady=(0, 0), sticky="ew")
 
             entry_carga = ctk.CTkEntry(self.frame_pendencia, font=FONTE_TEXTO, text_color=COR_TEXTO, width=80, height=25)
+            if pendencia["carga_entregue"]:
+                entry_carga.insert(0, pendencia["carga_entregue"])
             entry_carga.grid(row=0, column=7, padx=(45, 0), pady=(0, 0), sticky="ew")
 
             self.entradas_carga.append(entry_carga)

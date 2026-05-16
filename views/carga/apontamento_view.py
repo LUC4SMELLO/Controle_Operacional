@@ -152,6 +152,7 @@ class ApontamentoView(ctk.CTkFrame):
         self.cargas_scroll.grid_columnconfigure(1, weight=1)
         self.cargas_scroll.grid_rowconfigure(0, weight=1)
         self.cargas_scroll.grid(row=1, column=0, padx=(40, 290), sticky="nsew")
+        self.cargas_scroll._scrollbar.grid_remove()
 
 
         self.footer_frame = ctk.CTkFrame(self.main_frame, height=100, fg_color="transparent")
@@ -160,7 +161,7 @@ class ApontamentoView(ctk.CTkFrame):
         self.footer_frame.grid_columnconfigure(0, weight=0)
         self.footer_frame.grid_columnconfigure(1, weight=0)
         self.footer_frame.grid_columnconfigure(2, weight=1)
-        self.footer_frame.grid(row=3, column=0, sticky="we")
+        self.footer_frame.grid(row=3, column=0, sticky="we")   
 
 
         ctk.CTkFrame(self.footer_frame, height=2, fg_color=COR_LINHAS).grid(row=0, column=0, padx=(40, 290), pady=(25, 0), sticky="ew", columnspan=3)
@@ -208,7 +209,7 @@ class ApontamentoView(ctk.CTkFrame):
             self.frame_cargas.grid_columnconfigure(3, minsize=120)
             self.frame_cargas.grid_columnconfigure(4, minsize=120)
             self.frame_cargas.grid_columnconfigure(5, minsize=120)
-            self.frame_cargas.grid(row=linha_grid, column=0, pady=(7, 0), sticky="we", columnspan=2)
+            self.frame_cargas.grid(row=linha_grid, column=0, padx=(5, 10), pady=(7, 0), sticky="we", columnspan=2)
 
             label_carga = ctk.CTkLabel(self.frame_cargas, text=carga["numero_carga"], font=("Segoe UI", 17), text_color=COR_TEXTO)
             label_carga.grid(row=0, column=0, padx=(25, 0), pady=(4, 4))
