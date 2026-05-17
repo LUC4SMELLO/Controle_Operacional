@@ -11,3 +11,6 @@ CAMINHO_IMAGENS_ESCALA = [
     (REPORTS_IMAGES_DIR / "relatorio_entrega_2.png"),
 ]
 
+CAMINHO_IMAGEM_MAPA = [
+    (REPORTS_IMAGES_DIR / "mapa.png")
+]
