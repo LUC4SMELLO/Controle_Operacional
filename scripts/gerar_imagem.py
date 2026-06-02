@@ -3,6 +3,7 @@ import locale
 from datetime import datetime
 
 from constants.paths import REPORTS_IMAGES_DIR
+from constants.paths import IMAGES_DIR
 
 
 LARGURA = 1600
@@ -139,7 +140,7 @@ def gerar_imagem_escala(escala):
             REPORTS_IMAGES_DIR / f"relatorio_entrega_{indice_pagina}.png"
         )
 
-def gerar_imagem_mapa_troca(infomacoes):
+def gerar_imagem_mapa_troca_frente(informacoes: dict):
         
     # Criar imagem branca
     largura = 1190
@@ -173,7 +174,7 @@ def gerar_imagem_mapa_troca(infomacoes):
 
         draw.text(
             (460, y_caixa + 15),
-            f"Nº Carga - {numero_carga_1}",
+            f"{informacoes["numero_carga"]} - {numero_carga_1}",
             fill="black",
             font=fonte
         )
@@ -182,7 +183,7 @@ def gerar_imagem_mapa_troca(infomacoes):
 
         draw.text(
             (95, y_caixa + 45),
-            "QUANT.",
+            "CÓDIGO",
             fill="black",
             font=fonte_label
         )
@@ -196,7 +197,7 @@ def gerar_imagem_mapa_troca(infomacoes):
 
         draw.text(
             (475, y_caixa + 45),
-            "CÓDIGO",
+            "QUANT",
             fill="black",
             font=fonte_label
         )
@@ -243,7 +244,7 @@ def gerar_imagem_mapa_troca(infomacoes):
 
         draw.text(
             (1000, y_caixa + 15),
-            f"Nº Carga - {numero_carga_2}",
+            f"{informacoes["numero_carga"]} - {numero_carga_2}",
             fill="black",
             font=fonte
         )
@@ -252,7 +253,7 @@ def gerar_imagem_mapa_troca(infomacoes):
 
         draw.text(
             (640, y_caixa + 45),
-            "QUANT.",
+            "CÓDIGO ",
             fill="black",
             font=fonte_label
         )
@@ -266,7 +267,7 @@ def gerar_imagem_mapa_troca(infomacoes):
 
         draw.text(
             (1015, y_caixa + 45),
-            "CÓDIGO",
+            "QUANT",
             fill="black",
             font=fonte_label
         )
@@ -326,24 +327,33 @@ def gerar_imagem_mapa_troca(infomacoes):
     retangulo(60, 50, 1130, 160, 2)
 
     # Logo
-    draw.text((95, 80), "LOGO", fill="black", font=fonte)
+    imagem_logo = Image.open(IMAGES_DIR / "logo_dbcambui_2.png")
+    imagem_logo = imagem_logo.resize((70, 70))
+    img.paste(imagem_logo, (95, 50), imagem_logo)
 
     # Título
     draw.text((450, 70), "GUIA DE ENTREGA", fill="black", font=fonte_titulo)
 
     # Dados superiores
     draw.text((945, 70), "Nº Carga:", fill="black", font=fonte_label)
-    draw.text((1035, 72), "7341001", fill="black", font=fonte)
+    draw.text((1035, 72), text=informacoes["numero_carga"], fill="black", font=fonte)
 
 
     draw.text((95, 120), "Motorista:", fill="black", font=fonte_label)
-    draw.text((190, 122), "Nome do Motorista", fill="black", font=fonte)
+    draw.text((190, 122), text=informacoes["nome_motorista"], fill="black", font=fonte)
     draw.text((400, 120), "Veículo:", fill="black", font=fonte_label)
-    draw.text((480, 122), "Número do Veículo", fill="black", font=fonte)
+    draw.text((480, 122), text=informacoes["numero_veiculo"], fill="black", font=fonte)
 
-    draw.text((685, 120), "Nome da Rota", fill="black", font=fonte_label)
+    draw.text((550, 120), text=informacoes["nome_rota"], fill="black", font=fonte_label)
 
-    draw.text((874, 120), "sexta-feira, 13 de maio de 2026", fill="black", font=fonte)
+    if "segunda" in informacoes["data_por_extenso"]:
+        draw.text((845, 120), text=informacoes["data_por_extenso"], fill="black", font=fonte)
+
+    elif "quarta" in informacoes["data_por_extenso"] or "quinta" in informacoes["data_por_extenso"]:
+        draw.text((862, 120), text=informacoes["data_por_extenso"], fill="black", font=fonte)
+
+    elif "terça" in informacoes["data_por_extenso"] or "sexta" in informacoes["data_por_extenso"]:
+        draw.text((872, 120), text=informacoes["data_por_extenso"], fill="black", font=fonte)
 
     # =========================
     # INFORMAÇÕES
@@ -401,17 +411,30 @@ def gerar_imagem_mapa_troca(infomacoes):
     draw.text((861, 270), "EQUIPAMENTOS", fill="black", font=fonte_label)
     draw.text((806, 310), "CARREGADO", fill="black", font=fonte_label)
     draw.text((961, 310), "RETORNADO", fill="black", font=fonte_label)
-    draw.text((791, 345), "MESA", fill="black", font=fonte)
-    draw.text((791, 375), "CADEIRA", fill="black", font=fonte)
-    draw.text((791, 405), "GELADEIRA", fill="black", font=fonte)
+    draw.text((760, 345), "MESA", fill="black", font=fonte)
+    draw.text((760, 375), "CADEIRA", fill="black", font=fonte)
+    draw.text((760, 405), "GELADEIRA", fill="black", font=fonte)
 
     y=305
     for i in range(9):
-        linha(786, y, 1096, y)
+        linha(755, y, 1096, y)
         y += 30
-    linha(786, 305, 786, 545)
+    linha(755, 305, 755, 545)
     linha(941, 305, 941, 545)
     linha(1096, 305, 1096, 545)
+
+
+    # =========================
+    #        RODAPÉ
+    # =========================
+
+    retangulo(60, 1595, 1130, 1620)
+
+    draw.text((95, 1598), "Ajudante 1:", fill="black", font=fonte_label)
+    draw.text((200, 1600), informacoes["nome_ajudante_1"] if informacoes["nome_ajudante_1"] else "", fill="black", font=fonte)
+    draw.text((700, 1598), "Ajudante 2:", fill="black", font=fonte_label)
+    draw.text((805, 1600), informacoes["nome_ajudante_2"] if informacoes["nome_ajudante_2"] else "", fill="black", font=fonte)
+
 
     # =========================
     # TROCA DE MERCADORIAS
@@ -439,7 +462,7 @@ def gerar_imagem_mapa_troca(infomacoes):
     draw.text((320, altura_texto + 90), "CUPONS PARA PREENCHER EM CASO DE TROCA", fill="black", font=fonte_titulo)
 
     y_inicial = altura_texto + 120
-    altura_pagina = 1600
+    altura_pagina = 1590
 
     y_atual = y_inicial
 
@@ -470,3 +493,5 @@ def gerar_imagem_mapa_troca(infomacoes):
             REPORTS_IMAGES_DIR / "mapa.png"
         )
 
+def gerar_imagem_mapa_troca_verso(informacoes: dict):
+    pass
