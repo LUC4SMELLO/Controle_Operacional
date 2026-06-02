@@ -2,6 +2,19 @@ from database.banco_dados_escala import conectar_banco_de_dados_escala
 from constants.banco_dados import BANCO_DADOS_FUNCIONARIOS, TABELA_ESCALA, TABELA_FUNCIONARIOS
 
 
+from services.data_service import buscar_data_por_extenso
+
+CAMPOS_INFORMACOES = [
+        "numero_carga",
+        "data",
+        "nome_motorista",
+        "nome_ajudante_1",
+        "nome_ajudante_2",
+        "nome_rota",
+        "numero_rota",
+        "numero_veiculo"
+    ]
+
 class MapaTrocaModel:
     def __init__(self):
         pass
@@ -25,6 +38,7 @@ class MapaTrocaModel:
             consulta = f"""
                 SELECT 
                     e.numero_carga,
+                    e.data,
 
                     m.nome  AS motorista,
                     a1.nome AS ajudante_1,
@@ -54,7 +68,20 @@ class MapaTrocaModel:
 
             resultado = cursor.fetchall()
 
-            return resultado
+            informacoes = [
+                dict(zip(CAMPOS_INFORMACOES, linha))
+                for linha in resultado
+            ]
+
+            informacoes[0]["data_por_extenso"] = buscar_data_por_extenso(informacoes[0]["data"])
+
+
+            try:
+                if informacoes[0]:
+                    return informacoes[0]
+            except Exception:
+                return []
+        
 
         except Exception as erro:
             print("Erro ao buscar mapa: ", erro)
