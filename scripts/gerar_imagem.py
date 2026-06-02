@@ -364,7 +364,7 @@ def gerar_imagem_mapa_troca_frente(informacoes: dict):
     draw.text((400, 175), "Horário Chegada:", fill="black", font=fonte_label)
     linha(560, 192, 705, 192)
 
-    draw.text((735, 175), "Terceiro Ajudante:", fill="black", font=fonte_label)
+    draw.text((730, 175), "Segundo Ajudante:", fill="black", font=fonte_label)
     linha(901, 192, 1096, 192)
 
     draw.text((126, 215), "Km Inicial:", fill="black", font=fonte_label)
@@ -382,9 +382,9 @@ def gerar_imagem_mapa_troca_frente(informacoes: dict):
     retangulo(60, 250, 1130, 570, 2)
 
     draw.text((110, 270), "VASILHAMES", fill="black", font=fonte_label)
-    draw.text((275, 270), "CARREGADO", fill="black", font=fonte_label)
-    draw.text((440, 270), "RETORNADO", fill="black", font=fonte_label)
-    draw.text((620, 270), "VENDIDO", fill="black", font=fonte_label)
+    draw.text((255, 270), "CARREGADO", fill="black", font=fonte_label)
+    draw.text((390, 270), "RETORNADO", fill="black", font=fonte_label)
+    draw.text((587, 270), "VENDIDO", fill="black", font=fonte_label)
 
     draw.text((100, 315), "KS", fill="black", font=fonte)
     draw.text((100, 345), "LS", fill="black", font=fonte)
@@ -402,18 +402,22 @@ def gerar_imagem_mapa_troca_frente(informacoes: dict):
         y += 30
     linha(95, 305, 95, 545)
     linha(250, 305, 250, 545)
-    linha(415, 305, 415, 545)
-    linha(580, 305, 580, 545)
+    linha(380, 305, 380, 545)
+    linha(510, 305, 510, 545)
+    linha(745, 305, 745, 545)
     linha(745, 305, 745, 545)
 
+    draw.text((795, 270), "DEVOLUÇÃO DE MERCADORIA", fill="black", font=fonte_label)
+    draw.text((800, 310), "DESCRIÇÃO", fill="black", font=fonte_label)
+    draw.text((961, 310), "QUANTIDADE", fill="black", font=fonte_label)
 
 
-    draw.text((861, 270), "EQUIPAMENTOS", fill="black", font=fonte_label)
-    draw.text((806, 310), "CARREGADO", fill="black", font=fonte_label)
-    draw.text((961, 310), "RETORNADO", fill="black", font=fonte_label)
-    draw.text((760, 345), "MESA", fill="black", font=fonte)
-    draw.text((760, 375), "CADEIRA", fill="black", font=fonte)
-    draw.text((760, 405), "GELADEIRA", fill="black", font=fonte)
+    # draw.text((861, 270), "EQUIPAMENTOS", fill="black", font=fonte_label)
+    # draw.text((806, 310), "CARREGADO", fill="black", font=fonte_label)
+    # draw.text((961, 310), "RETORNADO", fill="black", font=fonte_label)
+    # draw.text((760, 345), "MESA", fill="black", font=fonte)
+    # draw.text((760, 375), "CADEIRA", fill="black", font=fonte)
+    # draw.text((760, 405), "GELADEIRA", fill="black", font=fonte)
 
     y=305
     for i in range(9):
