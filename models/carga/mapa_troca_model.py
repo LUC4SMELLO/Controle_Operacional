@@ -67,6 +67,8 @@ class MapaTrocaModel:
             cursor.execute(consulta, parametros)
 
             resultado = cursor.fetchall()
+            if not resultado:
+                return []
 
             informacoes = [
                 dict(zip(CAMPOS_INFORMACOES, linha))
