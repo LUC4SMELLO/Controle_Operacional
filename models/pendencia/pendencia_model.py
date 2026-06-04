@@ -7,6 +7,9 @@ from constants.banco_dados import BANCO_DADOS_CLIENTES, TABELA_CLIENTES
 from database.banco_dados_produtos import conectar_banco_de_dados_produtos
 from constants.banco_dados import BANCO_DADOS_PRODUTOS, TABELA_PRODUTOS
 
+from database.banco_dados_escala import conectar_banco_de_dados_escala
+from constants.banco_dados import BANCO_DADOS_ESCALA, TABELA_ESCALA
+
 
 class PendenciaModel:
     def __init__(self):
@@ -102,6 +105,7 @@ class PendenciaModel:
 
     def buscar_pendencia(self, cupom):
 
+        conexao = None
         try:
             conexao = conectar_banco_de_dados_pendencias()
             cursor = conexao.cursor()
@@ -110,12 +114,15 @@ class PendenciaModel:
 
             cursor.execute(f"ATTACH DATABASE '{BANCO_DADOS_PRODUTOS}' AS produtos")
 
+            cursor.execute(f"ATTACH DATABASE '{BANCO_DADOS_ESCALA}' AS escala")
+
 
             cursor.execute(f"""
             SELECT
             pen.cupom,
             pen.data,
             pen.carga,
+            esc.nome_rota,
             pen.codigo_cliente,
             cli.razao_social,
             pen.tipo,
@@ -128,6 +135,7 @@ class PendenciaModel:
             FROM {TABELA_PENDENCIAS} AS pen
             LEFT JOIN clientes.{TABELA_CLIENTES} AS cli ON pen.codigo_cliente = cli.codigo
             LEFT JOIN produtos.{TABELA_PRODUTOS} AS pro ON pen.codigo_produto = pro.codigo
+            LEFT JOIN escala.{TABELA_ESCALA} AS esc ON pen.carga = esc.numero_carga
             WHERE pen.cupom = ?
             """, (cupom,)
             )
@@ -139,6 +147,39 @@ class PendenciaModel:
         finally:
             conexao.close()
 
+
+    def buscar_nome_rota(self, numero_carga):
+
+        conexao = None
+        try:
+            conexao = conectar_banco_de_dados_escala()
+            cursor = conexao.cursor()
+
+            cursor.execute(
+                f"""
+                SELECT
+                nome_rota 
+                FROM {TABELA_ESCALA}
+                WHERE numero_carga = ?
+                """,
+                    (
+                        numero_carga,
+                    )
+            )
+
+            resultado = cursor.fetchone()
+
+            conexao.close()
+
+            return resultado
+        
+        except Exception as erro:
+            print("Erro ao buscar carga: ", erro)
+            return
+        
+        finally:
+            if conexao:
+                conexao.close()
     
     def buscar_cliente(self, codigo_cliente):
 
@@ -180,4 +221,6 @@ class PendenciaModel:
         conexao.close()
 
         return resultado
+
+
 

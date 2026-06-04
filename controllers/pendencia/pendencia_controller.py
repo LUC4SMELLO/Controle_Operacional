@@ -86,11 +86,13 @@ class PendenciaController:
         except Exception:
             pass
 
+        self.view.entry_carga.bind("<Return>", lambda event: self.exibir_nome_rota(event))
         self.view.entry_codigo_cliente.bind("<Return>", lambda event: self.exibir_razao_social_cliente(event))
         self.view.entry_codigo_produto.bind("<Return>", lambda event: self.exibir_descricao_produto(event))
 
-        self.view.entry_codigo_cliente.bind("<FocusOut>", lambda event: self.exibir_razao_social_cliente(event))
-        self.view.entry_codigo_produto.bind("<FocusOut>", lambda event: self.exibir_descricao_produto(event))
+        # self.view.entry_carga.bind("<FocusOut>", lambda event: self.exibir_nome_rota(event))
+        # self.view.entry_codigo_cliente.bind("<FocusOut>", lambda event: self.exibir_razao_social_cliente(event))
+        # self.view.entry_codigo_produto.bind("<FocusOut>", lambda event: self.exibir_descricao_produto(event))
 
         self.view.winfo_toplevel().bind("<Escape>", lambda event: self.limpar_formulario(event))
 
@@ -114,6 +116,16 @@ class PendenciaController:
 
         combobox.set(valores[proximo_indice])
         return "break"
+    
+    def exibir_nome_rota(self, event):
+        numero_carga = self.view.entry_carga.get()
+
+        resultado = self.model.buscar_nome_rota(numero_carga)
+        if not resultado:
+            self.view.label_nome_rota.configure(text="NOME ROTA NÃO ENCONTRADO")
+            return
+        
+        self.view.label_nome_rota.configure(text=resultado[0])
     
     def exibir_razao_social_cliente(self, event):
         codigo_cliente = self.view.entry_codigo_cliente.get()
@@ -306,26 +318,31 @@ class PendenciaController:
         self.view.entry_cupom.configure(state="readonly")
 
         self.view.entry_data.set_date(data_formatada)
-        self.view.entry_carga.insert(0, resultado[2])
-        self.view.entry_codigo_cliente.insert(0, resultado[3])
 
-        if not resultado[4]:
+        self.view.entry_carga.insert(0, resultado[2])
+        if not resultado[3]:
+            self.view.label_nome_rota.configure(text="NOME ROTA NÃO ENCONTRADO")
+        else:
+            self.view.label_nome_rota.configure(text=resultado[3])
+
+        self.view.entry_codigo_cliente.insert(0, resultado[4])
+        if not resultado[5]:
             self.view.label_razao_social.configure(text="CLIENTE NÃO ENCONTRADO")
         else:
-            self.view.label_razao_social.configure(text=resultado[4])
+            self.view.label_razao_social.configure(text=resultado[5])
 
-        self.view.entry_tipo.set(resultado[5])
-        self.view.entry_responsavel.insert(0, resultado[6])
-        self.view.entry_situacao.set(resultado[7])
-        self.view.entry_carga_entregue.insert(0, resultado[8])
-        self.view.entry_codigo_produto.insert(0, resultado[9])
+        self.view.entry_tipo.set(resultado[6])
+        self.view.entry_responsavel.insert(0, resultado[7])
+        self.view.entry_situacao.set(resultado[8])
+        self.view.entry_carga_entregue.insert(0, resultado[9])
 
-        if not resultado[10]:
+        self.view.entry_codigo_produto.insert(0, resultado[10])
+        if not resultado[11]:
             self.view.label_descricao_produto.configure(text="PRODUTO NÃO ENCONTRADO")
         else:
-            self.view.label_descricao_produto.configure(text=resultado[10])
+            self.view.label_descricao_produto.configure(text=resultado[11])
             
-        self.view.entry_quantidade.insert(0, resultado[11])
+        self.view.entry_quantidade.insert(0, resultado[12])
 
         if tipo_view == "excluir":
             self.view.entry_cupom.configure(state="readonly")
@@ -385,5 +402,7 @@ class PendenciaController:
                 self.view.label_razao_social.configure(text="")
             if hasattr(self.view, 'label_descricao_produto'):
                 self.view.label_descricao_produto.configure(text="")
+            if hasattr(self.view, 'label_nome_rota'):
+                self.view.label_nome_rota.configure(text="")
         except Exception:
             pass
