@@ -174,7 +174,7 @@ def gerar_imagem_mapa_troca_frente(informacoes: dict):
 
         draw.text(
             (460, y_caixa + 15),
-            f"{informacoes["numero_carga"]} - {numero_carga_1}",
+            f"{informacoes['numero_carga']} - {numero_carga_1}",
             fill="black",
             font=fonte
         )
@@ -244,7 +244,7 @@ def gerar_imagem_mapa_troca_frente(informacoes: dict):
 
         draw.text(
             (1000, y_caixa + 15),
-            f"{informacoes["numero_carga"]} - {numero_carga_2}",
+            f"{informacoes['numero_carga']} - {numero_carga_2}",
             fill="black",
             font=fonte
         )
