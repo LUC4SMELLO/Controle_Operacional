@@ -117,6 +117,9 @@ class CadastrarPendenciaView(ctk.CTkFrame):
         self.entry_carga = ctk.CTkEntry(self.cadastro_frame, font=FONTE_TEXTO, width=100, height=30, corner_radius=2)
         self.entry_carga.grid(row=1, column=1, padx=(10, 0), pady=(10, 0), sticky="w")
 
+        self.label_nome_rota = ctk.CTkLabel(self.cadastro_frame, text="", font=FONTE_TEXTO, text_color=COR_TEXTO)
+        self.label_nome_rota.grid(row=1, column=3, padx=(25, 0), pady=(10, 0), sticky="w")
+
 
         ctk.CTkLabel(self.cadastro_frame, text="Código Cliente:", font=FONTE_LABEL, text_color=COR_TEXTO).grid(row=2, column=0, padx=(40, 0), pady=(10, 0), sticky="e")
         self.entry_codigo_cliente = ctk.CTkEntry(self.cadastro_frame, font=FONTE_TEXTO, width=100, height=30, corner_radius=2)
