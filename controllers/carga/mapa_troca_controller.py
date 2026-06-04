@@ -3,7 +3,7 @@ from typing import Literal
 from datetime import datetime
 from PIL import Image, ImageTk
 
-from scripts.gerar_imagem import gerar_imagem_mapa_troca
+from scripts.gerar_imagem import gerar_imagem_mapa_troca_frente
 
 from constants.caminho_arquivos import CAMINHO_IMAGEM_MAPA
 
@@ -29,7 +29,6 @@ class MapaTrocaController:
             }
 
         resultado = self.model.buscar_mapa(carga)
-        print(resultado)
 
         if not resultado:
             return {
@@ -40,7 +39,7 @@ class MapaTrocaController:
             }
         
         try:
-            gerar_imagem_mapa_troca(resultado)
+            gerar_imagem_mapa_troca_frente(resultado)
         except Exception as erro:
             return {
                 "sucesso": False,
