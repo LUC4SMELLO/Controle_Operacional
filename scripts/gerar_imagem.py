@@ -494,8 +494,69 @@ def gerar_imagem_mapa_troca_frente(informacoes: dict):
 
         # SALVA A IMAGEM
         img.save(
-            REPORTS_IMAGES_DIR / "mapa.png"
+            REPORTS_IMAGES_DIR / "mapa_frente.png"
         )
 
-def gerar_imagem_mapa_troca_verso(informacoes: dict):
-    pass
+def gerar_imagem_mapa_troca_verso(informacoes: list):
+    # Criar imagem branca
+    largura = 1190
+    altura = 1684
+
+    img = Image.new("RGB", (largura, altura), "white")
+    draw = ImageDraw.Draw(img)
+
+    # Fonte
+    try:
+        fonte = ImageFont.truetype("arial.ttf", 16)
+        fonte_label = ImageFont.truetype("arialbd.ttf", 18)
+        fonte_label_menor = ImageFont.truetype("arialbd.ttf", 14)
+        fonte_titulo = ImageFont.truetype("arialbd.ttf", 22)
+    except:
+        fonte = ImageFont.load_default()
+        fonte_titulo = ImageFont.load_default()
+
+
+    def linha(x1, y1, x2, y2, largura_linha=1):
+        draw.line((x1, y1, x2, y2), fill="black", width=largura_linha)
+
+    def retangulo(x1, y1, x2, y2, largura_linha=1):
+        draw.rectangle((x1, y1, x2, y2), outline="black", width=largura_linha)
+
+
+    # for i in informacoes:
+
+    retangulo(10, 10, 575, 250,)
+    # retangulo(585, 10, 1180, 250)
+
+    draw.text((20, 20), "CÓDIGO:", fill="black", font=fonte_label)
+    draw.text((105, 22), informacoes[0]["codigo_cliente"], fill="black", font=fonte)
+
+    draw.text((450, 20), "CUPOM:", fill="black", font=fonte_label)
+    draw.text((525, 22), informacoes[0]["cupom"], fill="black", font=fonte)
+
+    draw.text((20, 45), "RAZÃO SOCIAL:", fill="black", font=fonte_label)
+    draw.text((170, 47), informacoes[0]["razao_social"], fill="black", font=fonte)
+
+    linha(10, 75, 575, 75)
+
+    draw.text((20, 80), "CÓDIGO", fill="black", font=fonte_label_menor)
+    draw.text((150, 80), "DESCRIÇÃO", fill="black", font=fonte_label_menor)
+    draw.text((340, 80), "QUANT", fill="black", font=fonte_label_menor)
+    draw.text((420, 80), "V.UNIT", fill="black", font=fonte_label_menor)
+    draw.text((500, 80), "V.TOTAL", fill="black", font=fonte_label_menor)
+
+    draw.text((30, 100), "8533", fill="black", font=fonte)
+    draw.text((120, 100), "Coca Lata 350ml", fill="black", font=fonte)
+    draw.text((360, 100), "1", fill="black", font=fonte)
+
+
+
+
+
+        
+
+
+    # SALVA A IMAGEM
+    img.save(
+        REPORTS_IMAGES_DIR / "mapa_verso.png"
+    )
