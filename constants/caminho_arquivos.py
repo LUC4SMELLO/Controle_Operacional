@@ -12,5 +12,5 @@ CAMINHO_IMAGENS_ESCALA = [
 ]
 
 CAMINHO_IMAGEM_MAPA = [
-    (REPORTS_IMAGES_DIR / "mapa.png")
+    (REPORTS_IMAGES_DIR / "mapa_frente.png")
 ]

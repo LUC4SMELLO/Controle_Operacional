@@ -177,7 +177,7 @@ class MapaTrocaView(ctk.CTkFrame):
         self.canvas.delete("all")
         self.imagens_tk.clear()
 
-        for nome in ["mapa.png"]:
+        for nome in ["mapa_frente.png"]:
             caminho = REPORTS_IMAGES_DIR / nome
             if caminho.exists():
                 self.imagens_originais.append(Image.open(caminho))
