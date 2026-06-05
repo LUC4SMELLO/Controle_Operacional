@@ -32,7 +32,7 @@ class RelatorioController:
             self.atualizar_numero_total_itens()
             return {
                 "sucesso": False,
-                "titulo": "Aviso.",
+                "titulo": "Aviso",
                 "mensagem": "Não há pendências com esses filtros.",
                 "icone": "warning"
                 }

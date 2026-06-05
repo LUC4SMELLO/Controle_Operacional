@@ -135,6 +135,10 @@ class EditarPendenciaView(ctk.CTkFrame):
         self.entry_carga = ctk.CTkEntry(self.edicao_frame, font=FONTE_TEXTO, width=100, height=30, corner_radius=2)
         self.entry_carga.grid(row=3, column=1, padx=(10, 0), pady=(10, 0), sticky="w")
 
+        self.label_nome_rota = ctk.CTkLabel(self.edicao_frame, text="", font=FONTE_TEXTO, text_color=COR_TEXTO)
+        self.label_nome_rota.grid(row=3, column=3, padx=(25, 0), pady=(10, 0), sticky="w")
+
+
         ctk.CTkLabel(self.edicao_frame, text="Código Cliente:", font=FONTE_LABEL, text_color=COR_TEXTO).grid(row=4, column=0, padx=(40, 0), pady=(10, 0), sticky="e")
         self.entry_codigo_cliente = ctk.CTkEntry(self.edicao_frame, font=FONTE_TEXTO, width=100, height=30, corner_radius=2)
         self.entry_codigo_cliente.grid(row=4, column=1, padx=(10, 0), pady=(10, 0), sticky="w")
@@ -224,7 +228,7 @@ class EditarPendenciaView(ctk.CTkFrame):
             hover_color=HOVER_BOTAO,
             text_color= COR_TEXTO_BOTAO,
         )
-        self.botao_confirmar.grid(row=0, column=2, padx=(10, 0), pady=(25, 0))
+        self.botao_confirmar.grid(row=0, column=0, padx=(0, 0), pady=(25, 0))
 
         self.botao_cancelar= ctk.CTkButton(
             self.footer_frame,
@@ -237,7 +241,7 @@ class EditarPendenciaView(ctk.CTkFrame):
             hover_color=HOVER_BOTAO,
             text_color=COR_TEXTO_BOTAO,
         )
-        self.botao_cancelar.grid(row=0, column=3, padx=(10, 0), pady=(25, 0))
+        self.botao_cancelar.grid(row=0, column=1, padx=(10, 0), pady=(25, 0))
 
     def confirmar(self):
         resultado = self.controller.confirmar_edicao_pendencia()

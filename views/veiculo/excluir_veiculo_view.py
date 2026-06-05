@@ -134,7 +134,7 @@ class ExcluirVeiculoView(ctk.CTkFrame):
             hover_color=HOVER_BOTAO,
             text_color= COR_TEXTO_BOTAO,
         )
-        self.botao_confirmar.grid(row=0, column=2, padx=(10, 0), pady=(25, 0))
+        self.botao_confirmar.grid(row=0, column=0, padx=(0, 0), pady=(25, 0))
 
         self.botao_cancelar= ctk.CTkButton(
             self.footer_frame,
@@ -147,7 +147,7 @@ class ExcluirVeiculoView(ctk.CTkFrame):
             hover_color=HOVER_BOTAO,
             text_color=COR_TEXTO_BOTAO,
         )
-        self.botao_cancelar.grid(row=0, column=3, padx=(10, 0), pady=(25, 0))
+        self.botao_cancelar.grid(row=0, column=1, padx=(10, 0), pady=(25, 0))
 
     def confirmar(self):
         resultado = self.controller.confirmar_exclusao_veiculo()
