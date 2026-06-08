@@ -29,6 +29,7 @@ class MapaTrocaController:
             }
 
         resultado = self.model.buscar_mapa(carga)
+        resultado_pendencias = self.model.buscar_pendencias_carga_por_cliente(carga)
 
         if not resultado:
             return {
@@ -39,7 +40,7 @@ class MapaTrocaController:
             }
         
         try:
-            gerar_imagem_mapa_troca_frente(resultado)
+            gerar_imagem_mapa_troca_frente(resultado, resultado_pendencias)
         except Exception as erro:
             return {
                 "sucesso": False,
