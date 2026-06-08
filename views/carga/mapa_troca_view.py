@@ -82,7 +82,7 @@ class MapaTrocaView(ctk.CTkFrame):
 
         ctk.CTkFrame(self.header_frame, height=2, fg_color=COR_LINHAS).grid(row=2, column=0, padx=(40, 290), pady=(15, 0), sticky="ew", columnspan=1)
 
-        self.toolbar_frame_1 = ctk.CTkFrame(self.main_frame, fg_color="#D42222")
+        self.toolbar_frame_1 = ctk.CTkFrame(self.main_frame, fg_color="transparent")
         self.toolbar_frame_1.grid_rowconfigure(0, weight=0)
         self.toolbar_frame_1.grid_rowconfigure(1, weight=1)
         self.toolbar_frame_1.grid_columnconfigure(0, weight=0)
@@ -133,7 +133,7 @@ class MapaTrocaView(ctk.CTkFrame):
 
 
 
-        self.visualizar_frame = ctk.CTkFrame(self.main_frame, fg_color="#810151")
+        self.visualizar_frame = ctk.CTkFrame(self.main_frame, fg_color="transparent")
         self.visualizar_frame.grid_rowconfigure(0, weight=1)
         self.visualizar_frame.grid_columnconfigure(0, weight=0)
         self.visualizar_frame.grid_columnconfigure(1, weight=0)
@@ -144,7 +144,7 @@ class MapaTrocaView(ctk.CTkFrame):
 
         self.canvas = ctk.CTkCanvas(
             self.visualizar_frame,
-            bg="#C2C2C2",
+            bg="#FFFFFF",
             highlightthickness=0,
             bd=0
         )
