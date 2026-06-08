@@ -525,11 +525,11 @@ def gerar_imagem_mapa_troca_verso(informacoes: list):
 
     # for i in informacoes:
 
-    retangulo(10, 10, 575, 250,)
+    retangulo(10, 10, 575, 350)
     # retangulo(585, 10, 1180, 250)
 
-    draw.text((20, 20), "CÓDIGO:", fill="black", font=fonte_label)
-    draw.text((105, 22), informacoes[0]["codigo_cliente"], fill="black", font=fonte)
+    draw.text((84, 20), "CÓDIGO:", fill="black", font=fonte_label)
+    draw.text((170, 22), informacoes[0]["codigo_cliente"], fill="black", font=fonte)
 
     draw.text((450, 20), "CUPOM:", fill="black", font=fonte_label)
     draw.text((525, 22), informacoes[0]["cupom"], fill="black", font=fonte)
@@ -545,10 +545,26 @@ def gerar_imagem_mapa_troca_verso(informacoes: list):
     draw.text((420, 80), "V.UNIT", fill="black", font=fonte_label_menor)
     draw.text((500, 80), "V.TOTAL", fill="black", font=fonte_label_menor)
 
-    draw.text((30, 100), "8533", fill="black", font=fonte)
-    draw.text((120, 100), "Coca Lata 350ml", fill="black", font=fonte)
-    draw.text((360, 100), "1", fill="black", font=fonte)
+    draw.text((30, 100), informacoes[0]["codigo_produto"], fill="black", font=fonte)
+    draw.text((120, 100), informacoes[0]["descricao_produto"], fill="black", font=fonte)
+    draw.text((360, 100), informacoes[0]["quantidade"], fill="black", font=fonte)
 
+    
+    linha(10, 250, 575, 250)
+
+    draw.text((20, 253), "TOTAL", fill="black", font=fonte_label)
+
+    draw.text((360, 253), informacoes[0]["total_quantidade"], fill="black", font=fonte)
+    draw.text((430, 253), informacoes[0]["valor_total_unitario"], fill="black", font=fonte)
+    draw.text((510, 253), informacoes[0]["valor_total_geral"], fill="black", font=fonte)
+
+    linha(10, 275, 575, 275)
+
+    draw.text((20, 280), "RESPONSÁVEL:", fill="black", font=fonte_label)
+    draw.text((175, 282), informacoes[0]["responsavel"], fill="black", font=fonte)
+
+    draw.text((38, 305), "ASSINATURA:", fill="black", font=fonte_label)
+    linha(175, 320, 455, 320)
 
 
 
