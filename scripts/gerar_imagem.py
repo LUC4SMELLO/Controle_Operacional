@@ -370,7 +370,10 @@ def gerar_imagem_mapa_troca_frente(informacoes_escala: dict, informacoes_pendenc
     linha(560, 192, 705, 192)
 
     draw.text((730, 175), "Segundo Ajudante:", fill="black", font=fonte_label)
-    linha(901, 192, 1096, 192)
+    linha(901, 192, 986, 192)
+    draw.text((938, 172), ":", fill="black", font=fonte_label)
+    linha(1008, 192, 1096, 192)
+    draw.text((1048, 172), ":", fill="black", font=fonte_label)
 
     draw.text((126, 215), "Km Inicial:", fill="black", font=fonte_label)
     linha(225, 232, 370, 232)
@@ -416,14 +419,6 @@ def gerar_imagem_mapa_troca_frente(informacoes_escala: dict, informacoes_pendenc
     draw.text((800, 310), "DESCRIÇÃO", fill="black", font=fonte_label)
     draw.text((961, 310), "QUANTIDADE", fill="black", font=fonte_label)
 
-
-    # draw.text((861, 270), "EQUIPAMENTOS", fill="black", font=fonte_label)
-    # draw.text((806, 310), "CARREGADO", fill="black", font=fonte_label)
-    # draw.text((961, 310), "RETORNADO", fill="black", font=fonte_label)
-    # draw.text((760, 345), "MESA", fill="black", font=fonte)
-    # draw.text((760, 375), "CADEIRA", fill="black", font=fonte)
-    # draw.text((760, 405), "GELADEIRA", fill="black", font=fonte)
-
     y=305
     for i in range(9):
         linha(755, y, 1096, y)
@@ -437,58 +432,75 @@ def gerar_imagem_mapa_troca_frente(informacoes_escala: dict, informacoes_pendenc
     # TROCA DE MERCADORIAS
     # =========================
     if informacoes_pendencias:
-
-        y_titulo_secao = 580
+        y_atual = 580
         texto_secao = "MAPA DE CARREGAMENTO DE TROCAS E PENDÊNCIAS"
         
-        # 2. Pegamos o bounding box para saber a altura exata do texto desenhado
-        bbox_titulo = draw.textbbox((380, y_titulo_secao), texto_secao, font=fonte_titulo)
+        # 1. Título da Seção
+        draw.text((290, y_atual), texto_secao, fill="black", font=fonte_titulo)
+        bbox_titulo = draw.textbbox((290, y_atual), texto_secao, font=fonte_titulo)
         altura_titulo = bbox_titulo[3] - bbox_titulo[1]
         
-        # 3. Desenhamos o título da seção na tela
-        draw.text((290, y_titulo_secao), texto_secao, fill="black", font=fonte_titulo)
+        # Avança o Y após o título (título + margem)
+        y_atual += altura_titulo + 15  
 
-
-        draw.text((80, 615), "CÓDIGO", fill="black", font=fonte_label_menor)
-        draw.text((225, 615), "DESCRIÇÃO", fill="black", font=fonte_label_menor)
-        draw.text((500, 615), "QUANTIDADE", fill="black", font=fonte_label_menor)
-        draw.text((700, 615), "TIPO", fill="black", font=fonte_label_menor)
-        draw.text((830, 615), "VALOR UNITÁRIO", fill="black", font=fonte_label_menor)
-        draw.text((980, 615), "VALOR TOTAL", fill="black", font=fonte_label_menor)
-
-
-        y = 633
+        # 2. Tabela 1: Itens das Pendências (Cabeçalho)
+        y_cabecalho_itens = y_atual
+        colunas_itens = {
+            "CÓDIGO": 80, "DESCRIÇÃO": 225, "QUANTIDADE": 500, 
+            "TIPO": 700, "VALOR UNITÁRIO": 830, "VALOR TOTAL": 980
+        }
+        for texto_col, x_col in colunas_itens.items():
+            draw.text((x_col, y_cabecalho_itens), texto_col, fill="black", font=fonte_label_menor)
+        
+        # Linhas dos Itens
+        y_atual += 18  
         for cod_cliente, dados in informacoes_pendencias.items():
             for pendencia in dados["pendencias"]:
-                draw.text((100, y), str(pendencia["cupom"]), fill="black", font=fonte_menor)
-                draw.text((170, y), pendencia["descricao"], fill="black", font=fonte_menor)
-                draw.text((535, y), pendencia["quantidade"], fill="black", font=fonte_menor)
-                if "Pendência" in pendencia["tipo"]:
-                    draw.text((685, y), pendencia["tipo"], fill="black", font=fonte_menor)
-                else:
-                    draw.text((698, y), pendencia["tipo"], fill="black", font=fonte_menor)
+                # Alinhamento do Tipo (substitui o IF por cálculo ou largura estimada)
+                x_tipo = 685 if "Pendência" in str(pendencia["tipo"]) else 698
+                
+                draw.text((100, y_atual), str(pendencia["cupom"]), fill="black", font=fonte_menor)
+                draw.text((170, y_atual), str(pendencia["descricao"]), fill="black", font=fonte_menor)
+                draw.text((535, y_atual), str(pendencia["quantidade"]), fill="black", font=fonte_menor)
+                draw.text((x_tipo, y_atual), str(pendencia["tipo"]), fill="black", font=fonte_menor)
+                
+                y_atual += 20
+        
+        # Desenha o primeiro retângulo baseado no Y real alcançado
+        retangulo(60, y_cabecalho_itens - 5, 1130, y_atual + 5)
 
-                y += 20
-
-        retangulo(60, 610, 1130, y + 5)
-
-        y_c = y
-        y_clientes = y
-        draw.text((280, y_clientes + 20), "CLIENTES COM TROCAS OU PENDÊNCIAS NESTE MAPA", fill="black", font=fonte_titulo)
-        draw.text((80, y_clientes + 55), "CÓDIGO", fill="black", font=fonte_label_menor)
-        draw.text((300, y_clientes + 55), "RAZÃO SOCIAL", fill="black", font=fonte_label_menor)
-        draw.text((620, y_clientes + 55), "TOTAL", fill="black", font=fonte_label_menor)
-
+        # 3. Tabela 2: Resumo de Clientes
+        y_atual += 25  # Espaçamento entre as duas tabelas
+        texto_subsecao = "CLIENTES COM TROCAS OU PENDÊNCIAS NESTE MAPA"
+        draw.text((280, y_atual), texto_subsecao, fill="black", font=fonte_titulo)
+        
+        y_atual += 35  # Espaçamento após o subtítulo
+        y_cabecalho_clientes = y_atual
+        colunas_clientes = {"CÓDIGO": 80, "RAZÃO SOCIAL": 300, "TOTAL": 620}
+        for texto_col, x_col in colunas_clientes.items():
+            draw.text((x_col, y_cabecalho_clientes), texto_col, fill="black", font=fonte_label_menor)
+            
+        # Linhas dos Clientes
+        y_atual += 18  
         for cod_cliente, dados in informacoes_pendencias.items():
-            draw.text((90, y_clientes + 73), cod_cliente, fill="black", font=fonte_menor)
-            draw.text((190, y_clientes + 73), dados["razao_social"], fill="black", font=fonte_menor)
-
-            y_clientes += 20
-
-        retangulo(60, y_c + 50, 1130, y_clientes + 73)
-        y_dinamico_cupons = y_titulo_secao + altura_titulo + 30
+            draw.text((90, y_atual), str(cod_cliente), fill="black", font=fonte_menor)
+            draw.text((190, y_atual), str(dados["razao_social"]), fill="black", font=fonte_menor)
+            
+            # Conta a quantidade de cupons usando a lógica que criamos antes
+            qtd_cupons = len({p["cupom"] for p in dados["pendencias"]})
+            draw.text((630, y_atual), f"{qtd_cupons}", fill="black", font=fonte_menor)
+            
+            y_atual += 20
+            
+        # Desenha o segundo retângulo perfeitamente alinhado dinamicamente
+        retangulo(60, y_cabecalho_clientes - 5, 1130, y_atual + 5)
+        
+        # Atualiza a variável global/escopo do Y dinâmico para os próximos blocos da página
+        y_proxima_secao = y_atual + 30
+        
     else:
         draw.text((290, 580), "ESTE MAPA NÃO POSSUI TROCAS OU PENDÊNCIAS", fill="black", font=fonte_titulo)
+        y_proxima_secao = 620
 
 
 
@@ -508,39 +520,39 @@ def gerar_imagem_mapa_troca_frente(informacoes_escala: dict, informacoes_pendenc
     # CUPONS
     # =========================
 
-    # draw.text((320, y_dinamico_cupons + 90), "CUPONS PARA PREENCHER EM CASO DE TROCA", fill="black", font=fonte_titulo)
+    draw.text((320, y_proxima_secao), "CUPONS PARA PREENCHER EM CASO DE TROCA", fill="black", font=fonte_titulo)
 
-    # y_inicial = y_dinamico_cupons + 120
-    # altura_pagina = 1590
+    y_inicial = y_proxima_secao + 30
+    altura_pagina = 1590
 
-    # y_atual = y_inicial
-
-
-    # contador = 1
-    # while True:
-
-    #     altura_total_cupom = 245
-
-    #     # verifica se ainda cabe
-    #     if y_atual + altura_total_cupom > altura_pagina:
-    #         break
-
-    #     fim = desenhar_cupom(
-    #         y_atual,
-    #         f"{contador:02}",
-    #         f"{contador+1:02}"
-    #     )
-
-    #     y_atual = fim
-
-    #     contador += 2
+    y_atual = y_inicial
 
 
+    contador = 1
+    while True:
 
-    # SALVA A IMAGEM
-    img.save(
-        REPORTS_IMAGES_DIR / "mapa_frente.png"
-    )
+        altura_total_cupom = 245
+
+        # verifica se ainda cabe
+        if y_atual + altura_total_cupom > altura_pagina:
+            break
+
+        fim = desenhar_cupom(
+            y_atual,
+            f"{contador:02}",
+            f"{contador+1:02}"
+        )
+
+        y_atual = fim
+
+        contador += 2
+
+
+
+        # SALVA A IMAGEM
+        img.save(
+            REPORTS_IMAGES_DIR / "mapa_frente.png"
+        )
 
 def gerar_imagem_mapa_troca_verso(informacoes: list):
     # Criar imagem branca
