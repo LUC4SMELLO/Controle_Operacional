@@ -140,7 +140,7 @@ def gerar_imagem_escala(escala):
             REPORTS_IMAGES_DIR / f"relatorio_entrega_{indice_pagina}.png"
         )
 
-def gerar_imagem_mapa_troca_frente(informacoes: dict):
+def gerar_imagem_mapa_troca_frente(informacoes_escala: dict, informacoes_pendencias: dict):
         
     # Criar imagem branca
     largura = 1190
@@ -152,6 +152,9 @@ def gerar_imagem_mapa_troca_frente(informacoes: dict):
     # =========================
     # FUNÇÕES AUXILIARES
     # =========================
+
+    def desenhar_carregamento_troca():
+        pass
 
     def desenhar_cupom(y_topo, numero_carga_1, numero_carga_2):
 
@@ -174,7 +177,7 @@ def gerar_imagem_mapa_troca_frente(informacoes: dict):
 
         draw.text(
             (460, y_caixa + 15),
-            f"{informacoes['numero_carga']} - {numero_carga_1}",
+            f"{informacoes_escala['numero_carga']} - {numero_carga_1}",
             fill="black",
             font=fonte
         )
@@ -244,7 +247,7 @@ def gerar_imagem_mapa_troca_frente(informacoes: dict):
 
         draw.text(
             (1000, y_caixa + 15),
-            f"{informacoes['numero_carga']} - {numero_carga_2}",
+            f"{informacoes_escala['numero_carga']} - {numero_carga_2}",
             fill="black",
             font=fonte
         )
@@ -308,7 +311,9 @@ def gerar_imagem_mapa_troca_frente(informacoes: dict):
     # Fonte
     try:
         fonte = ImageFont.truetype("arial.ttf", 16)
+        fonte_menor = ImageFont.truetype("arial.ttf", 14)
         fonte_label = ImageFont.truetype("arialbd.ttf", 18)
+        fonte_label_menor = ImageFont.truetype("arialbd.ttf", 14)
         fonte_titulo = ImageFont.truetype("arialbd.ttf", 22)
     except:
         fonte = ImageFont.load_default()
@@ -336,24 +341,24 @@ def gerar_imagem_mapa_troca_frente(informacoes: dict):
 
     # Dados superiores
     draw.text((945, 70), "Nº Carga:", fill="black", font=fonte_label)
-    draw.text((1035, 72), text=informacoes["numero_carga"], fill="black", font=fonte)
+    draw.text((1035, 72), text=informacoes_escala["numero_carga"], fill="black", font=fonte)
 
 
     draw.text((95, 120), "Motorista:", fill="black", font=fonte_label)
-    draw.text((190, 122), text=informacoes["nome_motorista"], fill="black", font=fonte)
+    draw.text((190, 122), text=informacoes_escala["nome_motorista"], fill="black", font=fonte)
     draw.text((400, 120), "Veículo:", fill="black", font=fonte_label)
-    draw.text((480, 122), text=informacoes["numero_veiculo"], fill="black", font=fonte)
+    draw.text((480, 122), text=informacoes_escala["numero_veiculo"], fill="black", font=fonte)
 
-    draw.text((550, 120), text=informacoes["nome_rota"], fill="black", font=fonte_label)
+    draw.text((550, 120), text=informacoes_escala["nome_rota"], fill="black", font=fonte_label)
 
-    if "segunda" in informacoes["data_por_extenso"]:
-        draw.text((845, 120), text=informacoes["data_por_extenso"], fill="black", font=fonte)
+    if "segunda" in informacoes_escala["data_por_extenso"]:
+        draw.text((845, 120), text=informacoes_escala["data_por_extenso"], fill="black", font=fonte)
 
-    elif "quarta" in informacoes["data_por_extenso"] or "quinta" in informacoes["data_por_extenso"]:
-        draw.text((862, 120), text=informacoes["data_por_extenso"], fill="black", font=fonte)
+    elif "quarta" in informacoes_escala["data_por_extenso"] or "quinta" in informacoes_escala["data_por_extenso"]:
+        draw.text((862, 120), text=informacoes_escala["data_por_extenso"], fill="black", font=fonte)
 
-    elif "terça" in informacoes["data_por_extenso"] or "sexta" in informacoes["data_por_extenso"]:
-        draw.text((872, 120), text=informacoes["data_por_extenso"], fill="black", font=fonte)
+    elif "terça" in informacoes_escala["data_por_extenso"] or "sexta" in informacoes_escala["data_por_extenso"]:
+        draw.text((872, 120), text=informacoes_escala["data_por_extenso"], fill="black", font=fonte)
 
     # =========================
     # INFORMAÇÕES
@@ -429,73 +434,113 @@ def gerar_imagem_mapa_troca_frente(informacoes: dict):
 
 
     # =========================
+    # TROCA DE MERCADORIAS
+    # =========================
+    if informacoes_pendencias:
+
+        y_titulo_secao = 580
+        texto_secao = "MAPA DE CARREGAMENTO DE TROCAS E PENDÊNCIAS"
+        
+        # 2. Pegamos o bounding box para saber a altura exata do texto desenhado
+        bbox_titulo = draw.textbbox((380, y_titulo_secao), texto_secao, font=fonte_titulo)
+        altura_titulo = bbox_titulo[3] - bbox_titulo[1]
+        
+        # 3. Desenhamos o título da seção na tela
+        draw.text((290, y_titulo_secao), texto_secao, fill="black", font=fonte_titulo)
+
+
+        draw.text((80, 615), "CÓDIGO", fill="black", font=fonte_label_menor)
+        draw.text((225, 615), "DESCRIÇÃO", fill="black", font=fonte_label_menor)
+        draw.text((500, 615), "QUANTIDADE", fill="black", font=fonte_label_menor)
+        draw.text((700, 615), "TIPO", fill="black", font=fonte_label_menor)
+        draw.text((830, 615), "VALOR UNITÁRIO", fill="black", font=fonte_label_menor)
+        draw.text((980, 615), "VALOR TOTAL", fill="black", font=fonte_label_menor)
+
+
+        y = 633
+        for cod_cliente, dados in informacoes_pendencias.items():
+            for pendencia in dados["pendencias"]:
+                draw.text((100, y), str(pendencia["cupom"]), fill="black", font=fonte_menor)
+                draw.text((170, y), pendencia["descricao"], fill="black", font=fonte_menor)
+                draw.text((535, y), pendencia["quantidade"], fill="black", font=fonte_menor)
+                if "Pendência" in pendencia["tipo"]:
+                    draw.text((685, y), pendencia["tipo"], fill="black", font=fonte_menor)
+                else:
+                    draw.text((698, y), pendencia["tipo"], fill="black", font=fonte_menor)
+
+                y += 20
+
+        retangulo(60, 610, 1130, y + 5)
+
+        y_c = y
+        y_clientes = y
+        draw.text((280, y_clientes + 20), "CLIENTES COM TROCAS OU PENDÊNCIAS NESTE MAPA", fill="black", font=fonte_titulo)
+        draw.text((80, y_clientes + 55), "CÓDIGO", fill="black", font=fonte_label_menor)
+        draw.text((300, y_clientes + 55), "RAZÃO SOCIAL", fill="black", font=fonte_label_menor)
+        draw.text((620, y_clientes + 55), "TOTAL", fill="black", font=fonte_label_menor)
+
+        for cod_cliente, dados in informacoes_pendencias.items():
+            draw.text((90, y_clientes + 73), cod_cliente, fill="black", font=fonte_menor)
+            draw.text((190, y_clientes + 73), dados["razao_social"], fill="black", font=fonte_menor)
+
+            y_clientes += 20
+
+        retangulo(60, y_c + 50, 1130, y_clientes + 73)
+        y_dinamico_cupons = y_titulo_secao + altura_titulo + 30
+    else:
+        draw.text((290, 580), "ESTE MAPA NÃO POSSUI TROCAS OU PENDÊNCIAS", fill="black", font=fonte_titulo)
+
+
+
+
+    # =========================
     #        RODAPÉ
     # =========================
 
     retangulo(60, 1595, 1130, 1620)
 
     draw.text((95, 1598), "Ajudante 1:", fill="black", font=fonte_label)
-    draw.text((200, 1600), informacoes["nome_ajudante_1"] if informacoes["nome_ajudante_1"] else "", fill="black", font=fonte)
+    draw.text((200, 1600), informacoes_escala["nome_ajudante_1"] if informacoes_escala["nome_ajudante_1"] else "", fill="black", font=fonte)
     draw.text((700, 1598), "Ajudante 2:", fill="black", font=fonte_label)
-    draw.text((805, 1600), informacoes["nome_ajudante_2"] if informacoes["nome_ajudante_2"] else "", fill="black", font=fonte)
-
-
-    # =========================
-    # TROCA DE MERCADORIAS
-    # =========================
-
-    texto_grande = """
-    Este texto pode aumentar ou diminuir.
-    Dependendo da quantidade de linhas,
-    os cupons precisam descer automaticamente.
-    """
-
-    bbox = draw.multiline_textbbox(
-        (60, 400),
-        texto_grande,
-        font=fonte,
-        spacing=10
-    )
-
-    altura_texto = bbox[3]
+    draw.text((805, 1600), informacoes_escala["nome_ajudante_2"] if informacoes_escala["nome_ajudante_2"] else "", fill="black", font=fonte)
 
     # =========================
     # CUPONS
     # =========================
 
-    draw.text((320, altura_texto + 90), "CUPONS PARA PREENCHER EM CASO DE TROCA", fill="black", font=fonte_titulo)
+    # draw.text((320, y_dinamico_cupons + 90), "CUPONS PARA PREENCHER EM CASO DE TROCA", fill="black", font=fonte_titulo)
 
-    y_inicial = altura_texto + 120
-    altura_pagina = 1590
+    # y_inicial = y_dinamico_cupons + 120
+    # altura_pagina = 1590
 
-    y_atual = y_inicial
-
-
-    contador = 1
-    while True:
-
-        altura_total_cupom = 245
-
-        # verifica se ainda cabe
-        if y_atual + altura_total_cupom > altura_pagina:
-            break
-
-        fim = desenhar_cupom(
-            y_atual,
-            f"{contador:02}",
-            f"{contador+1:02}"
-        )
-
-        y_atual = fim
-
-        contador += 2
+    # y_atual = y_inicial
 
 
+    # contador = 1
+    # while True:
 
-        # SALVA A IMAGEM
-        img.save(
-            REPORTS_IMAGES_DIR / "mapa_frente.png"
-        )
+    #     altura_total_cupom = 245
+
+    #     # verifica se ainda cabe
+    #     if y_atual + altura_total_cupom > altura_pagina:
+    #         break
+
+    #     fim = desenhar_cupom(
+    #         y_atual,
+    #         f"{contador:02}",
+    #         f"{contador+1:02}"
+    #     )
+
+    #     y_atual = fim
+
+    #     contador += 2
+
+
+
+    # SALVA A IMAGEM
+    img.save(
+        REPORTS_IMAGES_DIR / "mapa_frente.png"
+    )
 
 def gerar_imagem_mapa_troca_verso(informacoes: list):
     # Criar imagem branca
@@ -525,7 +570,7 @@ def gerar_imagem_mapa_troca_verso(informacoes: list):
 
     # for i in informacoes:
 
-    retangulo(10, 10, 575, 350)
+    retangulo(10, 10, 575, 330)
     # retangulo(585, 10, 1180, 250)
 
     draw.text((84, 20), "CÓDIGO:", fill="black", font=fonte_label)
