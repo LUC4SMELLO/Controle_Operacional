@@ -17,7 +17,7 @@ from constants.textos import (
 
 from constants.cores import COR_LINHAS
 
-from constants.cores import COR_BOTAO, HOVER_BOTAO, COR_TEXTO, COR_TEXTO_BOTAO
+from constants.cores import COR_BOTAO, HOVER_BOTAO, COR_TEXTO, COR_TEXTO_BOTAO, COR_FUNDO_MENU_LATERAL
 
 
 from constants.date_entry import (
@@ -235,7 +235,7 @@ class VisualizarEscalaView(ctk.CTkFrame):
 
         self.canvas = ctk.CTkCanvas(
             self.visualizar_frame,
-            bg="#FFFFFF",
+            bg="#a1a3a4",
             highlightthickness=0,
             bd=0
         )

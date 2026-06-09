@@ -144,7 +144,7 @@ class MapaTrocaView(ctk.CTkFrame):
 
         self.canvas = ctk.CTkCanvas(
             self.visualizar_frame,
-            bg="#FFFFFF",
+            bg="#a1a3a4",
             highlightthickness=0,
             bd=0
         )
@@ -165,7 +165,7 @@ class MapaTrocaView(ctk.CTkFrame):
 
     def buscar_mapa(self):
 
-        self.controller.limpar_imagem_mapa()
+        self.controller.limpar_imagens_mapa()
 
         resultado = self.controller.exibir_mapa()
 
@@ -177,7 +177,7 @@ class MapaTrocaView(ctk.CTkFrame):
         self.canvas.delete("all")
         self.imagens_tk.clear()
 
-        for nome in ["mapa_frente.png"]:
+        for nome in ["mapa_frente.png", "mapa_verso_1.png", "mapa_verso_2.png", "mapa_verso_3.png", "mapa_verso_4.png", "mapa_verso_5.png", "mapa_verso_6.png", "mapa_verso_7.png"]:
             caminho = REPORTS_IMAGES_DIR / nome
             if caminho.exists():
                 self.imagens_originais.append(Image.open(caminho))
