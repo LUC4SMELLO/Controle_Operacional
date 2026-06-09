@@ -1,9 +1,10 @@
 from typing import Literal
 
+import customtkinter as ctk
 from datetime import datetime
 from PIL import Image, ImageTk
 
-from scripts.gerar_imagem import gerar_imagem_mapa_troca_frente
+from scripts.gerar_imagem import gerar_imagem_mapa_troca_frente, gerar_imagem_mapa_troca_verso
 
 from constants.caminho_arquivos import CAMINHO_IMAGEM_MAPA
 
@@ -16,6 +17,38 @@ class MapaTrocaController:
     def set_view(self, view):
         self.view = view
 
+    def configurar_binds(self):
+        fluxo_entrys = [
+            (self.view.entry_numero_carga, self.view.botao_buscar),
+            (self.view.botao_buscar, self.view.botao_imprimir),
+            ]
+        
+        for widget_atual, proximo_widget in fluxo_entrys:
+            widget_atual.bind("<Return>", lambda event, nxt=proximo_widget: nxt.focus_set())
+    
+            if isinstance(proximo_widget, ctk.CTkButton):
+                # QUANDO O FOCO CHEGA NO BOTÃO
+                proximo_widget.bind("<FocusIn>", lambda event, btn=proximo_widget: btn.configure(
+                    border_width=1, 
+                    border_color="#FFFFFF"
+                ))
+                
+                # QUANDO O FOCO SAI DO BOTÃO
+                proximo_widget.bind("<FocusOut>", lambda event, btn=proximo_widget: btn.configure(
+                    border_width=0
+                ))
+                
+                # BIND PARA EXECUTAR FUNÇÃO AO APERTAR ENTER NO BOTÃO FOCADO
+                proximo_widget.bind("<Return>", lambda event, btn=proximo_widget: btn.invoke())
+
+        self.view.winfo_toplevel().bind("<Escape>", lambda event: self.limpar_formulario(event))
+
+
+    def limpar_formulario(self, event):
+        self.view.entry_numero_carga.focus_set()
+        self.view.entry_numero_carga.delete(0, ctk.END)
+        self.limpar_imagens_mapa()
+        
 
     def exibir_mapa(self):
 
@@ -41,6 +74,7 @@ class MapaTrocaController:
         
         try:
             gerar_imagem_mapa_troca_frente(resultado, resultado_pendencias)
+            gerar_imagem_mapa_troca_verso(resultado_pendencias)
         except Exception as erro:
             return {
                 "sucesso": False,
@@ -57,9 +91,6 @@ class MapaTrocaController:
         }
 
 
-
-
-
     def zoom_in(self):
         self.view.zoom += 0.1
         self.aplicar_zoom(self.view.zoom)
@@ -72,7 +103,7 @@ class MapaTrocaController:
         self.view.zoom = max(0.3, fator)
         self.redesenhar_imagens()
 
-    def limpar_imagem_mapa(self):
+    def limpar_imagens_mapa(self):
         for img in self.view.imagens_originais:
             try:
                 img.close()
