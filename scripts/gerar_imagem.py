@@ -1,3 +1,4 @@
+from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 import locale
 from datetime import datetime
@@ -549,87 +550,255 @@ def gerar_imagem_mapa_troca_frente(informacoes_escala: dict, informacoes_pendenc
 
 
 
-        # SALVA A IMAGEM
-        img.save(
-            REPORTS_IMAGES_DIR / "mapa_frente.png"
-        )
+    # SALVA A IMAGEM
+    img.save(
+        REPORTS_IMAGES_DIR / "mapa_frente.png"
+    )
 
-def gerar_imagem_mapa_troca_verso(informacoes: list):
-    # Criar imagem branca
-    largura = 1190
-    altura = 1684
 
-    img = Image.new("RGB", (largura, altura), "white")
-    draw = ImageDraw.Draw(img)
 
-    # Fonte
+def gerar_imagem_mapa_troca_verso(clientes_pendencias: dict):
+
+    LARGURA = 1190
+    ALTURA = 1684
+
+    X_ESQUERDA = 10
+    X_DIREITA = 610
+
+    LIMITE_ALTURA = 1600
+    MARGEM_ENTRE_BLOCOS = 20
+
     try:
         fonte = ImageFont.truetype("arial.ttf", 16)
         fonte_label = ImageFont.truetype("arialbd.ttf", 18)
         fonte_label_menor = ImageFont.truetype("arialbd.ttf", 14)
-        fonte_titulo = ImageFont.truetype("arialbd.ttf", 22)
-    except:
-        fonte = ImageFont.load_default()
-        fonte_titulo = ImageFont.load_default()
+    except Exception:
+        fonte = fonte_label = fonte_label_menor = ImageFont.load_default()
 
+    pagina_atual = 1
+
+    def criar_pagina():
+        img = Image.new("RGB", (LARGURA, ALTURA), "white")
+        draw = ImageDraw.Draw(img)
+        return img, draw
+
+    img, draw = criar_pagina()
+
+    def texto(x, y, valor, font=fonte):
+        draw.text((x, y), str(valor), fill="black", font=font)
 
     def linha(x1, y1, x2, y2, largura_linha=1):
         draw.line((x1, y1, x2, y2), fill="black", width=largura_linha)
 
     def retangulo(x1, y1, x2, y2, largura_linha=1):
-        draw.rectangle((x1, y1, x2, y2), outline="black", width=largura_linha)
+        draw.rectangle(
+            (x1, y1, x2, y2),
+            outline="black",
+            width=largura_linha
+        )
 
+    def salvar_pagina(numero):
+        caminho = (
+            Path(REPORTS_IMAGES_DIR)
+            / f"mapa_verso_{numero}.png"
+        )
 
-    # for i in informacoes:
+        img.save(caminho)
 
-    retangulo(10, 10, 575, 330)
-    # retangulo(585, 10, 1180, 250)
+    def desenhar_bloco(x, y, codigo_cliente, dados_cliente):
 
-    draw.text((84, 20), "CÓDIGO:", fill="black", font=fonte_label)
-    draw.text((170, 22), informacoes[0]["codigo_cliente"], fill="black", font=fonte)
+        pendencias = dados_cliente["pendencias"]
 
-    draw.text((450, 20), "CUPOM:", fill="black", font=fonte_label)
-    draw.text((525, 22), informacoes[0]["cupom"], fill="black", font=fonte)
+        cupom = pendencias[0]["cupom"]
+        responsavel = pendencias[0]["responsavel"]
 
-    draw.text((20, 45), "RAZÃO SOCIAL:", fill="black", font=fonte_label)
-    draw.text((170, 47), informacoes[0]["razao_social"], fill="black", font=fonte)
+        altura_bloco = 220 + (len(pendencias) * 25)
+        largura_bloco = 565
 
-    linha(10, 75, 575, 75)
+        retangulo(
+            x,
+            y,
+            x + largura_bloco,
+            y + altura_bloco
+        )
 
-    draw.text((20, 80), "CÓDIGO", fill="black", font=fonte_label_menor)
-    draw.text((150, 80), "DESCRIÇÃO", fill="black", font=fonte_label_menor)
-    draw.text((340, 80), "QUANT", fill="black", font=fonte_label_menor)
-    draw.text((420, 80), "V.UNIT", fill="black", font=fonte_label_menor)
-    draw.text((500, 80), "V.TOTAL", fill="black", font=fonte_label_menor)
+        # Cabeçalho
+        texto(x + 10, y + 15, "CÓDIGO:", fonte_label)
+        texto(x + 110, y + 17, codigo_cliente)
 
-    draw.text((30, 100), informacoes[0]["codigo_produto"], fill="black", font=fonte)
-    draw.text((120, 100), informacoes[0]["descricao_produto"], fill="black", font=fonte)
-    draw.text((360, 100), informacoes[0]["quantidade"], fill="black", font=fonte)
+        texto(x + 400, y + 15, "CUPOM:", fonte_label)
+        texto(x + 480, y + 17, cupom)
 
-    
-    linha(10, 250, 575, 250)
+        texto(x + 10, y + 45, "RAZÃO SOCIAL:", fonte_label)
 
-    draw.text((20, 253), "TOTAL", fill="black", font=fonte_label)
+        razao_social = dados_cliente.get("razao_social", "")
 
-    draw.text((360, 253), informacoes[0]["total_quantidade"], fill="black", font=fonte)
-    draw.text((430, 253), informacoes[0]["valor_total_unitario"], fill="black", font=fonte)
-    draw.text((510, 253), informacoes[0]["valor_total_geral"], fill="black", font=fonte)
+        if len(razao_social) > 35:
+            razao_social = razao_social[:35] + "..."
 
-    linha(10, 275, 575, 275)
+        texto(x + 160, y + 47, razao_social)
 
-    draw.text((20, 280), "RESPONSÁVEL:", fill="black", font=fonte_label)
-    draw.text((175, 282), informacoes[0]["responsavel"], fill="black", font=fonte)
+        linha(
+            x,
+            y + 75,
+            x + largura_bloco,
+            y + 75
+        )
 
-    draw.text((38, 305), "ASSINATURA:", fill="black", font=fonte_label)
-    linha(175, 320, 455, 320)
+        # Cabeçalho
+        texto(x + 10, y + 80, "CÓDIGO", fonte_label_menor)
+        texto(x + 110, y + 80, "DESCRIÇÃO", fonte_label_menor)
+        texto(x + 440, y + 80, "QUANT.", fonte_label_menor)
 
+        y_produto = y + 105
+        total_quantidade = 0
 
+        for item in pendencias:
 
+            texto(
+                x + 10,
+                y_produto,
+                item["codigo_produto"]
+            )
 
-        
+            texto(
+                x + 110,
+                y_produto,
+                (item.get("descricao") or "")[:35]
+            )
 
+            texto(
+                x + 450,
+                y_produto,
+                item["quantidade"]
+            )
 
-    # SALVA A IMAGEM
-    img.save(
-        REPORTS_IMAGES_DIR / "mapa_verso.png"
-    )
+            total_quantidade += int(item["quantidade"])
+
+            y_produto += 25
+
+        linha(
+            x,
+            y_produto + 10,
+            x + largura_bloco,
+            y_produto + 10
+        )
+
+        texto(
+            x + 10,
+            y_produto + 15,
+            "TOTAL",
+            fonte_label
+        )
+
+        texto(
+            x + 450,
+            y_produto + 17,
+            total_quantidade
+        )
+
+        linha(
+            x,
+            y_produto + 45,
+            x + largura_bloco,
+            y_produto + 45
+        )
+
+        texto(
+            x + 10,
+            y_produto + 55,
+            "RESPONSÁVEL:",
+            fonte_label
+        )
+
+        texto(
+            x + 170,
+            y_produto + 57,
+            responsavel
+        )
+
+        texto(
+            x + 10,
+            y_produto + 85,
+            "ASSINATURA:",
+            fonte_label
+        )
+
+        linha(
+            x + 170,
+            y_produto + 100,
+            x + 440,
+            y_produto + 100
+        )
+
+        return altura_bloco
+
+    y_esquerda = 10
+    y_direita = 10
+
+    coluna_atual = "esquerda"
+
+    for codigo_cliente, dados_cliente in clientes_pendencias.items():
+
+        pendencias = dados_cliente.get("pendencias", [])
+
+        if not pendencias:
+            continue
+
+        altura_bloco = 220 + (len(pendencias) * 25)
+
+        while True:
+
+            if coluna_atual == "esquerda":
+
+                if y_esquerda + altura_bloco <= LIMITE_ALTURA:
+
+                    desenhar_bloco(
+                        X_ESQUERDA,
+                        y_esquerda,
+                        codigo_cliente,
+                        dados_cliente
+                    )
+
+                    y_esquerda += (
+                        altura_bloco +
+                        MARGEM_ENTRE_BLOCOS
+                    )
+
+                    break
+
+                coluna_atual = "direita"
+
+            if coluna_atual == "direita":
+
+                if y_direita + altura_bloco <= LIMITE_ALTURA:
+
+                    desenhar_bloco(
+                        X_DIREITA,
+                        y_direita,
+                        codigo_cliente,
+                        dados_cliente
+                    )
+
+                    y_direita += (
+                        altura_bloco +
+                        MARGEM_ENTRE_BLOCOS
+                    )
+
+                    break
+
+                # Salva página atual
+                salvar_pagina(pagina_atual)
+
+                pagina_atual += 1
+
+                # Nova página
+                img, draw = criar_pagina()
+
+                y_esquerda = 10
+                y_direita = 10
+
+                coluna_atual = "esquerda"
+
+    # salva última página
+    salvar_pagina(pagina_atual)
