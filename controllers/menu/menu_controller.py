@@ -122,6 +122,7 @@ class MenuController:
         tela_mapa_troca = MapaTrocaView(self.janela, controller)
 
         controller.set_view(tela_mapa_troca)
+        controller.configurar_binds()
 
         self.definir_tela_atual(tela_mapa_troca)
 
