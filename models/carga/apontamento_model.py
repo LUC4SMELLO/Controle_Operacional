@@ -4,6 +4,7 @@ from constants.banco_dados import TABELA_ESCALA
 from database.banco_dados_apontamentos import conectar_banco_de_dados_apontamentos
 from constants.banco_dados import TABELA_APONTAMENTOS
 
+
 CAMPOS_ESCALA = [
         "data",
         "numero_carga",
@@ -62,9 +63,9 @@ class ApontamentoModel:
                 INSERT INTO {TABELA_APONTAMENTOS} (
                 numero_carga,
                 hora_saida,
-                hora_chegada
+                hora_chegada,
                 km_inicial,
-                km_final,
+                km_final
                 )
                 VALUES (?, ?, ?, ?, ?)
                 """,
