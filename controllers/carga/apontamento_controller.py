@@ -71,7 +71,7 @@ class ApontamentoController:
             return {
                 "sucesso": True,
                 "titulo": "Sucesso",
-                "mensagem": "Apontamento Salvo!",
+                "mensagem": "Apontamentos Salvo!",
                 "icone": "check"
             }
         except Exception as e:
@@ -81,3 +81,14 @@ class ApontamentoController:
                 "mensagem": f"Falha no banco: {e}",
                 "icone": "cancel"
             }
+        
+    def ao_ganhar_foco(self, event):
+        self.view.botao_confirmar.configure(
+            border_width=1, 
+            border_color="#FFFFFF"
+        )
+
+    def ao_perder_foco(self, event):
+        self.view.botao_confirmar.configure(
+            border_width=0
+        )

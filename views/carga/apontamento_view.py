@@ -179,6 +179,9 @@ class ApontamentoView(ctk.CTkFrame):
             text_color= COR_TEXTO_BOTAO,
         )
         self.botao_confirmar.grid(row=1, column=0, padx=(40, 0), pady=(20, 0))
+        self.botao_confirmar.bind("<FocusIn>", self.controller.ao_ganhar_foco)
+        self.botao_confirmar.bind("<FocusOut>", self.controller.ao_perder_foco)
+        self.botao_confirmar.bind("<Return>", lambda event, btn=self.botao_confirmar: btn.invoke())
 
         self.botao_cancelar= ctk.CTkButton(
             self.footer_frame,
@@ -191,7 +194,7 @@ class ApontamentoView(ctk.CTkFrame):
             hover_color=HOVER_BOTAO,
             text_color=COR_TEXTO_BOTAO,
         )
-        self.botao_cancelar.grid(row=1, column=1, padx=(40, 0), pady=(20, 0))
+        self.botao_cancelar.grid(row=1, column=1, padx=(10, 0), pady=(20, 0))
 
 
     def exibir_cargas(self, cargas):
@@ -217,15 +220,30 @@ class ApontamentoView(ctk.CTkFrame):
             entry_hora_saida = ctk.CTkEntry(self.frame_cargas, font=FONTE_TEXTO, text_color=COR_TEXTO, width=50)
             entry_hora_saida.insert(0, carga["horario"])
             entry_hora_saida.grid(row=0, column=2, pady=(4, 4))
+            entry_hora_saida.bind("<KeyRelease>", self.formatar_hora_dinamico)
+            
 
             entry_hora_chegada = ctk.CTkEntry(self.frame_cargas, font=FONTE_TEXTO, text_color=COR_TEXTO, width=50)
             entry_hora_chegada.grid(row=0, column=3, padx=(30, 0), pady=(4, 4))
+            entry_hora_chegada.bind("<KeyRelease>", self.formatar_hora_dinamico)
+            
 
             entry_km_inicial = ctk.CTkEntry(self.frame_cargas, font=FONTE_TEXTO, text_color=COR_TEXTO, width=70)
             entry_km_inicial.grid(row=0, column=4, padx=(55, 0), pady=(4, 4))
+            entry_km_inicial.bind("<KeyRelease>", self.formatar_km_dinamico)
+            
 
             entry_km_final = ctk.CTkEntry(self.frame_cargas, font=FONTE_TEXTO, text_color=COR_TEXTO, width=70)
             entry_km_final.grid(row=0, column=5, padx=(55, 0), pady=(4, 4))
+            entry_km_final.bind("<KeyRelease>", self.formatar_km_dinamico)
+            
+            
+            numero_carga = carga["numero_carga"]
+            entry_hora_saida.bind("<Return>", lambda e, prox=entry_hora_chegada: prox.focus())
+            entry_hora_chegada.bind("<Return>", lambda e, prox=entry_km_inicial: prox.focus())
+            entry_km_inicial.bind("<Return>", lambda e, prox=entry_km_final: prox.focus())
+            entry_km_final.bind("<Return>", lambda e, nc=numero_carga: self.ir_para_proxima_linha(nc))
+
 
             # GUARDAR REFERÊNCIA
             self.linhas[carga["numero_carga"]] = {
@@ -236,6 +254,86 @@ class ApontamentoView(ctk.CTkFrame):
             }
 
             linha_grid += 1
+    
+    
+    def ir_para_proxima_linha(self, carga_atual):
+        # Transforma as chaves do dicionário em uma lista ordenada
+        lista_cargas = list(self.linhas.keys())
+        
+        try:
+            indice_atual = lista_cargas.index(carga_atual)
+            # Verifica se existe uma próxima carga cadastrada na tela
+            if indice_atual + 1 < len(lista_cargas):
+                proxima_carga = lista_cargas[indice_atual + 1]
+                # Foca no campo 'hora_saida' da próxima linha
+                self.linhas[proxima_carga]["hora_saida"].focus()
+            else:
+                # Se for a última linha, foca no botão Confirmar
+                self.botao_confirmar.focus()
+        except ValueError:
+            pass
+
+
+    def formatar_hora_dinamico(self, event):
+        # Ignora teclas de navegação e controle
+        if event.keysym in ("Backspace", "Delete", "Left", "Right", "Tab"):
+            return
+
+        # Captura o widget exato que disparou o evento
+        entry_atual = event.widget
+        texto_atual = entry_atual.get()
+        
+        # Filtra para manter apenas números
+        apenas_numeros = "".join(c for c in texto_atual if c.isdigit())[:4]
+        
+        # Aplica a máscara de dois pontos
+        if len(apenas_numeros) >= 3:
+            texto_formatado = f"{apenas_numeros[:2]}:{apenas_numeros[2:]}"
+        else:
+            texto_formatado = apenas_numeros
+            
+        # Atualiza o campo se houver mudança
+        if texto_atual != texto_formatado:
+            entry_atual.delete(0, "end")
+            entry_atual.insert(0, texto_formatado)
+
+    def formatar_km_dinamico(self, event):
+        # Ignora teclas de navegação e controle
+        if event.keysym in ("Backspace", "Delete", "Left", "Right", "Tab"):
+            return
+
+        # Captura o campo exato que disparou o evento
+        entry_atual = event.widget
+        texto_atual = entry_atual.get()
+        
+        # Filtra e mantém apenas os números digitados
+        apenas_numeros = "".join(c for c in texto_atual if c.isdigit())
+        
+        # Se estiver vazio, não faz nada
+        if not apenas_numeros:
+            if texto_atual != "":
+                entry_atual.delete(0, "end")
+            return
+            
+        # Converte para inteiro e formata com pontos nos milhares (ex: 12500 -> 12.500)
+        valor_inteiro = int(apenas_numeros)
+        texto_formatado = f"{valor_inteiro:,}".replace(",", ".")
+        
+        # Atualiza o campo de texto apenas se houver mudança
+        if texto_atual != texto_formatado:
+            # Guarda a posição atual do cursor para não pular para o fim
+            posicao_cursor = entry_atual.index("insert")
+            
+            entry_atual.delete(0, "end")
+            entry_atual.insert(0, texto_formatado)
+            
+            # Ajusta o cursor caso um ponto tenha sido adicionado
+            if len(texto_formatado) > len(texto_atual):
+                entry_atual.icursor(posicao_cursor + 1)
+            else:
+                entry_atual.icursor(posicao_cursor)
+
+
 
     def buscar_carga(self):
         data = self.entry_data.get()
